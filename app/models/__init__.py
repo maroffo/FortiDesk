@@ -1,3 +1,3 @@
 from .user import User
-from .bambino import Bambino
-from .genitore import Genitore
+from .athlete import Athlete
+from .guardian import Guardian

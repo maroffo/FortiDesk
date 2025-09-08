@@ -2,12 +2,12 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_required, current_user
 from app import db
-from app.models import Bambino, Genitore
-from app.forms.anagrafica_forms import BambinoForm
+from app.models import Athlete, Guardian
+from app.forms.athletes_forms import AthleteForm
 
-anagrafica_bp = Blueprint('anagrafica', __name__, url_prefix='/anagrafica')
+athletes_bp = Blueprint('athletes', __name__, url_prefix='/athletes')
 
-@anagrafica_bp.route('/')
+@athletes_bp.route('/')
 @login_required
 def index():
     """Lista di tutti i bambini nell'anagrafica"""

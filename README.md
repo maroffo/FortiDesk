@@ -10,20 +10,20 @@ A comprehensive team management system for **Fortitudo 1901 Rugby ASD** youth te
 - **Persistent sessions** with Flask-Login
 - **Role-based dashboard** personalization
 
-### 👶 Player Registry
-Complete management system for young players data:
+### 🏃‍♂️ Athlete Registry
+Complete management system for young athletes data:
 
-#### Player Data
+#### Athlete Data
 - **Complete registry**: name, surname, birth date/place, fiscal code
 - **Residential address**: street, number, postal code, city, province
 - **Identity document**: number, issuing authority, expiration date
 - **Medical certificate/sports booklet**: presence, type, expiration date
 - **Automatic age calculation**
 
-#### Parents Data
-- **Two parents per player**: father, mother, or guardians
+#### Guardian Data
+- **Two guardians per athlete**: father, mother, or guardians
 - **Complete contacts**: name, surname, phone, email
-- **Parent type** (father/mother/guardian)
+- **Guardian type** (father/mother/guardian)
 
 #### Advanced Features
 - 🔍 **Advanced search** by name, surname, or fiscal code
@@ -35,7 +35,7 @@ Complete management system for young players data:
 
 ### 🔑 Permission System
 - **Admin**: complete access, registry deletion
-- **Coach**: player insertion and modification
+- **Coach**: athlete insertion and modification
 - **Other roles**: view only
 
 ## 🛠️ Technologies Used
@@ -109,18 +109,18 @@ FortiDesk/
 ├── app/                          # Flask application
 │   ├── models/                   # Database models
 │   │   ├── user.py              # System users
-│   │   ├── bambino.py           # Player registry
-│   │   └── genitore.py          # Parent data
+│   │   ├── athlete.py           # Athlete registry
+│   │   └── guardian.py          # Guardian data
 │   ├── views/                    # Controllers (Blueprints)
 │   │   ├── auth.py              # Authentication
 │   │   ├── main.py              # Main pages
-│   │   └── anagrafica.py        # Registry management
+│   │   └── athletes.py          # Registry management
 │   ├── forms/                    # WTForms
-│   │   └── anagrafica_forms.py  # Player forms
+│   │   └── athletes_forms.py    # Athlete forms
 │   ├── templates/                # Jinja2 templates
 │   │   ├── base.html            # Base template
 │   │   ├── auth/                # Authentication templates
-│   │   └── anagrafica/          # Registry templates
+│   │   └── athletes/            # Registry templates
 │   └── static/                   # Static files (CSS, JS)
 ├── docker/                       # Docker configurations
 │   ├── nginx/                   # Nginx config
@@ -135,12 +135,12 @@ FortiDesk/
 
 ### Main Tables
 - **users**: System users with roles
-- **bambini**: Complete player registry
-- **genitori**: Parent contact data
+- **athletes**: Complete athlete registry
+- **guardians**: Guardian contact data
 
 ### Relationships
-- One player has two parents (1:2)
-- One user can insert many players (1:N)
+- One athlete has two guardians (1:2)
+- One user can insert many athletes (1:N)
 - Soft delete to maintain history
 
 ## 🛣️ Future Features Roadmap
@@ -148,20 +148,20 @@ FortiDesk/
 ### 📅 Training Management
 - Training session planning
 - Event and match calendar
-- Player attendance
+- Athlete attendance
 
 ### 💬 Communications
-- Parent-coach messaging system
+- Guardian-coach messaging system
 - Automatic notifications
 - Team newsletter
 
 ### 📋 Team Management
 - Age category divisions
-- Player team assignments
-- Player statistics
+- Athlete team assignments
+- Athlete statistics
 
 ### 📄 Documents
-- Player document uploads
+- Athlete document uploads
 - Automatic form generation
 - Digital archive
 

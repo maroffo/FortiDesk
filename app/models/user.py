@@ -11,32 +11,32 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False, index=True)
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
-    nome = db.Column(db.String(100), nullable=False)
-    cognome = db.Column(db.String(100), nullable=False)
-    ruolo = db.Column(db.String(50), nullable=False, default='user')  # admin, allenatore, genitore, giocatore
+    first_name = db.Column(db.String(100), nullable=False)
+    last_name = db.Column(db.String(100), nullable=False)
+    role = db.Column(db.String(50), nullable=False, default='user')  # admin, coach, parent, player
     is_active = db.Column(db.Boolean, default=True, nullable=False)
-    data_creazione = db.Column(db.DateTime, default=datetime.utcnow)
-    ultimo_accesso = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_login = db.Column(db.DateTime)
     
     def set_password(self, password):
-        """Hash e salva la password"""
+        """Hash and save the password"""
         self.password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     
     def check_password(self, password):
-        """Verifica se la password è corretta"""
+        """Check if the password is correct"""
         return bcrypt.checkpw(password.encode('utf-8'), self.password_hash.encode('utf-8'))
     
-    def get_nome_completo(self):
-        """Restituisce il nome completo"""
-        return f"{self.nome} {self.cognome}"
+    def get_full_name(self):
+        """Returns the full name"""
+        return f"{self.first_name} {self.last_name}"
     
     def is_admin(self):
-        """Verifica se l'utente è un amministratore"""
-        return self.ruolo == 'admin'
+        """Check if the user is an administrator"""
+        return self.role == 'admin'
     
-    def is_allenatore(self):
-        """Verifica se l'utente è un allenatore"""
-        return self.ruolo == 'allenatore'
+    def is_coach(self):
+        """Check if the user is a coach"""
+        return self.role == 'coach'
     
     def __repr__(self):
         return f'<User {self.username}>'
