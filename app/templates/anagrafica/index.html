@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Anagrafica Bambini - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Anagrafica Bambini</h1>
+    {% if current_user.is_admin() or current_user.is_allenatore() %}
+    <a href="{{ url_for('anagrafica.nuovo') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Nuovo Bambino
+    </a>
+    {% endif %}
+</div>
+
+<!-- Barra di ricerca -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <form method="GET" class="d-flex">
+            <input type="text" name="search" class="form-control" placeholder="Cerca per nome, cognome o codice fiscale..." value="{{ search }}">
+            <button type="submit" class="btn btn-outline-secondary ms-2">Cerca</button>
+            {% if search %}
+            <a href="{{ url_for('anagrafica.index') }}" class="btn btn-outline-secondary ms-1">Reset</a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+<!-- Lista bambini -->
+<div class="row">
+    {% if bambini.items %}
+        {% for bambino in bambini.items %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ bambino.get_nome_completo() }}</h5>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <strong>Età:</strong> {{ bambino.get_eta() }} anni<br>
+                            <strong>CF:</strong> {{ bambino.codice_fiscale }}<br>
+                            <strong>Comune:</strong> {{ bambino.indirizzo_comune }}
+                        </small>
+                    </p>
+                    
+                    <!-- Indicatori di stato -->
+                    <div class="mb-2">
+                        {% if bambino.is_documento_scaduto() %}
+                        <span class="badge bg-danger">Documento Scaduto</span>
+                        {% elif bambino.giorni_scadenza_documento() <= 30 %}
+                        <span class="badge bg-warning">Documento in Scadenza</span>
+                        {% endif %}
+                        
+                        {% if bambino.is_certificato_scaduto() %}
+                        <span class="badge bg-danger">Certificato Scaduto</span>
+                        {% elif bambino.giorni_scadenza_certificato() and bambino.giorni_scadenza_certificato() <= 30 %}
+                        <span class="badge bg-warning">Certificato in Scadenza</span>
+                        {% elif bambino.ha_certificato_medico %}
+                        <span class="badge bg-success">Certificato OK</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Nessun Certificato</span>
+                        {% endif %}
+                    </div>
+                    
+                    <a href="{{ url_for('anagrafica.dettaglio', id=bambino.id) }}" class="btn btn-outline-primary btn-sm">
+                        Visualizza Dettagli
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <h4>Nessun bambino trovato</h4>
+                {% if search %}
+                <p>Nessun risultato per la ricerca "{{ search }}"</p>
+                {% else %}
+                <p>Non ci sono bambini registrati nell'anagrafica.</p>
+                {% endif %}
+                {% if current_user.is_admin() or current_user.is_allenatore() %}
+                <a href="{{ url_for('anagrafica.nuovo') }}" class="btn btn-primary">Inserisci il primo bambino</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Paginazione -->
+{% if bambini.pages > 1 %}
+<nav aria-label="Navigazione pagine">
+    <ul class="pagination justify-content-center">
+        {% if bambini.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('anagrafica.index', page=bambini.prev_num, search=search) }}">Precedente</a>
+        </li>
+        {% endif %}
+        
+        {% for page_num in bambini.iter_pages() %}
+            {% if page_num %}
+                {% if page_num != bambini.page %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('anagrafica.index', page=page_num, search=search) }}">{{ page_num }}</a>
+                </li>
+                {% else %}
+                <li class="page-item active">
+                    <span class="page-link">{{ page_num }}</span>
+                </li>
+                {% endif %}
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">…</span>
+            </li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if bambini.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('anagrafica.index', page=bambini.next_num, search=search) }}">Successiva</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+<!-- Statistiche -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-light">
+            <strong>Totale bambini:</strong> {{ bambini.total }} registrati nell'anagrafica
+        </div>
+    </div>
+</div>
+{% endblock %}

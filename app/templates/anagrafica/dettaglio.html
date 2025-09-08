@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}{{ bambino.get_nome_completo() }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ bambino.get_nome_completo() }}</h1>
+    <div>
+        <a href="{{ url_for('anagrafica.index') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Torna alla Lista
+        </a>
+        {% if current_user.is_admin() or current_user.is_allenatore() %}
+        <a href="{{ url_for('anagrafica.modifica', id=bambino.id) }}" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> Modifica
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Alert per documenti/certificati scaduti -->
+<div class="row mb-4">
+    <div class="col-12">
+        {% if bambino.is_documento_scaduto() %}
+        <div class="alert alert-danger">
+            <strong>⚠️ Documento Scaduto!</strong> Il documento di identità è scaduto il {{ bambino.scadenza_documento.strftime('%d/%m/%Y') }}
+        </div>
+        {% elif bambino.giorni_scadenza_documento() <= 30 %}
+        <div class="alert alert-warning">
+            <strong>📝 Documento in Scadenza</strong> Il documento scadrà tra {{ bambino.giorni_scadenza_documento() }} giorni ({{ bambino.scadenza_documento.strftime('%d/%m/%Y') }})
+        </div>
+        {% endif %}
+        
+        {% if bambino.is_certificato_scaduto() and bambino.ha_certificato_medico %}
+        <div class="alert alert-danger">
+            <strong>🏥 Certificato Scaduto!</strong> 
+            {% if bambino.scadenza_certificato %}
+                Il certificato è scaduto il {{ bambino.scadenza_certificato.strftime('%d/%m/%Y') }}
+            {% else %}
+                Nessun certificato presente
+            {% endif %}
+        </div>
+        {% elif bambino.giorni_scadenza_certificato() and bambino.giorni_scadenza_certificato() <= 30 %}
+        <div class="alert alert-warning">
+            <strong>🏥 Certificato in Scadenza</strong> Il certificato scadrà tra {{ bambino.giorni_scadenza_certificato() }} giorni ({{ bambino.scadenza_certificato.strftime('%d/%m/%Y') }})
+        </div>
+        {% endif %}
+        
+        {% if not bambino.ha_certificato_medico %}
+        <div class="alert alert-info">
+            <strong>ℹ️ Certificato Mancante</strong> Non è presente alcun certificato medico o libretto dello sportivo
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <!-- Dati Anagrafici -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Dati Anagrafici</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td><strong>Nome Completo:</strong></td>
+                        <td>{{ bambino.get_nome_completo() }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data di Nascita:</strong></td>
+                        <td>{{ bambino.data_nascita.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Età:</strong></td>
+                        <td>{{ bambino.get_eta() }} anni</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Luogo di Nascita:</strong></td>
+                        <td>{{ bambino.luogo_nascita }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Codice Fiscale:</strong></td>
+                        <td><code>{{ bambino.codice_fiscale }}</code></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Indirizzo -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Indirizzo di Residenza</h5>
+            </div>
+            <div class="card-body">
+                <address>
+                    {{ bambino.indirizzo_via }} {{ bambino.indirizzo_civico }}<br>
+                    {{ bambino.indirizzo_cap }} {{ bambino.indirizzo_comune }} ({{ bambino.indirizzo_provincia }})
+                </address>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Documento di Identità -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Documento di Identità</h5>
+                {% if bambino.is_documento_scaduto() %}
+                <span class="badge bg-danger">Scaduto</span>
+                {% elif bambino.giorni_scadenza_documento() <= 30 %}
+                <span class="badge bg-warning">In Scadenza</span>
+                {% else %}
+                <span class="badge bg-success">Valido</span>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td><strong>Numero:</strong></td>
+                        <td><code>{{ bambino.numero_documento }}</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ente Emettitore:</strong></td>
+                        <td>{{ bambino.ente_emettitore }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scadenza:</strong></td>
+                        <td>
+                            {{ bambino.scadenza_documento.strftime('%d/%m/%Y') }}
+                            {% if not bambino.is_documento_scaduto() %}
+                            <small class="text-muted">(tra {{ bambino.giorni_scadenza_documento() }} giorni)</small>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Certificato Medico -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Certificato Medico</h5>
+                {% if not bambino.ha_certificato_medico %}
+                <span class="badge bg-secondary">Non Presente</span>
+                {% elif bambino.is_certificato_scaduto() %}
+                <span class="badge bg-danger">Scaduto</span>
+                {% elif bambino.giorni_scadenza_certificato() and bambino.giorni_scadenza_certificato() <= 30 %}
+                <span class="badge bg-warning">In Scadenza</span>
+                {% else %}
+                <span class="badge bg-success">Valido</span>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% if bambino.ha_certificato_medico %}
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td><strong>Tipo:</strong></td>
+                        <td>
+                            {% if bambino.tipo_certificato == 'medico' %}
+                            Certificato Medico
+                            {% elif bambino.tipo_certificato == 'libretto_sportivo' %}
+                            Libretto dello Sportivo
+                            {% else %}
+                            {{ bambino.tipo_certificato }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scadenza:</strong></td>
+                        <td>
+                            {% if bambino.scadenza_certificato %}
+                            {{ bambino.scadenza_certificato.strftime('%d/%m/%Y') }}
+                            {% if not bambino.is_certificato_scaduto() %}
+                            <small class="text-muted">(tra {{ bambino.giorni_scadenza_certificato() }} giorni)</small>
+                            {% endif %}
+                            {% else %}
+                            <em class="text-muted">Non specificata</em>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+                {% else %}
+                <p class="text-muted mb-0">Nessun certificato medico o libretto dello sportivo presente.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Genitori -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Genitori/Tutori</h5>
+            </div>
+            <div class="card-body">
+                {% if bambino.genitori %}
+                <div class="row">
+                    {% for genitore in bambino.genitori %}
+                    <div class="col-md-6 mb-3">
+                        <div class="border rounded p-3">
+                            <h6 class="text-primary">{{ genitore.get_tipo_genitore_display() }}</h6>
+                            <table class="table table-sm table-borderless mb-0">
+                                <tr>
+                                    <td><strong>Nome:</strong></td>
+                                    <td>{{ genitore.get_nome_completo() }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Telefono:</strong></td>
+                                    <td><a href="tel:{{ genitore.telefono }}">{{ genitore.telefono }}</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email:</strong></td>
+                                    <td><a href="mailto:{{ genitore.email }}">{{ genitore.email }}</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">Nessun genitore/tutore registrato.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Informazioni Sistema -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0 text-muted">Informazioni Sistema</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <small class="text-muted">
+                            <strong>Inserito il:</strong> {{ bambino.data_inserimento.strftime('%d/%m/%Y alle %H:%M') }}<br>
+                            <strong>Inserito da:</strong> {{ bambino.inserito_da_user.get_nome_completo() }}
+                        </small>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-muted">
+                            <strong>Ultima modifica:</strong> {{ bambino.data_modifica.strftime('%d/%m/%Y alle %H:%M') }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Azioni Admin -->
+{% if current_user.is_admin() %}
+<div class="row">
+    <div class="col-12">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h6 class="mb-0">Azioni Amministratore</h6>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">
+                    <small>Attenzione: queste azioni sono irreversibili e riservate agli amministratori.</small>
+                </p>
+                <form method="POST" action="{{ url_for('anagrafica.elimina', id=bambino.id) }}" 
+                      onsubmit="return confirm('Sei sicuro di voler eliminare l\'anagrafica di {{ bambino.get_nome_completo() }}? Questa azione è irreversibile.');">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> Elimina Anagrafica
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

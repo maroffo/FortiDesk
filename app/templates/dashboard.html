@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Benvenuto, {{ user.get_nome_completo() }}!</h1>
+        <p class="text-muted">Dashboard FortiDesk - Gestione Fortitudo 1901 Rugby</p>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Il tuo Profilo</h5>
+                        <p class="card-text">
+                            <strong>Username:</strong> {{ user.username }}<br>
+                            <strong>Email:</strong> {{ user.email }}<br>
+                            <strong>Ruolo:</strong> {{ user.ruolo.title() }}<br>
+                            <strong>Ultimo accesso:</strong> 
+                            {% if user.ultimo_accesso %}
+                                {{ user.ultimo_accesso.strftime('%d/%m/%Y %H:%M') }}
+                            {% else %}
+                                Primo accesso
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Prossime Funzionalità</h5>
+                        <p class="card-text">Il sistema FortiDesk è in fase di sviluppo. Presto saranno disponibili:</p>
+                        <ul>
+                            <li>Gestione squadre e giocatori</li>
+                            <li>Pianificazione allenamenti</li>
+                            <li>Comunicazioni con genitori</li>
+                            <li>Gestione documenti</li>
+                            <li>Calendario eventi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
