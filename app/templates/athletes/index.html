@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Athletes - FortiDesk{% endblock %}
+{% block title %}{{ _('Athletes') }} - FortiDesk{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Athletes</h1>
+    <h1>{{ _('Athletes') }}</h1>
     {% if current_user.is_admin() or current_user.is_coach() %}
     <a href="{{ url_for('athletes.new') }}" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> New Athlete
+        <i class="bi bi-plus-circle"></i> {{ _('New Athlete') }}
     </a>
     {% endif %}
 </div>
@@ -16,10 +16,10 @@
 <div class="row mb-4">
     <div class="col-md-6">
         <form method="GET" class="d-flex">
-            <input type="text" name="search" class="form-control" placeholder="Search by first name, last name, or fiscal code..." value="{{ search }}">
-            <button type="submit" class="btn btn-outline-secondary ms-2">Search</button>
+            <input type="text" name="search" class="form-control" placeholder="{{ _('Search by first name, last name, or fiscal code...') }}" value="{{ search }}">
+            <button type="submit" class="btn btn-outline-secondary ms-2">{{ _('Search') }}</button>
             {% if search %}
-            <a href="{{ url_for('athletes.index') }}" class="btn btn-outline-secondary ms-1">Reset</a>
+            <a href="{{ url_for('athletes.index') }}" class="btn btn-outline-secondary ms-1">{{ _('Reset') }}</a>
             {% endif %}
         </form>
     </div>
@@ -35,33 +35,33 @@
                     <h5 class="card-title">{{ athlete.get_full_name() }}</h5>
                     <p class="card-text">
                         <small class="text-muted">
-                            <strong>Age:</strong> {{ athlete.get_age() }} years<br>
-                            <strong>FC:</strong> {{ athlete.fiscal_code }}<br>
-                            <strong>City:</strong> {{ athlete.city }}
+                            <strong>{{ _('Age') }}:</strong> {{ _('%(age)s years', age=athlete.get_age()) }}<br>
+                            <strong>{{ _('FC') }}:</strong> {{ athlete.fiscal_code }}<br>
+                            <strong>{{ _('City') }}:</strong> {{ athlete.city }}
                         </small>
                     </p>
 
                     <!-- Status indicators -->
                     <div class="mb-2">
                         {% if athlete.is_document_expired() %}
-                        <span class="badge bg-danger">Document Expired</span>
+                        <span class="badge bg-danger">{{ _('Document Expired') }}</span>
                         {% elif athlete.days_until_document_expiry() <= 30 %}
-                        <span class="badge bg-warning">Document Expiring Soon</span>
+                        <span class="badge bg-warning">{{ _('Document Expiring Soon') }}</span>
                         {% endif %}
 
                         {% if athlete.is_certificate_expired() %}
-                        <span class="badge bg-danger">Certificate Expired</span>
+                        <span class="badge bg-danger">{{ _('Certificate Expired') }}</span>
                         {% elif athlete.days_until_certificate_expiry() and athlete.days_until_certificate_expiry() <= 30 %}
-                        <span class="badge bg-warning">Certificate Expiring Soon</span>
+                        <span class="badge bg-warning">{{ _('Certificate Expiring Soon') }}</span>
                         {% elif athlete.has_medical_certificate %}
-                        <span class="badge bg-success">Certificate OK</span>
+                        <span class="badge bg-success">{{ _('Certificate OK') }}</span>
                         {% else %}
-                        <span class="badge bg-secondary">No Certificate</span>
+                        <span class="badge bg-secondary">{{ _('No Certificate') }}</span>
                         {% endif %}
                     </div>
 
                     <a href="{{ url_for('athletes.detail', id=athlete.id) }}" class="btn btn-outline-primary btn-sm">
-                        View Details
+                        {{ _('View Details') }}
                     </a>
                 </div>
             </div>
@@ -70,14 +70,14 @@
     {% else %}
         <div class="col-12">
             <div class="alert alert-info text-center">
-                <h4>No athletes found</h4>
+                <h4>{{ _('No athletes found') }}</h4>
                 {% if search %}
-                <p>No results for search "{{ search }}"</p>
+                <p>{{ _('No results for search "%(search)s"', search=search) }}</p>
                 {% else %}
-                <p>There are no athletes registered.</p>
+                <p>{{ _('There are no athletes registered.') }}</p>
                 {% endif %}
                 {% if current_user.is_admin() or current_user.is_coach() %}
-                <a href="{{ url_for('athletes.new') }}" class="btn btn-primary">Add the first athlete</a>
+                <a href="{{ url_for('athletes.new') }}" class="btn btn-primary">{{ _('Add the first athlete') }}</a>
                 {% endif %}
             </div>
         </div>
@@ -86,11 +86,11 @@
 
 <!-- Pagination -->
 {% if athletes.pages > 1 %}
-<nav aria-label="Page navigation">
+<nav aria-label="{{ _('Page navigation') }}">
     <ul class="pagination justify-content-center">
         {% if athletes.has_prev %}
         <li class="page-item">
-            <a class="page-link" href="{{ url_for('athletes.index', page=athletes.prev_num, search=search) }}">Previous</a>
+            <a class="page-link" href="{{ url_for('athletes.index', page=athletes.prev_num, search=search) }}">{{ _('Previous') }}</a>
         </li>
         {% endif %}
 
@@ -114,7 +114,7 @@
 
         {% if athletes.has_next %}
         <li class="page-item">
-            <a class="page-link" href="{{ url_for('athletes.index', page=athletes.next_num, search=search) }}">Next</a>
+            <a class="page-link" href="{{ url_for('athletes.index', page=athletes.next_num, search=search) }}">{{ _('Next') }}</a>
         </li>
         {% endif %}
     </ul>
@@ -125,7 +125,7 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="alert alert-light">
-            <strong>Total athletes:</strong> {{ athletes.total }} registered
+            <strong>{{ _('Total athletes') }}:</strong> {{ _('%(total)s registered', total=athletes.total) }}
         </div>
     </div>
 </div>

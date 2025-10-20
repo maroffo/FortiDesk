@@ -9,6 +9,11 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     WTF_CSRF_ENABLED = True
 
+    # Babel i18n configuration
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_SUPPORTED_LOCALES = ['en', 'it']
+    BABEL_TRANSLATION_DIRECTORIES = 'translations'
+
 class DevelopmentConfig(Config):
     DEBUG = True
 

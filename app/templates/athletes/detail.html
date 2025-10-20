@@ -7,11 +7,11 @@
     <h1>{{ athlete.get_full_name() }}</h1>
     <div>
         <a href="{{ url_for('athletes.index') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back to List
+            <i class="bi bi-arrow-left"></i> {{ _('Back to List') }}
         </a>
         {% if current_user.is_admin() or current_user.is_coach() %}
         <a href="{{ url_for('athletes.edit', id=athlete.id) }}" class="btn btn-primary">
-            <i class="bi bi-pencil"></i> Edit
+            <i class="bi bi-pencil"></i> {{ _('Edit') }}
         </a>
         {% endif %}
     </div>
@@ -22,32 +22,32 @@
     <div class="col-12">
         {% if athlete.is_document_expired() %}
         <div class="alert alert-danger">
-            <strong>Document Expired!</strong> The identity document expired on {{ athlete.document_expiry.strftime('%d/%m/%Y') }}
+            <strong>{{ _('Document Expired!') }}</strong> {{ _('The identity document expired on %(date)s', date=athlete.document_expiry.strftime('%d/%m/%Y')) }}
         </div>
         {% elif athlete.days_until_document_expiry() <= 30 %}
         <div class="alert alert-warning">
-            <strong>Document Expiring Soon</strong> The document will expire in {{ athlete.days_until_document_expiry() }} days ({{ athlete.document_expiry.strftime('%d/%m/%Y') }})
+            <strong>{{ _('Document Expiring Soon') }}</strong> {{ _('The document will expire in %(days)s days (%(date)s)', days=athlete.days_until_document_expiry(), date=athlete.document_expiry.strftime('%d/%m/%Y')) }}
         </div>
         {% endif %}
 
         {% if athlete.is_certificate_expired() and athlete.has_medical_certificate %}
         <div class="alert alert-danger">
-            <strong>Certificate Expired!</strong>
+            <strong>{{ _('Certificate Expired!') }}</strong>
             {% if athlete.certificate_expiry %}
-                The certificate expired on {{ athlete.certificate_expiry.strftime('%d/%m/%Y') }}
+                {{ _('The certificate expired on %(date)s', date=athlete.certificate_expiry.strftime('%d/%m/%Y')) }}
             {% else %}
-                No certificate present
+                {{ _('No certificate present') }}
             {% endif %}
         </div>
         {% elif athlete.days_until_certificate_expiry() and athlete.days_until_certificate_expiry() <= 30 %}
         <div class="alert alert-warning">
-            <strong>Certificate Expiring Soon</strong> The certificate will expire in {{ athlete.days_until_certificate_expiry() }} days ({{ athlete.certificate_expiry.strftime('%d/%m/%Y') }})
+            <strong>{{ _('Certificate Expiring Soon') }}</strong> {{ _('The certificate will expire in %(days)s days (%(date)s)', days=athlete.days_until_certificate_expiry(), date=athlete.certificate_expiry.strftime('%d/%m/%Y')) }}
         </div>
         {% endif %}
 
         {% if not athlete.has_medical_certificate %}
         <div class="alert alert-info">
-            <strong>Missing Certificate</strong> No medical certificate or sports booklet is present
+            <strong>{{ _('Missing Certificate') }}</strong> {{ _('No medical certificate or sports booklet is present') }}
         </div>
         {% endif %}
     </div>
@@ -58,28 +58,28 @@
     <div class="col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-header">
-                <h5 class="mb-0">Personal Data</h5>
+                <h5 class="mb-0">{{ _('Personal Data') }}</h5>
             </div>
             <div class="card-body">
                 <table class="table table-sm table-borderless">
                     <tr>
-                        <td><strong>Full Name:</strong></td>
+                        <td><strong>{{ _('Full Name') }}:</strong></td>
                         <td>{{ athlete.get_full_name() }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Birth Date:</strong></td>
+                        <td><strong>{{ _('Birth Date') }}:</strong></td>
                         <td>{{ athlete.birth_date.strftime('%d/%m/%Y') }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Age:</strong></td>
-                        <td>{{ athlete.get_age() }} years</td>
+                        <td><strong>{{ _('Age') }}:</strong></td>
+                        <td>{{ _('%(age)s years', age=athlete.get_age()) }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Birth Place:</strong></td>
+                        <td><strong>{{ _('Birth Place') }}:</strong></td>
                         <td>{{ athlete.birth_place }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Fiscal Code:</strong></td>
+                        <td><strong>{{ _('Fiscal Code') }}:</strong></td>
                         <td><code>{{ athlete.fiscal_code }}</code></td>
                     </tr>
                 </table>
@@ -91,7 +91,7 @@
     <div class="col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-header">
-                <h5 class="mb-0">Residential Address</h5>
+                <h5 class="mb-0">{{ _('Residential Address') }}</h5>
             </div>
             <div class="card-body">
                 <address>
@@ -108,31 +108,31 @@
     <div class="col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Identity Document</h5>
+                <h5 class="mb-0">{{ _('Identity Document') }}</h5>
                 {% if athlete.is_document_expired() %}
-                <span class="badge bg-danger">Expired</span>
+                <span class="badge bg-danger">{{ _('Expired') }}</span>
                 {% elif athlete.days_until_document_expiry() <= 30 %}
-                <span class="badge bg-warning">Expiring Soon</span>
+                <span class="badge bg-warning">{{ _('Expiring Soon') }}</span>
                 {% else %}
-                <span class="badge bg-success">Valid</span>
+                <span class="badge bg-success">{{ _('Valid') }}</span>
                 {% endif %}
             </div>
             <div class="card-body">
                 <table class="table table-sm table-borderless">
                     <tr>
-                        <td><strong>Number:</strong></td>
+                        <td><strong>{{ _('Number') }}:</strong></td>
                         <td><code>{{ athlete.document_number }}</code></td>
                     </tr>
                     <tr>
-                        <td><strong>Issuing Authority:</strong></td>
+                        <td><strong>{{ _('Issuing Authority') }}:</strong></td>
                         <td>{{ athlete.issuing_authority }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Expiry:</strong></td>
+                        <td><strong>{{ _('Expiry') }}:</strong></td>
                         <td>
                             {{ athlete.document_expiry.strftime('%d/%m/%Y') }}
                             {% if not athlete.is_document_expired() %}
-                            <small class="text-muted">(in {{ athlete.days_until_document_expiry() }} days)</small>
+                            <small class="text-muted">{{ _('(in %(days)s days)', days=athlete.days_until_document_expiry()) }}</small>
                             {% endif %}
                         </td>
                     </tr>
@@ -145,48 +145,48 @@
     <div class="col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Medical Certificate</h5>
+                <h5 class="mb-0">{{ _('Medical Certificate') }}</h5>
                 {% if not athlete.has_medical_certificate %}
-                <span class="badge bg-secondary">Not Present</span>
+                <span class="badge bg-secondary">{{ _('Not Present') }}</span>
                 {% elif athlete.is_certificate_expired() %}
-                <span class="badge bg-danger">Expired</span>
+                <span class="badge bg-danger">{{ _('Expired') }}</span>
                 {% elif athlete.days_until_certificate_expiry() and athlete.days_until_certificate_expiry() <= 30 %}
-                <span class="badge bg-warning">Expiring Soon</span>
+                <span class="badge bg-warning">{{ _('Expiring Soon') }}</span>
                 {% else %}
-                <span class="badge bg-success">Valid</span>
+                <span class="badge bg-success">{{ _('Valid') }}</span>
                 {% endif %}
             </div>
             <div class="card-body">
                 {% if athlete.has_medical_certificate %}
                 <table class="table table-sm table-borderless">
                     <tr>
-                        <td><strong>Type:</strong></td>
+                        <td><strong>{{ _('Type') }}:</strong></td>
                         <td>
                             {% if athlete.certificate_type == 'medical' %}
-                            Medical Certificate
+                            {{ _('Medical Certificate') }}
                             {% elif athlete.certificate_type == 'sports_booklet' %}
-                            Sports Booklet
+                            {{ _('Sports Booklet') }}
                             {% else %}
                             {{ athlete.certificate_type }}
                             {% endif %}
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>Expiry:</strong></td>
+                        <td><strong>{{ _('Expiry') }}:</strong></td>
                         <td>
                             {% if athlete.certificate_expiry %}
                             {{ athlete.certificate_expiry.strftime('%d/%m/%Y') }}
                             {% if not athlete.is_certificate_expired() %}
-                            <small class="text-muted">(in {{ athlete.days_until_certificate_expiry() }} days)</small>
+                            <small class="text-muted">{{ _('(in %(days)s days)', days=athlete.days_until_certificate_expiry()) }}</small>
                             {% endif %}
                             {% else %}
-                            <em class="text-muted">Not specified</em>
+                            <em class="text-muted">{{ _('Not specified') }}</em>
                             {% endif %}
                         </td>
                     </tr>
                 </table>
                 {% else %}
-                <p class="text-muted mb-0">No medical certificate or sports booklet present.</p>
+                <p class="text-muted mb-0">{{ _('No medical certificate or sports booklet present.') }}</p>
                 {% endif %}
             </div>
         </div>
@@ -198,7 +198,7 @@
     <div class="col-12 mb-4">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Guardians</h5>
+                <h5 class="mb-0">{{ _('Guardians') }}</h5>
             </div>
             <div class="card-body">
                 {% if athlete.guardians %}
@@ -209,15 +209,15 @@
                             <h6 class="text-primary">{{ guardian.get_guardian_type_display() }}</h6>
                             <table class="table table-sm table-borderless mb-0">
                                 <tr>
-                                    <td><strong>Name:</strong></td>
+                                    <td><strong>{{ _('Name') }}:</strong></td>
                                     <td>{{ guardian.get_full_name() }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Phone:</strong></td>
+                                    <td><strong>{{ _('Phone') }}:</strong></td>
                                     <td><a href="tel:{{ guardian.phone }}">{{ guardian.phone }}</a></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Email:</strong></td>
+                                    <td><strong>{{ _('Email') }}:</strong></td>
                                     <td><a href="mailto:{{ guardian.email }}">{{ guardian.email }}</a></td>
                                 </tr>
                             </table>
@@ -226,7 +226,7 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                <p class="text-muted mb-0">No guardians registered.</p>
+                <p class="text-muted mb-0">{{ _('No guardians registered.') }}</p>
                 {% endif %}
             </div>
         </div>
@@ -238,19 +238,19 @@
     <div class="col-12 mb-4">
         <div class="card">
             <div class="card-header">
-                <h6 class="mb-0 text-muted">System Information</h6>
+                <h6 class="mb-0 text-muted">{{ _('System Information') }}</h6>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
                         <small class="text-muted">
-                            <strong>Created on:</strong> {{ athlete.created_at.strftime('%d/%m/%Y at %H:%M') }}<br>
-                            <strong>Created by:</strong> {{ athlete.created_by_user.get_full_name() }}
+                            <strong>{{ _('Created on') }}:</strong> {{ athlete.created_at.strftime('%d/%m/%Y at %H:%M') }}<br>
+                            <strong>{{ _('Created by') }}:</strong> {{ athlete.created_by_user.get_full_name() }}
                         </small>
                     </div>
                     <div class="col-md-6">
                         <small class="text-muted">
-                            <strong>Last modified:</strong> {{ athlete.updated_at.strftime('%d/%m/%Y at %H:%M') }}
+                            <strong>{{ _('Last modified') }}:</strong> {{ athlete.updated_at.strftime('%d/%m/%Y at %H:%M') }}
                         </small>
                     </div>
                 </div>
@@ -265,16 +265,16 @@
     <div class="col-12">
         <div class="card border-danger">
             <div class="card-header bg-danger text-white">
-                <h6 class="mb-0">Administrator Actions</h6>
+                <h6 class="mb-0">{{ _('Administrator Actions') }}</h6>
             </div>
             <div class="card-body">
                 <p class="text-muted mb-3">
-                    <small>Warning: these actions are irreversible and reserved for administrators.</small>
+                    <small>{{ _('Warning: these actions are irreversible and reserved for administrators.') }}</small>
                 </p>
                 <form method="POST" action="{{ url_for('athletes.delete', id=athlete.id) }}"
-                      onsubmit="return confirm('Are you sure you want to delete the record for {{ athlete.get_full_name() }}? This action is irreversible.');">
+                      onsubmit="return confirm('{{ _('Are you sure you want to delete the record for %(name)s? This action is irreversible.', name=athlete.get_full_name()) }}');">
                     <button type="submit" class="btn btn-danger btn-sm">
-                        <i class="bi bi-trash"></i> Delete Record
+                        <i class="bi bi-trash"></i> {{ _('Delete Record') }}
                     </button>
                 </form>
             </div>

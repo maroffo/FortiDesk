@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_required, current_user
+from flask_babel import gettext as _
 from app import db
 from app.models import Athlete, Guardian
 from app.forms.athletes_forms import AthleteForm
@@ -35,7 +36,7 @@ def index():
 def new():
     """Create new athlete"""
     if not (current_user.is_admin() or current_user.is_coach()):
-        flash('You do not have permission to create new athletes', 'danger')
+        flash(_('You do not have permission to create new athletes'), 'danger')
         return redirect(url_for('athletes.index'))
 
     form = AthleteForm()
@@ -48,8 +49,8 @@ def new():
             ).first()
 
             if existing_athlete:
-                flash('An athlete with this fiscal code already exists', 'danger')
-                return render_template('athletes/form.html', form=form, title='New Athlete')
+                flash(_('An athlete with this fiscal code already exists'), 'danger')
+                return render_template('athletes/form.html', form=form, title=_('New Athlete'))
 
             # Create new athlete
             athlete = Athlete(
@@ -99,15 +100,15 @@ def new():
 
             db.session.commit()
 
-            flash(f'Athlete {athlete.get_full_name()} created successfully!', 'success')
+            flash(_('Athlete %(name)s created successfully!', name=athlete.get_full_name()), 'success')
             return redirect(url_for('athletes.detail', id=athlete.id))
 
         except Exception as e:
             db.session.rollback()
-            flash('Error saving data. Please try again.', 'danger')
+            flash(_('Error saving data. Please try again.'), 'danger')
             print(f"Error: {e}")
 
-    return render_template('athletes/form.html', form=form, title='New Athlete')
+    return render_template('athletes/form.html', form=form, title=_('New Athlete'))
 
 @athletes_bp.route('/<int:id>')
 @login_required
@@ -124,7 +125,7 @@ def detail(id):
 def edit(id):
     """Edit athlete registry"""
     if not (current_user.is_admin() or current_user.is_coach()):
-        flash('You do not have permission to edit athlete records', 'danger')
+        flash(_('You do not have permission to edit athlete records'), 'danger')
         return redirect(url_for('athletes.detail', id=id))
 
     athlete = Athlete.query.get_or_404(id)
@@ -158,8 +159,8 @@ def edit(id):
             ).first()
 
             if existing_athlete:
-                flash('Another athlete with this fiscal code already exists', 'danger')
-                return render_template('athletes/form.html', form=form, title='Edit Athlete', athlete=athlete)
+                flash(_('Another athlete with this fiscal code already exists'), 'danger')
+                return render_template('athletes/form.html', form=form, title=_('Edit Athlete'), athlete=athlete)
 
             # Update athlete data
             athlete.first_name = form.first_name.data.strip().title()
@@ -223,22 +224,22 @@ def edit(id):
 
             db.session.commit()
 
-            flash(f'Athlete {athlete.get_full_name()} updated successfully!', 'success')
+            flash(_('Athlete %(name)s updated successfully!', name=athlete.get_full_name()), 'success')
             return redirect(url_for('athletes.detail', id=athlete.id))
 
         except Exception as e:
             db.session.rollback()
-            flash('Error saving data. Please try again.', 'danger')
+            flash(_('Error saving data. Please try again.'), 'danger')
             print(f"Error: {e}")
 
-    return render_template('athletes/form.html', form=form, title='Edit Athlete', athlete=athlete)
+    return render_template('athletes/form.html', form=form, title=_('Edit Athlete'), athlete=athlete)
 
 @athletes_bp.route('/<int:id>/delete', methods=['POST'])
 @login_required
 def delete(id):
     """Delete (deactivate) an athlete"""
     if not current_user.is_admin():
-        flash('You do not have permission to delete athlete records', 'danger')
+        flash(_('You do not have permission to delete athlete records'), 'danger')
         return redirect(url_for('athletes.detail', id=id))
 
     athlete = Athlete.query.get_or_404(id)
@@ -254,11 +255,11 @@ def delete(id):
 
         db.session.commit()
 
-        flash(f'Athlete {athlete.get_full_name()} deleted successfully', 'success')
+        flash(_('Athlete %(name)s deleted successfully', name=athlete.get_full_name()), 'success')
         return redirect(url_for('athletes.index'))
 
     except Exception as e:
         db.session.rollback()
-        flash('Error during deletion. Please try again.', 'danger')
+        flash(_('Error during deletion. Please try again.'), 'danger')
         print(f"Error: {e}")
         return redirect(url_for('athletes.detail', id=id))

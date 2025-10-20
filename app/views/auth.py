@@ -4,6 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
+from flask_babel import lazy_gettext as _l, gettext as _
 from app import db, login_manager
 from app.models.user import User
 
@@ -14,27 +15,27 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 class LoginForm(FlaskForm):
-    username_or_email = StringField('Username o Email', 
+    username_or_email = StringField(_l('Username o Email'),
                                    validators=[DataRequired(), Length(min=3, max=120)])
-    password = PasswordField('Password', 
+    password = PasswordField(_l('Password'),
                            validators=[DataRequired()])
-    remember_me = BooleanField('Ricordami')
-    submit = SubmitField('Accedi')
+    remember_me = BooleanField(_l('Ricordami'))
+    submit = SubmitField(_l('Accedi'))
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username',
+    username = StringField(_l('Username'),
                           validators=[DataRequired(), Length(min=3, max=80)])
-    email = StringField('Email',
+    email = StringField(_l('Email'),
                        validators=[DataRequired(), Email(), Length(max=120)])
-    first_name = StringField('First Name',
+    first_name = StringField(_l('First Name'),
                       validators=[DataRequired(), Length(max=100)])
-    last_name = StringField('Last Name',
+    last_name = StringField(_l('Last Name'),
                          validators=[DataRequired(), Length(max=100)])
-    password = PasswordField('Password',
+    password = PasswordField(_l('Password'),
                            validators=[DataRequired(), Length(min=6)])
-    password2 = PasswordField('Confirm Password',
-                             validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
-    submit = SubmitField('Register')
+    password2 = PasswordField(_l('Confirm Password'),
+                             validators=[DataRequired(), EqualTo('password', message=_l('Passwords must match'))])
+    submit = SubmitField(_l('Register'))
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -55,7 +56,7 @@ def login():
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('main.dashboard'))
         
-        flash('Credenziali non valide o account disattivato', 'danger')
+        flash(_('Credenziali non valide o account disattivato'), 'danger')
     
     return render_template('auth/login.html', form=form)
 
@@ -72,7 +73,7 @@ def register():
         ).first()
         
         if existing_user:
-            flash('Username o email già esistenti', 'danger')
+            flash(_('Username o email già esistenti'), 'danger')
             return render_template('auth/register.html', form=form)
         
         # Create new user
@@ -88,7 +89,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         
-        flash('Registrazione completata con successo!', 'success')
+        flash(_('Registrazione completata con successo!'), 'success')
         return redirect(url_for('auth.login'))
     
     return render_template('auth/register.html', form=form)
@@ -97,5 +98,5 @@ def register():
 @login_required
 def logout():
     logout_user()
-    flash('Disconnessione effettuata', 'info')
+    flash(_('Disconnessione effettuata'), 'info')
     return redirect(url_for('auth.login'))

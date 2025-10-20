@@ -1,44 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - FortiDesk{% endblock %}
+{% block title %}{{ _('Dashboard') }} - FortiDesk{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <h1>Benvenuto, {{ user.get_nome_completo() }}!</h1>
-        <p class="text-muted">Dashboard FortiDesk - Gestione Fortitudo 1901 Rugby</p>
-        
+        <h1>{{ _('Welcome, %(name)s!', name=user.get_nome_completo()) }}</h1>
+        <p class="text-muted">{{ _('FortiDesk Dashboard - Fortitudo 1901 Rugby Management') }}</p>
+
         <div class="row mt-4">
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Il tuo Profilo</h5>
+                        <h5 class="card-title">{{ _('Your Profile') }}</h5>
                         <p class="card-text">
-                            <strong>Username:</strong> {{ user.username }}<br>
-                            <strong>Email:</strong> {{ user.email }}<br>
-                            <strong>Ruolo:</strong> {{ user.ruolo.title() }}<br>
-                            <strong>Ultimo accesso:</strong> 
+                            <strong>{{ _('Username') }}:</strong> {{ user.username }}<br>
+                            <strong>{{ _('Email') }}:</strong> {{ user.email }}<br>
+                            <strong>{{ _('Role') }}:</strong> {{ user.ruolo.title() }}<br>
+                            <strong>{{ _('Last access') }}:</strong>
                             {% if user.ultimo_accesso %}
                                 {{ user.ultimo_accesso.strftime('%d/%m/%Y %H:%M') }}
                             {% else %}
-                                Primo accesso
+                                {{ _('First access') }}
                             {% endif %}
                         </p>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Prossime Funzionalità</h5>
-                        <p class="card-text">Il sistema FortiDesk è in fase di sviluppo. Presto saranno disponibili:</p>
+                        <h5 class="card-title">{{ _('Upcoming Features') }}</h5>
+                        <p class="card-text">{{ _('The FortiDesk system is under development. Coming soon:') }}</p>
                         <ul>
-                            <li>Gestione squadre e giocatori</li>
-                            <li>Pianificazione allenamenti</li>
-                            <li>Comunicazioni con genitori</li>
-                            <li>Gestione documenti</li>
-                            <li>Calendario eventi</li>
+                            <li>{{ _('Team and player management') }}</li>
+                            <li>{{ _('Training scheduling') }}</li>
+                            <li>{{ _('Parent communications') }}</li>
+                            <li>{{ _('Document management') }}</li>
+                            <li>{{ _('Event calendar') }}</li>
                         </ul>
                     </div>
                 </div>
