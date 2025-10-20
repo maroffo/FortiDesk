@@ -17,18 +17,18 @@
             {% if current_user.is_authenticated %}
             <div class="navbar-nav me-auto">
                 <a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a>
-                <a class="nav-link" href="{{ url_for('anagrafica.index') }}">Anagrafica</a>
+                <a class="nav-link" href="{{ url_for('athletes.index') }}">Athletes</a>
             </div>
             <div class="navbar-nav ms-auto">
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        {{ current_user.get_nome_completo() }} ({{ current_user.ruolo.title() }})
+                        {{ current_user.get_full_name() }} ({{ current_user.role.title() }})
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('anagrafica.index') }}">Anagrafica</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('athletes.index') }}">Athletes</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Esci</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
                     </ul>
                 </div>
             </div>

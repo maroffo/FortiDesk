@@ -22,19 +22,19 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Accedi')
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', 
+    username = StringField('Username',
                           validators=[DataRequired(), Length(min=3, max=80)])
-    email = StringField('Email', 
+    email = StringField('Email',
                        validators=[DataRequired(), Email(), Length(max=120)])
-    nome = StringField('Nome', 
+    first_name = StringField('First Name',
                       validators=[DataRequired(), Length(max=100)])
-    cognome = StringField('Cognome', 
+    last_name = StringField('Last Name',
                          validators=[DataRequired(), Length(max=100)])
-    password = PasswordField('Password', 
+    password = PasswordField('Password',
                            validators=[DataRequired(), Length(min=6)])
-    password2 = PasswordField('Conferma Password',
-                             validators=[DataRequired(), EqualTo('password', message='Le password devono coincidere')])
-    submit = SubmitField('Registrati')
+    password2 = PasswordField('Confirm Password',
+                             validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
+    submit = SubmitField('Register')
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -49,7 +49,7 @@ def login():
         ).first()
         
         if user and user.check_password(form.password.data) and user.is_active:
-            user.ultimo_accesso = datetime.utcnow()
+            user.last_login = datetime.utcnow()
             db.session.commit()
             login_user(user, remember=form.remember_me.data)
             next_page = request.args.get('next')
@@ -75,13 +75,13 @@ def register():
             flash('Username o email già esistenti', 'danger')
             return render_template('auth/register.html', form=form)
         
-        # Crea nuovo utente
+        # Create new user
         user = User(
             username=form.username.data,
             email=form.email.data,
-            nome=form.nome.data,
-            cognome=form.cognome.data,
-            ruolo='user'  # Ruolo di default
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            role='user'  # Default role
         )
         user.set_password(form.password.data)
         

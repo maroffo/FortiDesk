@@ -18,10 +18,10 @@ def create_app(config_name='default'):
     
     from app.views.auth import auth_bp
     from app.views.main import main_bp
-    from app.views.anagrafica import anagrafica_bp
-    
+    from app.views.athletes import athletes_bp
+
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
-    app.register_blueprint(anagrafica_bp)
+    app.register_blueprint(athletes_bp)
     
     return app

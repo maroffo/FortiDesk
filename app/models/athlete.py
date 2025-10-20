@@ -1,5 +1,4 @@
 from datetime import datetime, date
-from flask_sqlalchemy import SQLAlchemy
 from app import db
 
 class Athlete(db.Model):
