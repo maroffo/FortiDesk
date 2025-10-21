@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ _('Edit Equipment') }}</h1>
+<form method="POST">{{ form.hidden_tag() }}
+<div class="row"><div class="col-md-6 mb-3">{{ form.name.label }}{{ form.name(class="form-control") }}</div>
+<div class="col-md-3 mb-3">{{ form.code.label }}{{ form.code(class="form-control") }}</div>
+<div class="col-md-3 mb-3">{{ form.category.label }}{{ form.category(class="form-control") }}</div></div>
+<div class="row"><div class="col-md-3 mb-3">{{ form.condition.label }}{{ form.condition(class="form-control") }}</div>
+<div class="col-md-3 mb-3">{{ form.status.label }}{{ form.status(class="form-control") }}</div></div>
+{{ form.submit(class="btn btn-primary") }}<a href="{{ url_for('equipment.view', id=equipment.id) }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+</form>{% endblock %}

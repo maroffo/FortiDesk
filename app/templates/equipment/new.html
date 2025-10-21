@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ _('Add Equipment') }}</h1>
+<form method="POST">{{ form.hidden_tag() }}
+<div class="row"><div class="col-md-6 mb-3">{{ form.name.label }}{{ form.name(class="form-control") }}</div>
+<div class="col-md-3 mb-3">{{ form.code.label }}{{ form.code(class="form-control") }}</div>
+<div class="col-md-3 mb-3">{{ form.category.label }}{{ form.category(class="form-control") }}</div></div>
+<div class="row"><div class="col-md-3 mb-3">{{ form.size.label }}{{ form.size(class="form-control") }}</div>
+<div class="col-md-3 mb-3">{{ form.condition.label }}{{ form.condition(class="form-control") }}</div>
+<div class="col-md-3 mb-3">{{ form.status.label }}{{ form.status(class="form-control") }}</div>
+<div class="col-md-3 mb-3">{{ form.quantity.label }}{{ form.quantity(class="form-control") }}</div></div>
+<div class="row"><div class="col-md-4 mb-3">{{ form.purchase_date.label }}{{ form.purchase_date(class="form-control") }}</div>
+<div class="col-md-4 mb-3">{{ form.purchase_price.label }}{{ form.purchase_price(class="form-control") }}</div>
+<div class="col-md-4 mb-3">{{ form.supplier.label }}{{ form.supplier(class="form-control") }}</div></div>
+<div class="mb-3">{{ form.location.label }}{{ form.location(class="form-control") }}</div>
+<div class="mb-3">{{ form.description.label }}{{ form.description(class="form-control", rows=3) }}</div>
+{{ form.submit(class="btn btn-primary") }}<a href="{{ url_for('equipment.index') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+</form>{% endblock %}

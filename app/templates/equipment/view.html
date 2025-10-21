@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ equipment.name }}</h1>
+<div class="card"><div class="card-body">
+<p><strong>{{ _('Code') }}:</strong> {{ equipment.code }}</p>
+<p><strong>{{ _('Category') }}:</strong> {{ _(equipment.get_category_display()) }}</p>
+<p><strong>{{ _('Status') }}:</strong> {{ _(equipment.get_status_display()) }}</p>
+<p><strong>{{ _('Condition') }}:</strong> {{ _(equipment.get_condition_display()) }}</p>
+<p><strong>{{ _('Location') }}:</strong> {{ equipment.location or '-' }}</p>
+</div></div>
+{% if current_user.is_admin() or current_user.is_coach() %}
+<a href="{{ url_for('equipment.edit', id=equipment.id) }}" class="btn btn-warning mt-3">{{ _('Edit') }}</a>{% endif %}
+<a href="{{ url_for('equipment.index') }}" class="btn btn-secondary mt-3">{{ _('Back') }}</a>
+{% endblock %}

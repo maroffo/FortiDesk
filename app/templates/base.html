@@ -19,6 +19,8 @@
                 <a class="nav-link" href="{{ url_for('main.dashboard') }}">{{ _('Dashboard') }}</a>
                 <a class="nav-link" href="{{ url_for('athletes.index') }}">{{ _('Athletes') }}</a>
                 <a class="nav-link" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a>
+                <a class="nav-link" href="{{ url_for('attendance.index') }}">{{ _('Attendance') }}</a>
+                <a class="nav-link" href="{{ url_for('equipment.index') }}">{{ _('Equipment') }}</a>
             </div>
             <div class="navbar-nav ms-auto">
                 <div class="nav-item dropdown">
@@ -38,6 +40,8 @@
                         <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">{{ _('Dashboard') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('athletes.index') }}">{{ _('Athletes') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('attendance.index') }}">{{ _('Attendance') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('equipment.index') }}">{{ _('Equipment') }}</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                     </ul>

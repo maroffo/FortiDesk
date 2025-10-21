@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ _('Attendance Details') }}{% endblock %}
+{% block content %}
+<h1>{{ _('Attendance Record') }}</h1>
+<div class="card"><div class="card-body">
+    <p><strong>{{ _('Athlete') }}:</strong> {{ attendance.athlete.get_full_name() }}</p>
+    <p><strong>{{ _('Date') }}:</strong> {{ attendance.date.strftime('%d/%m/%Y') }}</p>
+    <p><strong>{{ _('Session') }}:</strong> {{ _(attendance.session_type.title()) }}</p>
+    <p><strong>{{ _('Status') }}:</strong> {{ _(attendance.status.title()) }}</p>
+    <p><strong>{{ _('Notes') }}:</strong> {{ attendance.notes or '-' }}</p>
+</div></div>
+<a href="{{ url_for('attendance.index') }}" class="btn btn-secondary mt-3">{{ _('Back') }}</a>
+{% endblock %}
