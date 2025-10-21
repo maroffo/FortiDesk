@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ _('Edit Attendance') }}</h1>
+<form method="POST">{{ form.hidden_tag() }}
+<div class="mb-3">{{ form.athlete_id.label }}{{ form.athlete_id(class="form-control") }}</div>
+<div class="mb-3">{{ form.date.label }}{{ form.date(class="form-control") }}</div>
+<div class="mb-3">{{ form.session_type.label }}{{ form.session_type(class="form-control") }}</div>
+<div class="mb-3">{{ form.status.label }}{{ form.status(class="form-control") }}</div>
+<div class="mb-3">{{ form.notes.label }}{{ form.notes(class="form-control", rows=3) }}</div>
+{{ form.submit(class="btn btn-primary") }}
+<a href="{{ url_for('attendance.index') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+</form>
+{% endblock %}

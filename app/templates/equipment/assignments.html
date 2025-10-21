@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ _('Equipment Assignments') }}</h1>
+{% if assignments %}<table class="table"><thead><tr><th>{{ _('Equipment') }}</th><th>{{ _('Athlete') }}</th><th>{{ _('Assigned') }}</th><th>{{ _('Expected Return') }}</th><th>{{ _('Status') }}</th><th>{{ _('Actions') }}</th></tr></thead>
+<tbody>{% for a in assignments %}<tr><td>{{ a.equipment.name }}</td><td>{{ a.athlete.get_full_name() }}</td>
+<td>{{ a.assigned_date.strftime('%d/%m/%Y') }}</td><td>{{ a.expected_return_date.strftime('%d/%m/%Y') if a.expected_return_date else '-' }}</td>
+<td>{% if a.is_returned %}<span class="badge bg-success">{{ _('Returned') }}</span>{% else %}<span class="badge bg-warning">{{ _('Active') }}</span>{% endif %}</td>
+<td>{% if not a.is_returned %}<a href="{{ url_for('equipment.return_equipment', id=a.id) }}" class="btn btn-sm btn-primary">{{ _('Return') }}</a>{% endif %}</td></tr>{% endfor %}</tbody></table>
+{% else %}<p>{{ _('No assignments found.') }}</p>{% endif %}
+{% endblock %}
