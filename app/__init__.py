@@ -32,9 +32,11 @@ def create_app(config_name='default'):
     from app.views.auth import auth_bp
     from app.views.main import main_bp
     from app.views.athletes import athletes_bp
+    from app.views.staff import staff_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(athletes_bp)
+    app.register_blueprint(staff_bp)
 
     return app
