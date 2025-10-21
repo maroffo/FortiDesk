@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ _('Assign Equipment') }}</h1>
+<form method="POST">{{ form.hidden_tag() }}
+<div class="mb-3">{{ form.equipment_id.label }}{{ form.equipment_id(class="form-control") }}</div>
+<div class="mb-3">{{ form.athlete_id.label }}{{ form.athlete_id(class="form-control") }}</div>
+<div class="row"><div class="col-md-6 mb-3">{{ form.assigned_date.label }}{{ form.assigned_date(class="form-control") }}</div>
+<div class="col-md-6 mb-3">{{ form.expected_return_date.label }}{{ form.expected_return_date(class="form-control") }}</div></div>
+<div class="mb-3">{{ form.condition_at_assignment.label }}{{ form.condition_at_assignment(class="form-control") }}</div>
+<div class="mb-3">{{ form.assignment_notes.label }}{{ form.assignment_notes(class="form-control", rows=3) }}</div>
+{{ form.submit(class="btn btn-primary") }}<a href="{{ url_for('equipment.assignments') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+</form>{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Attendance') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-6">
+        <h1>{{ _('Attendance Records') }}</h1>
+    </div>
+    <div class="col-md-6 text-end">
+        {% if current_user.is_admin() or current_user.is_coach() %}
+        <a href="{{ url_for('attendance.check_in') }}" class="btn btn-primary">{{ _('Check-In Session') }}</a>
+        <a href="{{ url_for('attendance.report') }}" class="btn btn-secondary">{{ _('Reports') }}</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if attendance_records %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ _('Date') }}</th>
+                        <th>{{ _('Athlete') }}</th>
+                        <th>{{ _('Session Type') }}</th>
+                        <th>{{ _('Status') }}</th>
+                        <th>{{ _('Notes') }}</th>
+                        <th>{{ _('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance_records %}
+                    <tr>
+                        <td>{{ record.date.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ record.athlete.get_full_name() }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ _(record.session_type.title()) }}</span>
+                        </td>
+                        <td>
+                            {% if record.status == 'present' %}
+                                <span class="badge bg-success">{{ _('Present') }}</span>
+                            {% elif record.status == 'absent' %}
+                                <span class="badge bg-danger">{{ _('Absent') }}</span>
+                            {% elif record.status == 'excused' %}
+                                <span class="badge bg-warning">{{ _('Excused') }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ _('Late') }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ record.notes[:50] if record.notes else '-' }}</td>
+                        <td>
+                            <a href="{{ url_for('attendance.view', id=record.id) }}" class="btn btn-sm btn-info">{{ _('View') }}</a>
+                            {% if current_user.is_admin() or current_user.is_coach() %}
+                            <a href="{{ url_for('attendance.edit', id=record.id) }}" class="btn btn-sm btn-warning">{{ _('Edit') }}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if pagination.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('attendance.index', page=pagination.prev_num) }}">{{ _('Previous') }}</a>
+                </li>
+                {% for page_num in pagination.iter_pages() %}
+                    {% if page_num %}
+                        <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('attendance.index', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('attendance.index', page=pagination.next_num) }}">{{ _('Next') }}</a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <p class="text-muted">{{ _('No attendance records found.') }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ _('Check-In') }} - FortiDesk{% endblock %}
+{% block content %}
+<h1>{{ _('Attendance Check-In') }}</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="row mb-3">
+        <div class="col-md-4">{{ form.date.label }}{{ form.date(class="form-control") }}</div>
+        <div class="col-md-4">{{ form.session_type.label }}{{ form.session_type(class="form-control") }}</div>
+    </div>
+    <div class="mb-3">{{ form.notes.label }}{{ form.notes(class="form-control", rows=2) }}</div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead><tr><th>{{ _('Athlete') }}</th><th>{{ _('Present') }}</th><th>{{ _('Absent') }}</th><th>{{ _('Excused') }}</th><th>{{ _('Late') }}</th></tr></thead>
+            <tbody>
+                {% for athlete in athletes %}
+                <tr>
+                    <td>{{ athlete.get_full_name() }}</td>
+                    <td><input type="checkbox" name="present" value="{{ athlete.id }}"></td>
+                    <td><input type="checkbox" name="absent" value="{{ athlete.id }}"></td>
+                    <td><input type="checkbox" name="excused" value="{{ athlete.id }}"></td>
+                    <td><input type="checkbox" name="late" value="{{ athlete.id }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+    <a href="{{ url_for('attendance.index') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+</form>
+{% endblock %}

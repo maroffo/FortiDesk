@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ _('Return Equipment') }}</h1>
+<p><strong>{{ _('Equipment') }}:</strong> {{ assignment.equipment.name }}</p>
+<p><strong>{{ _('Athlete') }}:</strong> {{ assignment.athlete.get_full_name() }}</p>
+<form method="POST">{{ form.hidden_tag() }}
+<div class="mb-3">{{ form.actual_return_date.label }}{{ form.actual_return_date(class="form-control") }}</div>
+<div class="mb-3">{{ form.condition_at_return.label }}{{ form.condition_at_return(class="form-control") }}</div>
+<div class="mb-3">{{ form.return_notes.label }}{{ form.return_notes(class="form-control", rows=3) }}</div>
+{{ form.submit(class="btn btn-primary") }}<a href="{{ url_for('equipment.assignments') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+</form>{% endblock %}

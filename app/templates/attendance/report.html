@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ _('Attendance Report') }}</h1>
+<form method="POST" class="mb-4">{{ form.hidden_tag() }}
+<div class="row">
+<div class="col-md-3">{{ form.athlete_id.label }}{{ form.athlete_id(class="form-control") }}</div>
+<div class="col-md-2">{{ form.start_date.label }}{{ form.start_date(class="form-control") }}</div>
+<div class="col-md-2">{{ form.end_date.label }}{{ form.end_date(class="form-control") }}</div>
+<div class="col-md-2">{{ form.session_type.label }}{{ form.session_type(class="form-control") }}</div>
+<div class="col-md-2">{{ form.status.label }}{{ form.status(class="form-control") }}</div>
+<div class="col-md-1 d-flex align-items-end">{{ form.submit(class="btn btn-primary") }}</div>
+</div></form>
+{% if stats %}
+<div class="row mb-3">
+<div class="col-md-2"><div class="card text-center"><div class="card-body"><h5>{{ stats.total }}</h5><small>{{ _('Total') }}</small></div></div></div>
+<div class="col-md-2"><div class="card text-center"><div class="card-body"><h5>{{ stats.present }}</h5><small>{{ _('Present') }}</small></div></div></div>
+<div class="col-md-2"><div class="card text-center"><div class="card-body"><h5>{{ stats.absent }}</h5><small>{{ _('Absent') }}</small></div></div></div>
+<div class="col-md-2"><div class="card text-center"><div class="card-body"><h5>{{ stats.excused }}</h5><small>{{ _('Excused') }}</small></div></div></div>
+<div class="col-md-2"><div class="card text-center"><div class="card-body"><h5>{{ stats.late }}</h5><small>{{ _('Late') }}</small></div></div></div>
+<div class="col-md-2"><div class="card text-center"><div class="card-body"><h5>{{ stats.present_percentage }}%</h5><small>{{ _('Rate') }}</small></div></div></div>
+</div>
+{% endif %}
+{% if attendance_records %}
+<table class="table table-sm"><thead><tr><th>{{ _('Date') }}</th><th>{{ _('Athlete') }}</th><th>{{ _('Session') }}</th><th>{{ _('Status') }}</th></tr></thead>
+<tbody>{% for r in attendance_records %}<tr><td>{{ r.date.strftime('%d/%m/%Y') }}</td><td>{{ r.athlete.get_full_name() }}</td><td>{{ _(r.session_type.title()) }}</td><td>{{ _(r.status.title()) }}</td></tr>{% endfor %}</tbody></table>
+{% endif %}
+{% endblock %}
