@@ -7,78 +7,78 @@
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>{{ title }}</h1>
-            <a href="{{ url_for('anagrafica.index') }}" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Torna alla Lista
+            <a href="{{ url_for('athletes.index') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> {{ _('Back to List') }}
             </a>
         </div>
-        
+
         <form method="POST" novalidate>
             {{ form.hidden_tag() }}
-            
-            <!-- Dati Anagrafici del Bambino -->
+
+            <!-- Personal Data -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">Dati Anagrafici</h5>
+                    <h5 class="mb-0">{{ _('Personal Data') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            {{ form.nome.label(class="form-label") }}
-                            {{ form.nome(class="form-control") }}
-                            {% if form.nome.errors %}
+                            {{ form.first_name.label(class="form-label") }}
+                            {{ form.first_name(class="form-control") }}
+                            {% if form.first_name.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.nome.errors %}
+                                    {% for error in form.first_name.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-6 mb-3">
-                            {{ form.cognome.label(class="form-label") }}
-                            {{ form.cognome(class="form-control") }}
-                            {% if form.cognome.errors %}
+                            {{ form.last_name.label(class="form-label") }}
+                            {{ form.last_name(class="form-control") }}
+                            {% if form.last_name.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.cognome.errors %}
+                                    {% for error in form.last_name.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            {{ form.data_nascita.label(class="form-label") }}
-                            {{ form.data_nascita(class="form-control") }}
-                            {% if form.data_nascita.errors %}
+                            {{ form.birth_date.label(class="form-label") }}
+                            {{ form.birth_date(class="form-control") }}
+                            {% if form.birth_date.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.data_nascita.errors %}
+                                    {% for error in form.birth_date.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-6 mb-3">
-                            {{ form.luogo_nascita.label(class="form-label") }}
-                            {{ form.luogo_nascita(class="form-control") }}
-                            {% if form.luogo_nascita.errors %}
+                            {{ form.birth_place.label(class="form-label") }}
+                            {{ form.birth_place(class="form-control") }}
+                            {% if form.birth_place.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.luogo_nascita.errors %}
+                                    {% for error in form.birth_place.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
                     </div>
-                    
+
                     <div class="mb-3">
-                        {{ form.codice_fiscale.label(class="form-label") }}
-                        {{ form.codice_fiscale(class="form-control", style="text-transform: uppercase") }}
-                        {% if form.codice_fiscale.errors %}
+                        {{ form.fiscal_code.label(class="form-label") }}
+                        {{ form.fiscal_code(class="form-control", style="text-transform: uppercase") }}
+                        {% if form.fiscal_code.errors %}
                             <div class="text-danger small">
-                                {% for error in form.codice_fiscale.errors %}
+                                {% for error in form.fiscal_code.errors %}
                                     <div>{{ error }}</div>
                                 {% endfor %}
                             </div>
@@ -86,70 +86,70 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Indirizzo di Residenza -->
+
+            <!-- Residential Address -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">Indirizzo di Residenza</h5>
+                    <h5 class="mb-0">{{ _('Residential Address') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-8 mb-3">
-                            {{ form.indirizzo_via.label(class="form-label") }}
-                            {{ form.indirizzo_via(class="form-control") }}
-                            {% if form.indirizzo_via.errors %}
+                            {{ form.street_address.label(class="form-label") }}
+                            {{ form.street_address(class="form-control") }}
+                            {% if form.street_address.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.indirizzo_via.errors %}
+                                    {% for error in form.street_address.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-4 mb-3">
-                            {{ form.indirizzo_civico.label(class="form-label") }}
-                            {{ form.indirizzo_civico(class="form-control") }}
-                            {% if form.indirizzo_civico.errors %}
+                            {{ form.street_number.label(class="form-label") }}
+                            {{ form.street_number(class="form-control") }}
+                            {% if form.street_number.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.indirizzo_civico.errors %}
+                                    {% for error in form.street_number.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-3 mb-3">
-                            {{ form.indirizzo_cap.label(class="form-label") }}
-                            {{ form.indirizzo_cap(class="form-control") }}
-                            {% if form.indirizzo_cap.errors %}
+                            {{ form.postal_code.label(class="form-label") }}
+                            {{ form.postal_code(class="form-control") }}
+                            {% if form.postal_code.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.indirizzo_cap.errors %}
+                                    {% for error in form.postal_code.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-7 mb-3">
-                            {{ form.indirizzo_comune.label(class="form-label") }}
-                            {{ form.indirizzo_comune(class="form-control") }}
-                            {% if form.indirizzo_comune.errors %}
+                            {{ form.city.label(class="form-label") }}
+                            {{ form.city(class="form-control") }}
+                            {% if form.city.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.indirizzo_comune.errors %}
+                                    {% for error in form.city.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-2 mb-3">
-                            {{ form.indirizzo_provincia.label(class="form-label") }}
-                            {{ form.indirizzo_provincia(class="form-control", style="text-transform: uppercase") }}
-                            {% if form.indirizzo_provincia.errors %}
+                            {{ form.province.label(class="form-label") }}
+                            {{ form.province(class="form-control", style="text-transform: uppercase") }}
+                            {% if form.province.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.indirizzo_provincia.errors %}
+                                    {% for error in form.province.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
@@ -158,46 +158,46 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Documento di Identità -->
+
+            <!-- Identity Document -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">Documento di Identità</h5>
+                    <h5 class="mb-0">{{ _('Identity Document') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            {{ form.numero_documento.label(class="form-label") }}
-                            {{ form.numero_documento(class="form-control") }}
-                            {% if form.numero_documento.errors %}
+                            {{ form.document_number.label(class="form-label") }}
+                            {{ form.document_number(class="form-control") }}
+                            {% if form.document_number.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.numero_documento.errors %}
+                                    {% for error in form.document_number.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-6 mb-3">
-                            {{ form.ente_emettitore.label(class="form-label") }}
-                            {{ form.ente_emettitore(class="form-control") }}
-                            {% if form.ente_emettitore.errors %}
+                            {{ form.issuing_authority.label(class="form-label") }}
+                            {{ form.issuing_authority(class="form-control") }}
+                            {% if form.issuing_authority.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.ente_emettitore.errors %}
+                                    {% for error in form.issuing_authority.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            {{ form.scadenza_documento.label(class="form-label") }}
-                            {{ form.scadenza_documento(class="form-control") }}
-                            {% if form.scadenza_documento.errors %}
+                            {{ form.document_expiry.label(class="form-label") }}
+                            {{ form.document_expiry(class="form-control") }}
+                            {% if form.document_expiry.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.scadenza_documento.errors %}
+                                    {% for error in form.document_expiry.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
@@ -206,40 +206,40 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Certificato Medico -->
+
+            <!-- Medical Certificate -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">Certificato Medico / Libretto dello Sportivo</h5>
+                    <h5 class="mb-0">{{ _('Medical Certificate / Sports Booklet') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
                         <div class="form-check">
-                            {{ form.ha_certificato_medico(class="form-check-input") }}
-                            {{ form.ha_certificato_medico.label(class="form-check-label") }}
+                            {{ form.has_medical_certificate(class="form-check-input") }}
+                            {{ form.has_medical_certificate.label(class="form-check-label") }}
                         </div>
                     </div>
-                    
-                    <div id="certificato-fields" style="display: none;">
+
+                    <div id="certificate-fields" style="display: none;">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                {{ form.tipo_certificato.label(class="form-label") }}
-                                {{ form.tipo_certificato(class="form-control") }}
-                                {% if form.tipo_certificato.errors %}
+                                {{ form.certificate_type.label(class="form-label") }}
+                                {{ form.certificate_type(class="form-control") }}
+                                {% if form.certificate_type.errors %}
                                     <div class="text-danger small">
-                                        {% for error in form.tipo_certificato.errors %}
+                                        {% for error in form.certificate_type.errors %}
                                             <div>{{ error }}</div>
                                         {% endfor %}
                                     </div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col-md-6 mb-3">
-                                {{ form.scadenza_certificato.label(class="form-label") }}
-                                {{ form.scadenza_certificato(class="form-control") }}
-                                {% if form.scadenza_certificato.errors %}
+                                {{ form.certificate_expiry.label(class="form-label") }}
+                                {{ form.certificate_expiry(class="form-control") }}
+                                {% if form.certificate_expiry.errors %}
                                     <div class="text-danger small">
-                                        {% for error in form.scadenza_certificato.errors %}
+                                        {% for error in form.certificate_expiry.errors %}
                                             <div>{{ error }}</div>
                                         {% endfor %}
                                     </div>
@@ -249,140 +249,140 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Dati Genitori -->
+
+            <!-- Guardian Data -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">Dati Genitori/Tutori</h5>
+                    <h5 class="mb-0">{{ _('Guardian Data') }}</h5>
                 </div>
                 <div class="card-body">
-                    <!-- Primo Genitore -->
-                    <h6 class="text-muted mb-3">Primo Genitore/Tutore</h6>
+                    <!-- First Guardian -->
+                    <h6 class="text-muted mb-3">{{ _('First Guardian') }}</h6>
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            {{ form.genitore1_nome.label(class="form-label") }}
-                            {{ form.genitore1_nome(class="form-control") }}
-                            {% if form.genitore1_nome.errors %}
+                            {{ form.guardian1_first_name.label(class="form-label") }}
+                            {{ form.guardian1_first_name(class="form-control") }}
+                            {% if form.guardian1_first_name.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore1_nome.errors %}
+                                    {% for error in form.guardian1_first_name.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-4 mb-3">
-                            {{ form.genitore1_cognome.label(class="form-label") }}
-                            {{ form.genitore1_cognome(class="form-control") }}
-                            {% if form.genitore1_cognome.errors %}
+                            {{ form.guardian1_last_name.label(class="form-label") }}
+                            {{ form.guardian1_last_name(class="form-control") }}
+                            {% if form.guardian1_last_name.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore1_cognome.errors %}
+                                    {% for error in form.guardian1_last_name.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-4 mb-3">
-                            {{ form.genitore1_tipo.label(class="form-label") }}
-                            {{ form.genitore1_tipo(class="form-control") }}
-                            {% if form.genitore1_tipo.errors %}
+                            {{ form.guardian1_type.label(class="form-label") }}
+                            {{ form.guardian1_type(class="form-control") }}
+                            {% if form.guardian1_type.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore1_tipo.errors %}
+                                    {% for error in form.guardian1_type.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            {{ form.genitore1_telefono.label(class="form-label") }}
-                            {{ form.genitore1_telefono(class="form-control") }}
-                            {% if form.genitore1_telefono.errors %}
+                            {{ form.guardian1_phone.label(class="form-label") }}
+                            {{ form.guardian1_phone(class="form-control") }}
+                            {% if form.guardian1_phone.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore1_telefono.errors %}
+                                    {% for error in form.guardian1_phone.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-6 mb-3">
-                            {{ form.genitore1_email.label(class="form-label") }}
-                            {{ form.genitore1_email(class="form-control") }}
-                            {% if form.genitore1_email.errors %}
+                            {{ form.guardian1_email.label(class="form-label") }}
+                            {{ form.guardian1_email(class="form-control") }}
+                            {% if form.guardian1_email.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore1_email.errors %}
+                                    {% for error in form.guardian1_email.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
                     </div>
-                    
+
                     <hr>
-                    
-                    <!-- Secondo Genitore -->
-                    <h6 class="text-muted mb-3">Secondo Genitore/Tutore</h6>
+
+                    <!-- Second Guardian -->
+                    <h6 class="text-muted mb-3">{{ _('Second Guardian') }}</h6>
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            {{ form.genitore2_nome.label(class="form-label") }}
-                            {{ form.genitore2_nome(class="form-control") }}
-                            {% if form.genitore2_nome.errors %}
+                            {{ form.guardian2_first_name.label(class="form-label") }}
+                            {{ form.guardian2_first_name(class="form-control") }}
+                            {% if form.guardian2_first_name.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore2_nome.errors %}
+                                    {% for error in form.guardian2_first_name.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-4 mb-3">
-                            {{ form.genitore2_cognome.label(class="form-label") }}
-                            {{ form.genitore2_cognome(class="form-control") }}
-                            {% if form.genitore2_cognome.errors %}
+                            {{ form.guardian2_last_name.label(class="form-label") }}
+                            {{ form.guardian2_last_name(class="form-control") }}
+                            {% if form.guardian2_last_name.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore2_cognome.errors %}
+                                    {% for error in form.guardian2_last_name.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-4 mb-3">
-                            {{ form.genitore2_tipo.label(class="form-label") }}
-                            {{ form.genitore2_tipo(class="form-control") }}
-                            {% if form.genitore2_tipo.errors %}
+                            {{ form.guardian2_type.label(class="form-label") }}
+                            {{ form.guardian2_type(class="form-control") }}
+                            {% if form.guardian2_type.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore2_tipo.errors %}
+                                    {% for error in form.guardian2_type.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            {{ form.genitore2_telefono.label(class="form-label") }}
-                            {{ form.genitore2_telefono(class="form-control") }}
-                            {% if form.genitore2_telefono.errors %}
+                            {{ form.guardian2_phone.label(class="form-label") }}
+                            {{ form.guardian2_phone(class="form-control") }}
+                            {% if form.guardian2_phone.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore2_telefono.errors %}
+                                    {% for error in form.guardian2_phone.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
                             {% endif %}
                         </div>
-                        
+
                         <div class="col-md-6 mb-3">
-                            {{ form.genitore2_email.label(class="form-label") }}
-                            {{ form.genitore2_email(class="form-control") }}
-                            {% if form.genitore2_email.errors %}
+                            {{ form.guardian2_email.label(class="form-label") }}
+                            {{ form.guardian2_email(class="form-control") }}
+                            {% if form.guardian2_email.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.genitore2_email.errors %}
+                                    {% for error in form.guardian2_email.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
@@ -391,10 +391,10 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Pulsanti -->
+
+            <!-- Buttons -->
             <div class="d-flex justify-content-between">
-                <a href="{{ url_for('anagrafica.index') }}" class="btn btn-secondary">Annulla</a>
+                <a href="{{ url_for('athletes.index') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
                 {{ form.submit(class="btn btn-primary") }}
             </div>
         </form>
@@ -403,22 +403,22 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const certificatoCheck = document.getElementById('ha_certificato_medico');
-    const certificatoFields = document.getElementById('certificato-fields');
-    
-    function toggleCertificatoFields() {
-        if (certificatoCheck.checked) {
-            certificatoFields.style.display = 'block';
+    const certificateCheck = document.getElementById('has_medical_certificate');
+    const certificateFields = document.getElementById('certificate-fields');
+
+    function toggleCertificateFields() {
+        if (certificateCheck.checked) {
+            certificateFields.style.display = 'block';
         } else {
-            certificatoFields.style.display = 'none';
+            certificateFields.style.display = 'none';
         }
     }
-    
-    // Inizializza lo stato al caricamento
-    toggleCertificatoFields();
-    
-    // Ascolta i cambiamenti
-    certificatoCheck.addEventListener('change', toggleCertificatoFields);
+
+    // Initialize state on load
+    toggleCertificateFields();
+
+    // Listen for changes
+    certificateCheck.addEventListener('change', toggleCertificateFields);
 });
 </script>
 {% endblock %}

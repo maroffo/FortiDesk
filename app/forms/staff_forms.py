@@ -1,24 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, SelectField, BooleanField, SubmitField
+from wtforms import StringField, DateField, SelectField, BooleanField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, Regexp, Optional, ValidationError
 from flask_babel import lazy_gettext as _l
 from datetime import date
 
-class GuardianForm(FlaskForm):
-    first_name = StringField(_l('First Name'),
-                      validators=[DataRequired(), Length(min=2, max=100)])
-    last_name = StringField(_l('Last Name'),
-                         validators=[DataRequired(), Length(min=2, max=100)])
-    phone = StringField(_l('Phone Number'),
-                          validators=[DataRequired(), Length(min=10, max=20),
-                                    Regexp(r'^[\d\s\+\-\(\)]+$', message=_l('Enter a valid phone number'))])
-    email = StringField(_l('Email'),
-                       validators=[DataRequired(), Email(), Length(max=120)])
-    guardian_type = SelectField(_l('Type'),
-                               choices=[('father', _l('Father')), ('mother', _l('Mother')), ('guardian', _l('Guardian'))],
-                               validators=[DataRequired()])
 
-class AthleteForm(FlaskForm):
+class StaffForm(FlaskForm):
     # Personal data
     first_name = StringField(_l('First Name'),
                       validators=[DataRequired(), Length(min=2, max=100)])
@@ -33,6 +20,13 @@ class AthleteForm(FlaskForm):
                                 validators=[DataRequired(), Length(min=16, max=16),
                                           Regexp(r'^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$',
                                                 message=_l('Enter a valid fiscal code'))])
+
+    # Contact information
+    phone = StringField(_l('Phone Number'),
+                          validators=[DataRequired(), Length(min=10, max=20),
+                                    Regexp(r'^[\d\s\+\-\(\)]+$', message=_l('Enter a valid phone number'))])
+    email = StringField(_l('Email'),
+                       validators=[DataRequired(), Email(), Length(max=120)])
 
     # Address
     street_address = StringField(_l('Street Address'),
@@ -57,6 +51,21 @@ class AthleteForm(FlaskForm):
                                   validators=[DataRequired()],
                                   format='%Y-%m-%d')
 
+    # Role in organization
+    role = SelectField(_l('Role'),
+                      choices=[
+                          ('coach', _l('Coach')),
+                          ('assistant_coach', _l('Assistant Coach')),
+                          ('escort', _l('Escort')),
+                          ('manager', _l('Manager')),
+                          ('president', _l('President')),
+                          ('vice_president', _l('Vice President')),
+                          ('secretary', _l('Secretary'))
+                      ],
+                      validators=[DataRequired()])
+    role_notes = TextAreaField(_l('Role Notes'),
+                              validators=[Optional(), Length(max=500)])
+
     # Medical certificate
     has_medical_certificate = BooleanField(_l('Has Medical Certificate/Sports Booklet'))
     certificate_type = SelectField(_l('Certificate Type'),
@@ -68,32 +77,16 @@ class AthleteForm(FlaskForm):
                                     validators=[Optional()],
                                     format='%Y-%m-%d')
 
-    # Guardians
-    guardian1_first_name = StringField(_l('Guardian 1 First Name'),
-                                validators=[DataRequired(), Length(min=2, max=100)])
-    guardian1_last_name = StringField(_l('Guardian 1 Last Name'),
-                                   validators=[DataRequired(), Length(min=2, max=100)])
-    guardian1_phone = StringField(_l('Guardian 1 Phone'),
-                                    validators=[DataRequired(), Length(min=10, max=20)])
-    guardian1_email = StringField(_l('Guardian 1 Email'),
-                                 validators=[DataRequired(), Email(), Length(max=120)])
-    guardian1_type = SelectField(_l('Guardian 1 Type'),
-                                choices=[('father', _l('Father')), ('mother', _l('Mother')), ('guardian', _l('Guardian'))],
-                                validators=[DataRequired()])
+    # Background check
+    has_background_check = BooleanField(_l('Has Background Check'))
+    background_check_date = DateField(_l('Background Check Date'),
+                                       validators=[Optional()],
+                                       format='%Y-%m-%d')
+    background_check_expiry = DateField(_l('Background Check Expiry'),
+                                         validators=[Optional()],
+                                         format='%Y-%m-%d')
 
-    guardian2_first_name = StringField(_l('Guardian 2 First Name'),
-                                validators=[DataRequired(), Length(min=2, max=100)])
-    guardian2_last_name = StringField(_l('Guardian 2 Last Name'),
-                                   validators=[DataRequired(), Length(min=2, max=100)])
-    guardian2_phone = StringField(_l('Guardian 2 Phone'),
-                                    validators=[DataRequired(), Length(min=10, max=20)])
-    guardian2_email = StringField(_l('Guardian 2 Email'),
-                                 validators=[DataRequired(), Email(), Length(max=120)])
-    guardian2_type = SelectField(_l('Guardian 2 Type'),
-                                choices=[('father', _l('Father')), ('mother', _l('Mother')), ('guardian', _l('Guardian'))],
-                                validators=[DataRequired()])
-
-    submit = SubmitField(_l('Save Athlete'))
+    submit = SubmitField(_l('Save Staff Member'))
 
     def validate_birth_date(self, field):
         """Validate that birth date is realistic"""
@@ -102,10 +95,10 @@ class AthleteForm(FlaskForm):
             if field.data > today:
                 raise ValidationError(_l('Birth date cannot be in the future'))
             age = today.year - field.data.year
-            if age > 18:
-                raise ValidationError(_l('Athlete must be under 18 years old'))
-            if age < 3:
-                raise ValidationError(_l('Athlete must be at least 3 years old'))
+            if age > 100:
+                raise ValidationError(_l('Birth date seems unrealistic'))
+            if age < 18:
+                raise ValidationError(_l('Staff member must be at least 18 years old'))
 
     def validate_document_expiry(self, field):
         """Validate that document is not already expired"""
@@ -120,12 +113,15 @@ class AthleteForm(FlaskForm):
             if not field.data:
                 raise ValidationError(_l('Specify certificate expiry date'))
 
-    def validate_guardian1_type(self, field):
-        """Validate that two guardians have different types if they are father/mother"""
-        if field.data in ['father', 'mother'] and self.guardian2_type.data == field.data:
-            raise ValidationError(_l('Cannot have two guardians of the same type'))
+    def validate_background_check_expiry(self, field):
+        """Validate background check expiry if present"""
+        if self.has_background_check.data:
+            if not self.background_check_date.data:
+                raise ValidationError(_l('Specify background check date'))
+            if not field.data:
+                raise ValidationError(_l('Specify background check expiry date'))
 
-    def validate_guardian2_type(self, field):
-        """Validate that two guardians have different types if they are father/mother"""
-        if field.data in ['father', 'mother'] and self.guardian1_type.data == field.data:
-            raise ValidationError(_l('Cannot have two guardians of the same type'))
+    def validate_background_check_date(self, field):
+        """Validate background check date is not in the future"""
+        if field.data and field.data > date.today():
+            raise ValidationError(_l('Background check date cannot be in the future'))

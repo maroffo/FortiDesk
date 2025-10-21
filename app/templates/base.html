@@ -16,19 +16,30 @@
             
             {% if current_user.is_authenticated %}
             <div class="navbar-nav me-auto">
-                <a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a>
-                <a class="nav-link" href="{{ url_for('anagrafica.index') }}">Anagrafica</a>
+                <a class="nav-link" href="{{ url_for('main.dashboard') }}">{{ _('Dashboard') }}</a>
+                <a class="nav-link" href="{{ url_for('athletes.index') }}">{{ _('Athletes') }}</a>
+                <a class="nav-link" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a>
             </div>
             <div class="navbar-nav ms-auto">
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        {{ current_user.get_nome_completo() }} ({{ current_user.ruolo.title() }})
+                        <i class="bi bi-globe"></i> {{ session.get('language', 'en').upper() }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('anagrafica.index') }}">Anagrafica</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.set_language', language='en') }}">🇬🇧 English</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.set_language', language='it') }}">🇮🇹 Italiano</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        {{ current_user.get_full_name() }} ({{ current_user.role.title() }})
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">{{ _('Dashboard') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('athletes.index') }}">{{ _('Athletes') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Esci</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                     </ul>
                 </div>
             </div>

@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Staff') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ _('Staff') }}</h1>
+    {% if current_user.is_admin() or current_user.is_coach() %}
+    <a href="{{ url_for('staff.new') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> {{ _('New Staff Member') }}
+    </a>
+    {% endif %}
+</div>
+
+<!-- Search and filters -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <form method="GET" class="d-flex">
+            <input type="text" name="search" class="form-control" placeholder="{{ _('Search by name, fiscal code, or email...') }}" value="{{ search }}">
+            <button type="submit" class="btn btn-outline-secondary ms-2">{{ _('Search') }}</button>
+            {% if search %}
+            <a href="{{ url_for('staff.index') }}" class="btn btn-outline-secondary ms-1">{{ _('Reset') }}</a>
+            {% endif %}
+        </form>
+    </div>
+    <div class="col-md-6">
+        <form method="GET">
+            <div class="input-group">
+                <label class="input-group-text">{{ _('Role') }}</label>
+                <select name="role" class="form-select" onchange="this.form.submit()">
+                    <option value="">{{ _('All Roles') }}</option>
+                    <option value="coach" {% if role_filter == 'coach' %}selected{% endif %}>{{ _('Coach') }}</option>
+                    <option value="assistant_coach" {% if role_filter == 'assistant_coach' %}selected{% endif %}>{{ _('Assistant Coach') }}</option>
+                    <option value="escort" {% if role_filter == 'escort' %}selected{% endif %}>{{ _('Escort') }}</option>
+                    <option value="manager" {% if role_filter == 'manager' %}selected{% endif %}>{{ _('Manager') }}</option>
+                    <option value="president" {% if role_filter == 'president' %}selected{% endif %}>{{ _('President') }}</option>
+                    <option value="vice_president" {% if role_filter == 'vice_president' %}selected{% endif %}>{{ _('Vice President') }}</option>
+                    <option value="secretary" {% if role_filter == 'secretary' %}selected{% endif %}>{{ _('Secretary') }}</option>
+                </select>
+                {% if role_filter %}
+                <a href="{{ url_for('staff.index') }}" class="btn btn-outline-secondary">{{ _('Clear') }}</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Staff list -->
+<div class="row">
+    {% if staff_members.items %}
+        {% for staff in staff_members.items %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ staff.get_full_name() }}</h5>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <strong>{{ _('Role') }}:</strong> {{ staff.get_role_display() }}<br>
+                            <strong>{{ _('Email') }}:</strong> {{ staff.email }}<br>
+                            <strong>{{ _('Phone') }}:</strong> {{ staff.phone }}
+                        </small>
+                    </p>
+
+                    <!-- Status indicators -->
+                    <div class="mb-2">
+                        {% if staff.is_document_expired() %}
+                        <span class="badge bg-danger">{{ _('Document Expired') }}</span>
+                        {% elif staff.days_until_document_expiry() <= 30 %}
+                        <span class="badge bg-warning">{{ _('Document Expiring Soon') }}</span>
+                        {% endif %}
+
+                        {% if staff.requires_medical_certificate() %}
+                            {% if staff.is_certificate_expired() %}
+                            <span class="badge bg-danger">{{ _('Certificate Expired') }}</span>
+                            {% elif staff.days_until_certificate_expiry() and staff.days_until_certificate_expiry() <= 30 %}
+                            <span class="badge bg-warning">{{ _('Certificate Expiring Soon') }}</span>
+                            {% elif staff.has_medical_certificate %}
+                            <span class="badge bg-success">{{ _('Certificate OK') }}</span>
+                            {% else %}
+                            <span class="badge bg-secondary">{{ _('No Certificate') }}</span>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if staff.requires_background_check() %}
+                            {% if staff.is_background_check_expired() %}
+                            <span class="badge bg-danger">{{ _('Background Check Expired') }}</span>
+                            {% elif staff.days_until_background_check_expiry() and staff.days_until_background_check_expiry() <= 30 %}
+                            <span class="badge bg-warning">{{ _('Background Check Expiring Soon') }}</span>
+                            {% elif staff.has_background_check %}
+                            <span class="badge bg-success">{{ _('Background Check OK') }}</span>
+                            {% else %}
+                            <span class="badge bg-secondary">{{ _('No Background Check') }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
+                    <a href="{{ url_for('staff.detail', id=staff.id) }}" class="btn btn-outline-primary btn-sm">
+                        {{ _('View Details') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <h4>{{ _('No staff members found') }}</h4>
+                {% if search or role_filter %}
+                <p>{{ _('No results for the current search/filter') }}</p>
+                {% else %}
+                <p>{{ _('There are no staff members registered.') }}</p>
+                {% endif %}
+                {% if current_user.is_admin() or current_user.is_coach() %}
+                <a href="{{ url_for('staff.new') }}" class="btn btn-primary">{{ _('Add the first staff member') }}</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Pagination -->
+{% if staff_members.pages > 1 %}
+<nav aria-label="{{ _('Page navigation') }}">
+    <ul class="pagination justify-content-center">
+        {% if staff_members.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('staff.index', page=staff_members.prev_num, search=search, role=role_filter) }}">{{ _('Previous') }}</a>
+        </li>
+        {% endif %}
+
+        {% for page_num in staff_members.iter_pages() %}
+            {% if page_num %}
+                {% if page_num != staff_members.page %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('staff.index', page=page_num, search=search, role=role_filter) }}">{{ page_num }}</a>
+                </li>
+                {% else %}
+                <li class="page-item active">
+                    <span class="page-link">{{ page_num }}</span>
+                </li>
+                {% endif %}
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">…</span>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if staff_members.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('staff.index', page=staff_members.next_num, search=search, role=role_filter) }}">{{ _('Next') }}</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+<!-- Statistics -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-light">
+            <strong>{{ _('Total staff members') }}:</strong> {{ _('%(total)s registered', total=staff_members.total) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

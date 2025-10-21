@@ -1,0 +1,917 @@
+# Italian translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-10-20 22:53+0200\n"
+"PO-Revision-Date: 2025-10-20 22:39+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: it\n"
+"Language-Team: it <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app/forms/athletes_forms.py:8 app/forms/athletes_forms.py:23
+#: app/forms/staff_forms.py:10 app/views/auth.py:30
+msgid "First Name"
+msgstr "Nome"
+
+#: app/forms/athletes_forms.py:10 app/forms/athletes_forms.py:25
+#: app/forms/staff_forms.py:12 app/views/auth.py:32
+msgid "Last Name"
+msgstr "Cognome"
+
+#: app/forms/athletes_forms.py:12 app/forms/staff_forms.py:25
+msgid "Phone Number"
+msgstr "Numero di Telefono"
+
+#: app/forms/athletes_forms.py:14 app/forms/staff_forms.py:27
+msgid "Enter a valid phone number"
+msgstr "Inserire un numero di telefono valido"
+
+#: app/forms/athletes_forms.py:15 app/forms/staff_forms.py:28
+#: app/templates/athletes/detail.html:220 app/templates/dashboard.html:18
+#: app/templates/staff/detail.html:120 app/templates/staff/index.html:59
+#: app/views/auth.py:28
+msgid "Email"
+msgstr "Email"
+
+#: app/forms/athletes_forms.py:17 app/templates/athletes/detail.html:163
+#: app/templates/staff/detail.html:223
+msgid "Type"
+msgstr "Tipo"
+
+#: app/forms/athletes_forms.py:18 app/forms/athletes_forms.py:81
+#: app/forms/athletes_forms.py:93
+msgid "Father"
+msgstr "Padre"
+
+#: app/forms/athletes_forms.py:18 app/forms/athletes_forms.py:81
+#: app/forms/athletes_forms.py:93
+msgid "Mother"
+msgstr "Madre"
+
+#: app/forms/athletes_forms.py:18 app/forms/athletes_forms.py:81
+#: app/forms/athletes_forms.py:93
+msgid "Guardian"
+msgstr "Tutore"
+
+#: app/forms/athletes_forms.py:27 app/forms/staff_forms.py:14
+#: app/templates/athletes/detail.html:70 app/templates/staff/detail.html:91
+msgid "Birth Date"
+msgstr "Data di Nascita"
+
+#: app/forms/athletes_forms.py:30 app/forms/staff_forms.py:17
+#: app/templates/athletes/detail.html:78 app/templates/staff/detail.html:99
+msgid "Birth Place"
+msgstr "Luogo di Nascita"
+
+#: app/forms/athletes_forms.py:32 app/forms/staff_forms.py:19
+#: app/templates/athletes/detail.html:82 app/templates/staff/detail.html:103
+msgid "Fiscal Code"
+msgstr "Codice Fiscale"
+
+#: app/forms/athletes_forms.py:35 app/forms/staff_forms.py:22
+msgid "Enter a valid fiscal code"
+msgstr "Inserire un codice fiscale valido"
+
+#: app/forms/athletes_forms.py:38 app/forms/staff_forms.py:32
+msgid "Street Address"
+msgstr "Indirizzo"
+
+#: app/forms/athletes_forms.py:40 app/forms/staff_forms.py:34
+msgid "Street Number"
+msgstr "Numero Civico"
+
+#: app/forms/athletes_forms.py:42 app/forms/staff_forms.py:36
+msgid "Postal Code"
+msgstr "CAP"
+
+#: app/forms/athletes_forms.py:44 app/forms/staff_forms.py:38
+msgid "Enter a valid postal code"
+msgstr "Inserire un CAP valido"
+
+#: app/forms/athletes_forms.py:45 app/forms/staff_forms.py:39
+#: app/templates/athletes/index.html:40
+msgid "City"
+msgstr "Città"
+
+#: app/forms/athletes_forms.py:47 app/forms/staff_forms.py:41
+msgid "Province"
+msgstr "Provincia"
+
+#: app/forms/athletes_forms.py:49 app/forms/staff_forms.py:43
+msgid "Enter a valid province code (e.g., BO)"
+msgstr "Inserire un codice provincia valido (es. BO)"
+
+#: app/forms/athletes_forms.py:52 app/forms/staff_forms.py:46
+msgid "Document Number"
+msgstr "Numero Documento"
+
+#: app/forms/athletes_forms.py:54 app/forms/staff_forms.py:48
+#: app/templates/athletes/detail.html:127 app/templates/staff/detail.html:160
+msgid "Issuing Authority"
+msgstr "Ente Rilascio"
+
+#: app/forms/athletes_forms.py:56 app/forms/staff_forms.py:50
+msgid "Document Expiry"
+msgstr "Scadenza Documento"
+
+#: app/forms/athletes_forms.py:61 app/forms/staff_forms.py:70
+msgid "Has Medical Certificate/Sports Booklet"
+msgstr "Ha Certificato Medico/Libretto dello Sportivo"
+
+#: app/forms/athletes_forms.py:62 app/forms/staff_forms.py:71
+msgid "Certificate Type"
+msgstr "Tipo Certificato"
+
+#: app/forms/athletes_forms.py:63 app/forms/staff_forms.py:72
+msgid "Select..."
+msgstr "Seleziona..."
+
+#: app/forms/athletes_forms.py:64 app/forms/staff_forms.py:73
+#: app/templates/athletes/detail.html:148
+#: app/templates/athletes/detail.html:166 app/templates/staff/detail.html:208
+#: app/templates/staff/detail.html:226
+msgid "Medical Certificate"
+msgstr "Certificato Medico"
+
+#: app/forms/athletes_forms.py:65 app/forms/staff_forms.py:74
+#: app/templates/athletes/detail.html:168 app/templates/staff/detail.html:228
+msgid "Sports Booklet"
+msgstr "Libretto dello Sportivo"
+
+#: app/forms/athletes_forms.py:67 app/forms/staff_forms.py:76
+msgid "Certificate Expiry"
+msgstr "Scadenza Certificato"
+
+#: app/forms/athletes_forms.py:72
+msgid "Guardian 1 First Name"
+msgstr "Nome Genitore 1"
+
+#: app/forms/athletes_forms.py:74
+msgid "Guardian 1 Last Name"
+msgstr "Cognome Genitore 1"
+
+#: app/forms/athletes_forms.py:76
+msgid "Guardian 1 Phone"
+msgstr "Telefono Genitore 1"
+
+#: app/forms/athletes_forms.py:78
+msgid "Guardian 1 Email"
+msgstr "Email Genitore 1"
+
+#: app/forms/athletes_forms.py:80
+msgid "Guardian 1 Type"
+msgstr "Tipo Genitore 1"
+
+#: app/forms/athletes_forms.py:84
+msgid "Guardian 2 First Name"
+msgstr "Nome Genitore 2"
+
+#: app/forms/athletes_forms.py:86
+msgid "Guardian 2 Last Name"
+msgstr "Cognome Genitore 2"
+
+#: app/forms/athletes_forms.py:88
+msgid "Guardian 2 Phone"
+msgstr "Telefono Genitore 2"
+
+#: app/forms/athletes_forms.py:90
+msgid "Guardian 2 Email"
+msgstr "Email Genitore 2"
+
+#: app/forms/athletes_forms.py:92
+msgid "Guardian 2 Type"
+msgstr "Tipo Genitore 2"
+
+#: app/forms/athletes_forms.py:96
+msgid "Save Athlete"
+msgstr "Salva Atleta"
+
+#: app/forms/athletes_forms.py:103 app/forms/staff_forms.py:96
+msgid "Birth date cannot be in the future"
+msgstr "La data di nascita non può essere nel futuro"
+
+#: app/forms/athletes_forms.py:106
+msgid "Athlete must be under 18 years old"
+msgstr "L'atleta deve avere meno di 18 anni"
+
+#: app/forms/athletes_forms.py:108
+msgid "Athlete must be at least 3 years old"
+msgstr "L'atleta deve avere almeno 3 anni"
+
+#: app/forms/athletes_forms.py:113 app/forms/staff_forms.py:106
+msgid "Document is already expired"
+msgstr "Il documento è già scaduto"
+
+#: app/forms/athletes_forms.py:119 app/forms/staff_forms.py:112
+msgid "Specify certificate type"
+msgstr "Specificare il tipo di certificato"
+
+#: app/forms/athletes_forms.py:121 app/forms/staff_forms.py:114
+msgid "Specify certificate expiry date"
+msgstr "Specificare la data di scadenza del certificato"
+
+#: app/forms/athletes_forms.py:126 app/forms/athletes_forms.py:131
+msgid "Cannot have two guardians of the same type"
+msgstr "Non è possibile avere due genitori dello stesso tipo"
+
+#: app/forms/staff_forms.py:55 app/templates/dashboard.html:19
+#: app/templates/staff/detail.html:186 app/templates/staff/index.html:29
+#: app/templates/staff/index.html:58
+msgid "Role"
+msgstr "Ruolo"
+
+#: app/forms/staff_forms.py:57 app/templates/staff/index.html:32
+msgid "Coach"
+msgstr "Allenatore"
+
+#: app/forms/staff_forms.py:58 app/templates/staff/index.html:33
+msgid "Assistant Coach"
+msgstr "Allenatore Assistente"
+
+#: app/forms/staff_forms.py:59 app/templates/staff/index.html:34
+msgid "Escort"
+msgstr "Accompagnatore"
+
+#: app/forms/staff_forms.py:60 app/templates/staff/index.html:35
+msgid "Manager"
+msgstr "Dirigente"
+
+#: app/forms/staff_forms.py:61 app/templates/staff/index.html:36
+msgid "President"
+msgstr "Presidente"
+
+#: app/forms/staff_forms.py:62 app/templates/staff/index.html:37
+msgid "Vice President"
+msgstr "Vice Presidente"
+
+#: app/forms/staff_forms.py:63 app/templates/staff/index.html:38
+msgid "Secretary"
+msgstr "Segretario"
+
+#: app/forms/staff_forms.py:66
+msgid "Role Notes"
+msgstr "Note Ruolo"
+
+#: app/forms/staff_forms.py:81
+msgid "Has Background Check"
+msgstr "Ha Certificato Penale"
+
+#: app/forms/staff_forms.py:82
+msgid "Background Check Date"
+msgstr "Data Certificato Penale"
+
+#: app/forms/staff_forms.py:85
+msgid "Background Check Expiry"
+msgstr "Scadenza Certificato Penale"
+
+#: app/forms/staff_forms.py:89
+msgid "Save Staff Member"
+msgstr "Salva Membro Staff"
+
+#: app/forms/staff_forms.py:99
+msgid "Birth date seems unrealistic"
+msgstr "La data di nascita sembra irrealistica"
+
+#: app/forms/staff_forms.py:101
+msgid "Staff member must be at least 18 years old"
+msgstr "Il membro dello staff deve avere almeno 18 anni"
+
+#: app/forms/staff_forms.py:120
+msgid "Specify background check date"
+msgstr "Specificare la data del certificato penale"
+
+#: app/forms/staff_forms.py:122
+msgid "Specify background check expiry date"
+msgstr "Specificare la data di scadenza del certificato penale"
+
+#: app/forms/staff_forms.py:127
+msgid "Background check date cannot be in the future"
+msgstr "La data del certificato penale non può essere nel futuro"
+
+#: app/templates/base.html:19 app/templates/base.html:38
+#: app/templates/dashboard.html:3
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: app/templates/athletes/index.html:3 app/templates/athletes/index.html:7
+#: app/templates/base.html:20 app/templates/base.html:39
+msgid "Athletes"
+msgstr "Atleti"
+
+#: app/templates/base.html:21 app/templates/base.html:40
+#: app/templates/staff/index.html:3 app/templates/staff/index.html:7
+msgid "Staff"
+msgstr "Staff"
+
+#: app/templates/base.html:42
+msgid "Logout"
+msgstr "Esci"
+
+#: app/templates/dashboard.html:8
+#, python-format
+msgid "Welcome, %(name)s!"
+msgstr "Benvenuto, %(name)s!"
+
+#: app/templates/dashboard.html:9
+msgid "FortiDesk Dashboard - Fortitudo 1901 Rugby Management"
+msgstr "Dashboard FortiDesk - Gestione Fortitudo 1901 Rugby"
+
+#: app/templates/dashboard.html:15
+msgid "Your Profile"
+msgstr "Il Tuo Profilo"
+
+#: app/templates/dashboard.html:17 app/views/auth.py:26
+msgid "Username"
+msgstr "Nome Utente"
+
+#: app/templates/dashboard.html:20
+msgid "Last access"
+msgstr "Ultimo accesso"
+
+#: app/templates/dashboard.html:24
+msgid "First access"
+msgstr "Primo accesso"
+
+#: app/templates/dashboard.html:34
+msgid "Upcoming Features"
+msgstr "Funzionalità Future"
+
+#: app/templates/dashboard.html:35
+msgid "The FortiDesk system is under development. Coming soon:"
+msgstr "Il sistema FortiDesk è in sviluppo. Prossimamente:"
+
+#: app/templates/dashboard.html:37
+msgid "Team and player management"
+msgstr "Gestione squadre e giocatori"
+
+#: app/templates/dashboard.html:38
+msgid "Training scheduling"
+msgstr "Pianificazione allenamenti"
+
+#: app/templates/dashboard.html:39
+msgid "Parent communications"
+msgstr "Comunicazioni con i genitori"
+
+#: app/templates/dashboard.html:40
+msgid "Document management"
+msgstr "Gestione documenti"
+
+#: app/templates/dashboard.html:41
+msgid "Event calendar"
+msgstr "Calendario eventi"
+
+#: app/templates/athletes/detail.html:10 app/templates/athletes/form.html:11
+#: app/templates/staff/detail.html:10 app/templates/staff/form.html:11
+msgid "Back to List"
+msgstr "Torna all'Elenco"
+
+#: app/templates/athletes/detail.html:14 app/templates/staff/detail.html:14
+msgid "Edit"
+msgstr "Modifica"
+
+#: app/templates/athletes/detail.html:25 app/templates/staff/detail.html:25
+msgid "Document Expired!"
+msgstr "Documento Scaduto!"
+
+#: app/templates/athletes/detail.html:25 app/templates/staff/detail.html:25
+#, python-format
+msgid "The identity document expired on %(date)s"
+msgstr "Il documento d'identità è scaduto il %(date)s"
+
+#: app/templates/athletes/detail.html:29 app/templates/athletes/index.html:49
+#: app/templates/staff/detail.html:29 app/templates/staff/index.html:69
+msgid "Document Expiring Soon"
+msgstr "Documento in Scadenza"
+
+#: app/templates/athletes/detail.html:29 app/templates/staff/detail.html:29
+#, python-format
+msgid "The document will expire in %(days)s days (%(date)s)"
+msgstr "Il documento scadrà tra %(days)s giorni (%(date)s)"
+
+#: app/templates/athletes/detail.html:35 app/templates/staff/detail.html:36
+msgid "Certificate Expired!"
+msgstr "Certificato Scaduto!"
+
+#: app/templates/athletes/detail.html:37 app/templates/staff/detail.html:38
+#, python-format
+msgid "The certificate expired on %(date)s"
+msgstr "Il certificato è scaduto il %(date)s"
+
+#: app/templates/athletes/detail.html:39 app/templates/staff/detail.html:40
+msgid "No certificate present"
+msgstr "Nessun certificato presente"
+
+#: app/templates/athletes/detail.html:44 app/templates/athletes/index.html:55
+#: app/templates/staff/detail.html:45 app/templates/staff/index.html:76
+msgid "Certificate Expiring Soon"
+msgstr "Certificato in Scadenza"
+
+#: app/templates/athletes/detail.html:44 app/templates/staff/detail.html:45
+#, python-format
+msgid "The certificate will expire in %(days)s days (%(date)s)"
+msgstr "Il certificato scadrà tra %(days)s giorni (%(date)s)"
+
+#: app/templates/athletes/detail.html:50 app/templates/staff/detail.html:49
+msgid "Missing Certificate"
+msgstr "Certificato Mancante"
+
+#: app/templates/athletes/detail.html:50
+msgid "No medical certificate or sports booklet is present"
+msgstr "Non è presente alcun certificato medico o libretto dello sportivo"
+
+#: app/templates/athletes/detail.html:61 app/templates/athletes/form.html:21
+#: app/templates/staff/detail.html:82 app/templates/staff/form.html:21
+msgid "Personal Data"
+msgstr "Dati Anagrafici"
+
+#: app/templates/athletes/detail.html:66 app/templates/staff/detail.html:87
+msgid "Full Name"
+msgstr "Nome Completo"
+
+#: app/templates/athletes/detail.html:74 app/templates/athletes/index.html:38
+#: app/templates/staff/detail.html:95
+msgid "Age"
+msgstr "Età"
+
+#: app/templates/athletes/detail.html:75 app/templates/athletes/index.html:38
+#: app/templates/staff/detail.html:96
+#, python-format
+msgid "%(age)s years"
+msgstr "%(age)s anni"
+
+#: app/templates/athletes/detail.html:94 app/templates/athletes/form.html:93
+#: app/templates/staff/detail.html:129 app/templates/staff/form.html:127
+msgid "Residential Address"
+msgstr "Indirizzo di Residenza"
+
+#: app/templates/athletes/detail.html:111 app/templates/athletes/form.html:165
+#: app/templates/staff/detail.html:144 app/templates/staff/form.html:199
+msgid "Identity Document"
+msgstr "Documento d'Identità"
+
+#: app/templates/athletes/detail.html:113
+#: app/templates/athletes/detail.html:152 app/templates/staff/detail.html:146
+#: app/templates/staff/detail.html:212 app/templates/staff/detail.html:269
+msgid "Expired"
+msgstr "Scaduto"
+
+#: app/templates/athletes/detail.html:115
+#: app/templates/athletes/detail.html:154 app/templates/staff/detail.html:148
+#: app/templates/staff/detail.html:214 app/templates/staff/detail.html:271
+msgid "Expiring Soon"
+msgstr "In Scadenza"
+
+#: app/templates/athletes/detail.html:117
+#: app/templates/athletes/detail.html:156 app/templates/staff/detail.html:150
+#: app/templates/staff/detail.html:216 app/templates/staff/detail.html:273
+msgid "Valid"
+msgstr "Valido"
+
+#: app/templates/athletes/detail.html:123 app/templates/staff/detail.html:156
+msgid "Number"
+msgstr "Numero"
+
+#: app/templates/athletes/detail.html:131
+#: app/templates/athletes/detail.html:175 app/templates/staff/detail.html:164
+#: app/templates/staff/detail.html:235 app/templates/staff/detail.html:290
+msgid "Expiry"
+msgstr "Scadenza"
+
+#: app/templates/athletes/detail.html:135
+#: app/templates/athletes/detail.html:180 app/templates/staff/detail.html:168
+#: app/templates/staff/detail.html:240 app/templates/staff/detail.html:295
+#, python-format
+msgid "(in %(days)s days)"
+msgstr "(tra %(days)s giorni)"
+
+#: app/templates/athletes/detail.html:150 app/templates/staff/detail.html:210
+#: app/templates/staff/detail.html:267
+msgid "Not Present"
+msgstr "Non Presente"
+
+#: app/templates/athletes/detail.html:183 app/templates/staff/detail.html:243
+#: app/templates/staff/detail.html:285 app/templates/staff/detail.html:298
+msgid "Not specified"
+msgstr "Non specificato"
+
+#: app/templates/athletes/detail.html:189
+msgid "No medical certificate or sports booklet present."
+msgstr "Nessun certificato medico o libretto dello sportivo presente."
+
+#: app/templates/athletes/detail.html:201
+msgid "Guardians"
+msgstr "Genitori"
+
+#: app/templates/athletes/detail.html:212
+msgid "Name"
+msgstr "Nome"
+
+#: app/templates/athletes/detail.html:216 app/templates/staff/detail.html:124
+#: app/templates/staff/index.html:60
+msgid "Phone"
+msgstr "Telefono"
+
+#: app/templates/athletes/detail.html:229
+msgid "No guardians registered."
+msgstr "Nessun genitore registrato."
+
+#: app/templates/athletes/detail.html:241 app/templates/staff/detail.html:322
+msgid "System Information"
+msgstr "Informazioni di Sistema"
+
+#: app/templates/athletes/detail.html:247 app/templates/staff/detail.html:328
+msgid "Created on"
+msgstr "Creato il"
+
+#: app/templates/athletes/detail.html:248 app/templates/staff/detail.html:329
+msgid "Created by"
+msgstr "Creato da"
+
+#: app/templates/athletes/detail.html:253 app/templates/staff/detail.html:334
+msgid "Last modified"
+msgstr "Ultima modifica"
+
+#: app/templates/athletes/detail.html:268 app/templates/staff/detail.html:349
+msgid "Administrator Actions"
+msgstr "Azioni Amministratore"
+
+#: app/templates/athletes/detail.html:272 app/templates/staff/detail.html:353
+msgid "Warning: these actions are irreversible and reserved for administrators."
+msgstr ""
+"Attenzione: queste azioni sono irreversibili e riservate agli "
+"amministratori."
+
+#: app/templates/athletes/detail.html:275 app/templates/staff/detail.html:356
+#, python-format
+msgid ""
+"Are you sure you want to delete the record for %(name)s? This action is "
+"irreversible."
+msgstr ""
+"È sicuro di voler eliminare il record di %(name)s? Questa azione è "
+"irreversibile."
+
+#: app/templates/athletes/detail.html:277 app/templates/staff/detail.html:358
+msgid "Delete Record"
+msgstr "Elimina Record"
+
+#: app/templates/athletes/form.html:213 app/templates/staff/form.html:281
+msgid "Medical Certificate / Sports Booklet"
+msgstr "Certificato Medico / Libretto dello Sportivo"
+
+#: app/templates/athletes/form.html:256
+msgid "Guardian Data"
+msgstr "Dati Genitori"
+
+#: app/templates/athletes/form.html:260
+msgid "First Guardian"
+msgstr "Primo Genitore"
+
+#: app/templates/athletes/form.html:328
+msgid "Second Guardian"
+msgstr "Secondo Genitore"
+
+#: app/templates/athletes/form.html:397 app/templates/staff/form.html:372
+msgid "Cancel"
+msgstr "Annulla"
+
+#: app/templates/athletes/index.html:10 app/views/athletes.py:53
+#: app/views/athletes.py:111
+msgid "New Athlete"
+msgstr "Nuovo Atleta"
+
+#: app/templates/athletes/index.html:19
+msgid "Search by first name, last name, or fiscal code..."
+msgstr "Cerca per nome, cognome o codice fiscale..."
+
+#: app/templates/athletes/index.html:20 app/templates/staff/index.html:20
+msgid "Search"
+msgstr "Cerca"
+
+#: app/templates/athletes/index.html:22 app/templates/staff/index.html:22
+msgid "Reset"
+msgstr "Reimposta"
+
+#: app/templates/athletes/index.html:39
+msgid "FC"
+msgstr "CF"
+
+#: app/templates/athletes/index.html:47 app/templates/staff/index.html:67
+msgid "Document Expired"
+msgstr "Documento Scaduto"
+
+#: app/templates/athletes/index.html:53 app/templates/staff/index.html:74
+msgid "Certificate Expired"
+msgstr "Certificato Scaduto"
+
+#: app/templates/athletes/index.html:57 app/templates/staff/index.html:78
+msgid "Certificate OK"
+msgstr "Certificato OK"
+
+#: app/templates/athletes/index.html:59 app/templates/staff/index.html:80
+msgid "No Certificate"
+msgstr "Nessun Certificato"
+
+#: app/templates/athletes/index.html:64 app/templates/staff/index.html:98
+msgid "View Details"
+msgstr "Visualizza Dettagli"
+
+#: app/templates/athletes/index.html:73
+msgid "No athletes found"
+msgstr "Nessun atleta trovato"
+
+#: app/templates/athletes/index.html:75
+#, python-format
+msgid "No results for search \"%(search)s\""
+msgstr "Nessun risultato per la ricerca \"%(search)s\""
+
+#: app/templates/athletes/index.html:77
+msgid "There are no athletes registered."
+msgstr "Non ci sono atleti registrati."
+
+#: app/templates/athletes/index.html:80
+msgid "Add the first athlete"
+msgstr "Aggiungi il primo atleta"
+
+#: app/templates/athletes/index.html:89 app/templates/staff/index.html:123
+msgid "Page navigation"
+msgstr "Navigazione pagina"
+
+#: app/templates/athletes/index.html:93 app/templates/staff/index.html:127
+msgid "Previous"
+msgstr "Precedente"
+
+#: app/templates/athletes/index.html:117 app/templates/staff/index.html:151
+msgid "Next"
+msgstr "Successivo"
+
+#: app/templates/athletes/index.html:128
+msgid "Total athletes"
+msgstr "Totale atleti"
+
+#: app/templates/athletes/index.html:128 app/templates/staff/index.html:162
+#, python-format
+msgid "%(total)s registered"
+msgstr "%(total)s registrati"
+
+#: app/templates/staff/detail.html:49 app/templates/staff/form.html:290
+msgid "This role requires a medical certificate"
+msgstr "Questo ruolo richiede un certificato medico"
+
+#: app/templates/staff/detail.html:57
+msgid "Background Check Expired!"
+msgstr "Certificato Penale Scaduto!"
+
+#: app/templates/staff/detail.html:59
+#, python-format
+msgid "The background check expired on %(date)s"
+msgstr "Il certificato penale è scaduto il %(date)s"
+
+#: app/templates/staff/detail.html:61
+msgid "No background check expiry present"
+msgstr "Nessuna scadenza certificato penale presente"
+
+#: app/templates/staff/detail.html:66 app/templates/staff/index.html:88
+msgid "Background Check Expiring Soon"
+msgstr "Certificato Penale in Scadenza"
+
+#: app/templates/staff/detail.html:66
+#, python-format
+msgid "The background check will expire in %(days)s days (%(date)s)"
+msgstr "Il certificato penale scadrà tra %(days)s giorni (%(date)s)"
+
+#: app/templates/staff/detail.html:70
+msgid "Missing Background Check"
+msgstr "Certificato Penale Mancante"
+
+#: app/templates/staff/detail.html:70 app/templates/staff/form.html:336
+msgid "This role requires a background check"
+msgstr "Questo ruolo richiede un certificato penale"
+
+#: app/templates/staff/detail.html:115 app/templates/staff/form.html:93
+msgid "Contact Information"
+msgstr "Informazioni di Contatto"
+
+#: app/templates/staff/detail.html:181 app/templates/staff/form.html:247
+msgid "Role Information"
+msgstr "Informazioni Ruolo"
+
+#: app/templates/staff/detail.html:192
+msgid "Notes"
+msgstr "Note"
+
+#: app/templates/staff/detail.html:249 app/templates/staff/detail.html:254
+#: app/templates/staff/detail.html:304 app/templates/staff/detail.html:309
+msgid "Required for this role"
+msgstr "Richiesto per questo ruolo"
+
+#: app/templates/staff/detail.html:252
+msgid "No medical certificate present."
+msgstr "Nessun certificato medico presente."
+
+#: app/templates/staff/detail.html:265 app/templates/staff/form.html:327
+msgid "Background Check"
+msgstr "Certificato Penale"
+
+#: app/templates/staff/detail.html:280
+msgid "Check Date"
+msgstr "Data Certificato"
+
+#: app/templates/staff/detail.html:307
+msgid "No background check present."
+msgstr "Nessun certificato penale presente."
+
+#: app/templates/staff/form.html:266
+msgid "e.g., Head coach U12, Team manager"
+msgstr "es. Allenatore capo U12, Team manager"
+
+#: app/templates/staff/index.html:10 app/views/staff.py:61
+#: app/views/staff.py:102
+msgid "New Staff Member"
+msgstr "Nuovo Membro Staff"
+
+#: app/templates/staff/index.html:19
+msgid "Search by name, fiscal code, or email..."
+msgstr "Cerca per nome, codice fiscale o email..."
+
+#: app/templates/staff/index.html:31
+msgid "All Roles"
+msgstr "Tutti i Ruoli"
+
+#: app/templates/staff/index.html:41
+msgid "Clear"
+msgstr "Cancella"
+
+#: app/templates/staff/index.html:86
+msgid "Background Check Expired"
+msgstr "Certificato Penale Scaduto"
+
+#: app/templates/staff/index.html:90
+msgid "Background Check OK"
+msgstr "Certificato Penale OK"
+
+#: app/templates/staff/index.html:92
+msgid "No Background Check"
+msgstr "Nessun Certificato Penale"
+
+#: app/templates/staff/index.html:107
+msgid "No staff members found"
+msgstr "Nessun membro dello staff trovato"
+
+#: app/templates/staff/index.html:109
+#, python-format
+msgid "No results for the current search/filter"
+msgstr "Nessun risultato per la ricerca/filtro corrente"
+
+#: app/templates/staff/index.html:111
+msgid "There are no staff members registered."
+msgstr "Non ci sono membri dello staff registrati."
+
+#: app/templates/staff/index.html:114
+msgid "Add the first staff member"
+msgstr "Aggiungi il primo membro dello staff"
+
+#: app/templates/staff/index.html:162
+msgid "Total staff members"
+msgstr "Totale membri staff"
+
+#: app/views/athletes.py:39
+msgid "You do not have permission to create new athletes"
+msgstr "Non ha i permessi per creare nuovi atleti"
+
+#: app/views/athletes.py:52
+msgid "An athlete with this fiscal code already exists"
+msgstr "Esiste già un atleta con questo codice fiscale"
+
+#: app/views/athletes.py:103
+#, python-format
+msgid "Athlete %(name)s created successfully!"
+msgstr "Atleta %(name)s creato con successo!"
+
+#: app/views/athletes.py:108 app/views/athletes.py:232 app/views/staff.py:99
+#: app/views/staff.py:173
+msgid "Error saving data. Please try again."
+msgstr "Errore nel salvataggio dei dati. Riprovare."
+
+#: app/views/athletes.py:128
+msgid "You do not have permission to edit athlete records"
+msgstr "Non ha i permessi per modificare i record degli atleti"
+
+#: app/views/athletes.py:162
+msgid "Another athlete with this fiscal code already exists"
+msgstr "Esiste già un altro atleta con questo codice fiscale"
+
+#: app/views/athletes.py:163 app/views/athletes.py:235
+msgid "Edit Athlete"
+msgstr "Modifica Atleta"
+
+#: app/views/athletes.py:227
+#, python-format
+msgid "Athlete %(name)s updated successfully!"
+msgstr "Atleta %(name)s aggiornato con successo!"
+
+#: app/views/athletes.py:242
+msgid "You do not have permission to delete athlete records"
+msgstr "Non ha i permessi per eliminare i record degli atleti"
+
+#: app/views/athletes.py:258
+#, python-format
+msgid "Athlete %(name)s deleted successfully"
+msgstr "Atleta %(name)s eliminato con successo"
+
+#: app/views/athletes.py:263 app/views/staff.py:199
+msgid "Error during deletion. Please try again."
+msgstr "Errore durante l'eliminazione. Riprovare."
+
+#: app/views/auth.py:18
+msgid "Username o Email"
+msgstr "Username o Email"
+
+#: app/views/auth.py:20 app/views/auth.py:34
+msgid "Password"
+msgstr "Password"
+
+#: app/views/auth.py:22
+msgid "Ricordami"
+msgstr "Ricordami"
+
+#: app/views/auth.py:23
+msgid "Accedi"
+msgstr "Accedi"
+
+#: app/views/auth.py:36
+msgid "Confirm Password"
+msgstr "Conferma Password"
+
+#: app/views/auth.py:37
+msgid "Passwords must match"
+msgstr "Le password devono corrispondere"
+
+#: app/views/auth.py:38
+msgid "Register"
+msgstr "Registrati"
+
+#: app/views/auth.py:59
+msgid "Credenziali non valide o account disattivato"
+msgstr "Credenziali non valide o account disattivato"
+
+#: app/views/auth.py:76
+msgid "Username o email già esistenti"
+msgstr "Username o email già esistenti"
+
+#: app/views/auth.py:92
+msgid "Registrazione completata con successo!"
+msgstr "Registrazione completata con successo!"
+
+#: app/views/auth.py:101
+msgid "Disconnessione effettuata"
+msgstr "Disconnessione effettuata"
+
+#: app/views/staff.py:47
+msgid "You do not have permission to create new staff members"
+msgstr "Non ha i permessi per creare nuovi membri dello staff"
+
+#: app/views/staff.py:60
+msgid "A staff member with this fiscal code already exists"
+msgstr "Esiste già un membro dello staff con questo codice fiscale"
+
+#: app/views/staff.py:94
+#, python-format
+msgid "Staff member %(name)s created successfully!"
+msgstr "Membro dello staff %(name)s creato con successo!"
+
+#: app/views/staff.py:119
+msgid "You do not have permission to edit staff records"
+msgstr "Non ha i permessi per modificare i record dello staff"
+
+#: app/views/staff.py:137
+msgid "Another staff member with this fiscal code already exists"
+msgstr "Esiste già un altro membro dello staff con questo codice fiscale"
+
+#: app/views/staff.py:138 app/views/staff.py:176
+msgid "Edit Staff Member"
+msgstr "Modifica Membro Staff"
+
+#: app/views/staff.py:168
+#, python-format
+msgid "Staff member %(name)s updated successfully!"
+msgstr "Membro dello staff %(name)s aggiornato con successo!"
+
+#: app/views/staff.py:183
+msgid "You do not have permission to delete staff records"
+msgstr "Non ha i permessi per eliminare i record dello staff"
+
+#: app/views/staff.py:194
+#, python-format
+msgid "Staff member %(name)s deleted successfully"
+msgstr "Membro dello staff %(name)s eliminato con successo"
+
