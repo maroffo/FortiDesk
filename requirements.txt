@@ -6,6 +6,7 @@ Flask-Babel==4.0.0
 Werkzeug==3.0.1
 WTForms==3.1.0
 PyMySQL==1.1.0
+cryptography==41.0.7
 python-dotenv==1.0.0
 bcrypt==4.1.2
 email-validator==2.1.0

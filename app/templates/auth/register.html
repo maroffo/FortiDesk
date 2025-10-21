@@ -16,11 +16,11 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            {{ form.nome.label(class="form-label") }}
-                            {{ form.nome(class="form-control") }}
-                            {% if form.nome.errors %}
+                            {{ form.first_name.label(class="form-label") }}
+                            {{ form.first_name(class="form-control") }}
+                            {% if form.first_name.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.nome.errors %}
+                                    {% for error in form.first_name.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
@@ -28,11 +28,11 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            {{ form.cognome.label(class="form-label") }}
-                            {{ form.cognome(class="form-control") }}
-                            {% if form.cognome.errors %}
+                            {{ form.last_name.label(class="form-label") }}
+                            {{ form.last_name(class="form-control") }}
+                            {% if form.last_name.errors %}
                                 <div class="text-danger small">
-                                    {% for error in form.cognome.errors %}
+                                    {% for error in form.last_name.errors %}
                                         <div>{{ error }}</div>
                                     {% endfor %}
                                 </div>
@@ -96,7 +96,7 @@
                 </form>
 
                 <div class="text-center mt-3">
-                    <p>{% trans %}Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>{% endtrans %}</p>
+                    <p>{% trans login_url=url_for('auth.login') %}Already have an account? <a href="{{ login_url }}">Login here</a>{% endtrans %}</p>
                 </div>
             </div>
         </div>
