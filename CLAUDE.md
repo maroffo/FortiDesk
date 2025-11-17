@@ -1,6 +1,6 @@
-# CLAUDE.md - FortiDesk Development Documentation
+# CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) and developers when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
@@ -9,9 +9,103 @@ This file provides guidance to Claude Code (claude.ai/code) and developers when 
 ### Key Capabilities
 - **Athlete Management**: Complete registry for youth athletes (ages 3-18) with guardian tracking
 - **Staff Management**: Personnel management for coaches, escorts, managers, and club officials
+- **Attendance Tracking**: Track athlete attendance at training sessions, matches, and events
+- **Equipment Management**: Inventory management and equipment assignment tracking
 - **Multi-language Support**: Full English/Italian internationalization
 - **Role-based Access**: Admin, Coach, Parent, and Player roles
 - **Document Tracking**: Automated expiry alerts for documents, medical certificates, and background checks
+
+---
+
+## Quick Command Reference
+
+### Docker Operations
+```bash
+# Start application
+./docker-start.sh
+
+# Start manually
+docker-compose up -d
+
+# View logs
+docker-compose logs -f              # All services
+docker-compose logs -f web          # Flask app only
+docker-compose logs -f db           # MySQL only
+
+# Stop services
+docker-compose down                 # Stop containers
+docker-compose down -v              # Stop and remove volumes (⚠️ deletes data!)
+
+# Rebuild
+docker-compose build --no-cache
+docker-compose up -d --build
+
+# Restart specific service
+docker-compose restart web
+docker-compose restart db
+
+# Check service status
+docker-compose ps
+```
+
+### Database Operations
+```bash
+# Access MySQL shell
+docker-compose exec db mysql -u fortidesk -p fortidesk
+
+# Access Python shell with Flask context
+docker-compose exec web python
+>>> from run import app, db, User, Athlete, Staff, Attendance, Equipment
+>>> with app.app_context():
+...     users = User.query.all()
+...     athletes = Athlete.query.filter_by(is_active=True).all()
+```
+
+### Local Development (without Docker)
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate              # Linux/Mac
+# venv\Scripts\activate                # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up environment
+cp .env.example .env
+# Edit .env with local MySQL connection
+
+# Run development server
+flask run
+# Or: python run.py
+```
+
+### Code Quality
+```bash
+# Linting
+uvx ruff check
+
+# Type checking
+uvx --from pyright pyright app/
+```
+
+### Internationalization (i18n)
+```bash
+# 1. Extract new translatable strings
+uvx --with jinja2 --from babel pybabel extract -F babel.cfg -k _l -k _ -o messages.pot .
+
+# 2. Update translation catalogs
+uvx --with jinja2 --from babel pybabel update -i messages.pot -d translations
+
+# 3. Edit translations manually
+# Edit: translations/it/LC_MESSAGES/messages.po
+
+# 4. Compile translations
+uvx --with jinja2 --from babel pybabel compile -d translations
+
+# 5. Restart web container to see changes
+docker-compose restart web
+```
 
 ---
 
@@ -33,7 +127,7 @@ This file provides guidance to Claude Code (claude.ai/code) and developers when 
 
 ### Database
 - **MySQL 8.0**: Relational database
-- **Schema**: 4 main tables (users, athletes, guardians, staff)
+- **Schema**: 7 main tables (users, athletes, guardians, staff, attendance, equipment, equipment_assignments)
 
 ### Deployment
 - **Docker + Docker Compose**: Containerization
@@ -53,23 +147,31 @@ FortiDesk/
 │   │   ├── user.py                  # User authentication model
 │   │   ├── athlete.py               # Athlete registry model
 │   │   ├── guardian.py              # Guardian/parent model
-│   │   └── staff.py                 # Staff/personnel model
+│   │   ├── staff.py                 # Staff/personnel model
+│   │   ├── attendance.py            # Attendance tracking model
+│   │   └── equipment.py             # Equipment & assignment models
 │   ├── views/                        # Flask blueprints (controllers)
 │   │   ├── __init__.py
 │   │   ├── auth.py                  # Login/logout/register routes
 │   │   ├── main.py                  # Dashboard, language switcher
 │   │   ├── athletes.py              # Athlete CRUD operations
-│   │   └── staff.py                 # Staff CRUD operations
+│   │   ├── staff.py                 # Staff CRUD operations
+│   │   ├── attendance.py            # Attendance tracking routes
+│   │   └── equipment.py             # Equipment management routes
 │   ├── forms/                        # WTForms for validation
 │   │   ├── __init__.py
 │   │   ├── athletes_forms.py        # AthleteForm, GuardianForm fields
-│   │   └── staff_forms.py           # StaffForm with role-based validation
+│   │   ├── staff_forms.py           # StaffForm with role-based validation
+│   │   ├── attendance_forms.py      # Attendance forms
+│   │   └── equipment_forms.py       # Equipment and assignment forms
 │   ├── templates/                    # Jinja2 HTML templates
 │   │   ├── base.html                # Base template with navbar, language switcher
 │   │   ├── dashboard.html           # User dashboard
 │   │   ├── auth/                    # Authentication pages
 │   │   ├── athletes/                # Athlete management templates
-│   │   └── staff/                   # Staff management templates
+│   │   ├── staff/                   # Staff management templates
+│   │   ├── attendance/              # Attendance tracking templates
+│   │   └── equipment/               # Equipment management templates
 │   └── static/                       # Static files
 │       ├── css/style.css            # Custom styles
 │       └── js/app.js                # JavaScript utilities
@@ -84,6 +186,8 @@ FortiDesk/
 ├── config.py                         # Flask configuration classes
 ├── docker-compose.yml               # Multi-container orchestration
 ├── Dockerfile                       # Flask app container definition
+├── docker-start.sh                  # Quick start script
+├── docker-entrypoint.sh             # Container initialization script
 ├── requirements.txt                 # Python dependencies
 ├── run.py                           # Application entry point
 └── README.md                        # User documentation
@@ -92,6 +196,8 @@ FortiDesk/
 ---
 
 ## Database Models
+
+The system uses **7 core database models**:
 
 ### User Model (`app/models/user.py`)
 **Purpose**: System authentication and authorization
@@ -115,6 +221,8 @@ FortiDesk/
 **Relationships**:
 - `athletes_created`: One-to-many with Athlete (via created_by)
 - `staff_created`: One-to-many with Staff (via created_by)
+- `attendance_created`: One-to-many with Attendance (via created_by)
+- `equipment_created`: One-to-many with Equipment (via created_by)
 
 ---
 
@@ -140,6 +248,8 @@ FortiDesk/
 **Relationships**:
 - `guardians`: One-to-many with Guardian (cascade delete)
 - `created_by_user`: Many-to-one with User
+- `attendance_records`: One-to-many with Attendance
+- `equipment_assignments`: One-to-many with EquipmentAssignment
 
 **Validation**:
 - Age must be 3-18 years
@@ -209,6 +319,103 @@ FortiDesk/
 
 ---
 
+### Attendance Model (`app/models/attendance.py`)
+**Purpose**: Track athlete attendance at training sessions, matches, and events
+
+**Fields**:
+- `athlete_id`: Foreign key to Athlete (required)
+- `date`: Date of session (indexed)
+- `session_type`: Type of session (training/match/event)
+- `status`: Attendance status (present/absent/excused/late)
+- `notes`: Optional notes about attendance
+- `created_by`: Foreign key to User who recorded attendance
+- `created_at`, `updated_at`: Timestamps
+- `is_active`: Soft delete flag
+
+**Methods**:
+- `get_status_display()`: Return localized status name
+- `get_session_type_display()`: Return localized session type
+
+**Relationships**:
+- `athlete`: Many-to-one with Athlete
+- `creator`: Many-to-one with User (who recorded it)
+
+**Indexes**:
+- Composite index on (athlete_id, date) for athlete history queries
+- Composite index on (date, session_type) for session reports
+
+**Business Logic**:
+- Tracks individual attendance records per athlete per session
+- Supports different session types (training, match, event)
+- Four status types: present, absent, excused, late
+
+---
+
+### Equipment Model (`app/models/equipment.py`)
+**Purpose**: Inventory management for rugby equipment
+
+**Fields**:
+- `name`: Equipment name (indexed)
+- `category`: Equipment category (ball/jersey/protective/training_aid/other) (indexed)
+- `size`: Size designation (XS/S/M/L/XL or numeric)
+- `code`: Unique inventory/barcode (unique, indexed)
+- `condition`: Current condition (new/good/fair/poor/damaged)
+- `status`: Availability status (available/assigned/maintenance/retired)
+- Purchase: `purchase_date`, `purchase_price`, `supplier`
+- Maintenance: `last_maintenance_date`, `next_maintenance_date`, `maintenance_notes`
+- Additional: `description`, `location`, `quantity`
+- Meta: `created_by`, `created_at`, `updated_at`, `is_active`
+
+**Methods**:
+- `get_category_display()`: Localized category name
+- `get_condition_display()`: Localized condition name
+- `get_status_display()`: Localized status name
+- `needs_maintenance()`: Check if maintenance is due
+- `is_available()`: Check if available for assignment
+
+**Relationships**:
+- `creator`: Many-to-one with User
+- `assignments`: One-to-many with EquipmentAssignment (cascade delete)
+
+**Business Logic**:
+- Unique inventory codes for tracking
+- Maintenance scheduling with alerts
+- Status tracking (available/assigned/maintenance/retired)
+
+---
+
+### EquipmentAssignment Model (`app/models/equipment.py`)
+**Purpose**: Track equipment loans to athletes
+
+**Fields**:
+- Foreign keys: `equipment_id`, `athlete_id`, `assigned_by`, `returned_by`
+- Dates: `assigned_date`, `expected_return_date`, `actual_return_date`
+- Condition: `condition_at_assignment`, `condition_at_return`
+- Notes: `assignment_notes`, `return_notes`
+- Status: `is_returned`, `is_active`
+- Meta: `created_at`, `updated_at`
+
+**Methods**:
+- `is_overdue()`: Check if return is overdue
+- `days_overdue()`: Calculate days overdue
+
+**Relationships**:
+- `equipment`: Many-to-one with Equipment
+- `athlete`: Many-to-one with Athlete
+- `assigner`: Many-to-one with User (who assigned)
+- `returner`: Many-to-one with User (who processed return)
+
+**Indexes**:
+- Composite index on (athlete_id, is_returned) for athlete's current assignments
+- Composite index on (equipment_id, is_returned) for equipment availability
+
+**Business Logic**:
+- Tracks condition at assignment and return
+- Calculates overdue returns
+- Links to both assigning and returning users for audit trail
+
+---
+
 ## Views (Blueprints)
 
 ### Auth Blueprint (`app/views/auth.py`)
@@ -269,6 +476,42 @@ FortiDesk/
 
 ---
 
+### Attendance Blueprint (`app/views/attendance.py`)
+**Routes**:
+- `GET /attendance/`: List attendance records (paginated, filterable)
+- `GET/POST /attendance/new`: Record new attendance (admin/coach only)
+- `GET/POST /attendance/bulk`: Bulk attendance entry for sessions (admin/coach only)
+- `GET /attendance/<id>`: View attendance details
+- `GET/POST /attendance/<id>/edit`: Edit attendance record (admin/coach only)
+- `POST /attendance/<id>/delete`: Soft delete (admin only)
+
+**Features**:
+- Filter by athlete, date range, session type, status
+- Bulk entry for recording entire session attendance
+- Attendance statistics and reports
+- Visual status indicators
+
+---
+
+### Equipment Blueprint (`app/views/equipment.py`)
+**Routes**:
+- `GET /equipment/`: List equipment inventory (paginated, filterable)
+- `GET/POST /equipment/new`: Add new equipment (admin/coach only)
+- `GET /equipment/<id>`: View equipment details and assignment history
+- `GET/POST /equipment/<id>/edit`: Edit equipment (admin/coach only)
+- `POST /equipment/<id>/delete`: Soft delete (admin only)
+- `GET/POST /equipment/<id>/assign`: Assign to athlete (admin/coach only)
+- `POST /equipment/assignment/<id>/return`: Process equipment return (admin/coach only)
+
+**Features**:
+- Filter by category, status, condition
+- Search by name or inventory code
+- Assignment history tracking
+- Overdue equipment alerts
+- Maintenance scheduling
+
+---
+
 ## Forms (`app/forms/`)
 
 ### AthleteForm (`athletes_forms.py`)
@@ -304,6 +547,43 @@ FortiDesk/
 - `validate_certificate_expiry()`: Required if checked
 - `validate_background_check_expiry()`: Required if checked
 - `validate_background_check_date()`: Not in future
+
+---
+
+### AttendanceForm (`attendance_forms.py`)
+**Fields**:
+- `athlete_id`: Athlete selection
+- `date`: Session date
+- `session_type`: Type (training/match/event)
+- `status`: Attendance status (present/absent/excused/late)
+- `notes`: Optional notes
+
+**Features**:
+- Bulk attendance form for recording multiple athletes at once
+- Date validation (not in future)
+
+---
+
+### EquipmentForm & AssignmentForm (`equipment_forms.py`)
+**EquipmentForm Fields**:
+- Basic info (name, category, size, code)
+- Condition and status
+- Purchase info (date, price, supplier)
+- Maintenance scheduling
+- Location and description
+
+**AssignmentForm Fields**:
+- `equipment_id`: Equipment selection
+- `athlete_id`: Athlete selection
+- `assigned_date`: Assignment date
+- `expected_return_date`: Expected return
+- `condition_at_assignment`: Condition when assigned
+- `assignment_notes`: Optional notes
+
+**Custom Validation**:
+- Unique equipment codes
+- Equipment must be available for assignment
+- Return date cannot be before assignment date
 
 ---
 
@@ -357,18 +637,7 @@ label = _l('Form Label')
 ```
 
 ### Workflow for New Strings
-```bash
-# 1. Extract messages
-uvx --with jinja2 --from babel pybabel extract -F babel.cfg -k _l -k _ -o messages.pot .
-
-# 2. Update catalogs
-uvx --with jinja2 --from babel pybabel update -i messages.pot -d translations
-
-# 3. Edit translations/it/LC_MESSAGES/messages.po
-
-# 4. Compile
-uvx --with jinja2 --from babel pybabel compile -d translations
-```
+See "Quick Command Reference" section above for i18n commands.
 
 ---
 
@@ -476,9 +745,23 @@ MYSQL_PASSWORD=password
 
 ### Startup Sequence
 1. MySQL starts, initializes database
-2. Web app waits for DB health check
-3. Flask creates tables (db.create_all())
-4. Nginx starts, proxies to Flask
+2. Web app waits for DB health check (via `docker-entrypoint.sh`)
+3. `run.py:init_db()` creates tables and default users
+4. Gunicorn starts with 4 workers
+5. Nginx starts, proxies to Flask
+
+### Startup Scripts
+
+**docker-start.sh**: Quick start script
+- Checks for `.env` file, creates from `.env.example` if missing
+- Builds Docker images
+- Starts services in detached mode
+- Shows service status and connection info
+
+**docker-entrypoint.sh**: Container initialization for web service
+- Waits for database (30 retries, 2s intervals)
+- Calls `init_db()` from `run.py` to create tables and default users
+- Starts Gunicorn with 4 workers on port 5000
 
 ---
 
@@ -519,6 +802,10 @@ MYSQL_PASSWORD=password
 - [ ] Search athletes by name/fiscal code
 - [ ] Create staff member (each role type)
 - [ ] Filter staff by role
+- [ ] Record attendance for training session
+- [ ] Add equipment to inventory
+- [ ] Assign equipment to athlete
+- [ ] Process equipment return
 - [ ] Check expiry alerts (red/yellow/green badges)
 - [ ] Switch language (EN ↔ IT)
 - [ ] Verify permission checks (admin vs coach vs parent)
