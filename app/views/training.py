@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from flask_babel import gettext as _
+from sqlalchemy.orm import joinedload
 from app import db
 from app.models import TrainingSession, Team, Season, Staff
 from app.forms.training_forms import (
@@ -37,7 +38,11 @@ def index():
     page = request.args.get('page', 1, type=int)
     per_page = 20
 
-    query = TrainingSession.query.filter_by(is_active=True)
+    query = TrainingSession.query.options(
+        joinedload(TrainingSession.team),
+        joinedload(TrainingSession.coach),
+        joinedload(TrainingSession.season)
+    ).filter_by(is_active=True)
 
     # Filter by team
     team_id = request.args.get('team_id', type=int)
@@ -224,30 +229,31 @@ def generate_recurring():
             flash(_('Start date and end date are required.'), 'error')
             return render_template('training/generate_recurring.html', form=form)
 
-        current_date = start
+        # Jump to first occurrence of the target weekday, then step by 7 days
+        days_ahead = (form.recurrence_day.data - start.weekday()) % 7
+        current_date = start + timedelta(days=days_ahead)
         count = 0
 
         while current_date <= end:
-            if current_date.weekday() == form.recurrence_day.data:
-                session = TrainingSession(
-                    title=form.title.data,
-                    date=current_date,
-                    start_time=form.start_time.data,
-                    end_time=form.end_time.data,
-                    location=form.location.data,
-                    session_type=form.session_type.data,
-                    team_id=form.team_id.data,
-                    season_id=form.season_id.data if form.season_id.data else None,
-                    coach_id=form.coach_id.data if form.coach_id.data else None,
-                    notes=form.notes.data,
-                    is_recurring=True,
-                    recurrence_day=form.recurrence_day.data,
-                    recurrence_end_date=end,
-                    created_by=current_user.id
-                )
-                db.session.add(session)
-                count += 1
-            current_date += timedelta(days=1)
+            session = TrainingSession(
+                title=form.title.data,
+                date=current_date,
+                start_time=form.start_time.data,
+                end_time=form.end_time.data,
+                location=form.location.data,
+                session_type=form.session_type.data,
+                team_id=form.team_id.data,
+                season_id=form.season_id.data if form.season_id.data else None,
+                coach_id=form.coach_id.data if form.coach_id.data else None,
+                notes=form.notes.data,
+                is_recurring=True,
+                recurrence_day=form.recurrence_day.data,
+                recurrence_end_date=end,
+                created_by=current_user.id
+            )
+            db.session.add(session)
+            count += 1
+            current_date += timedelta(days=7)
 
         db.session.commit()
         flash(
