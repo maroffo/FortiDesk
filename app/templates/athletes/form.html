@@ -73,16 +73,29 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        {{ form.fiscal_code.label(class="form-label") }}
-                        {{ form.fiscal_code(class="form-control", style="text-transform: uppercase") }}
-                        {% if form.fiscal_code.errors %}
-                            <div class="text-danger small">
-                                {% for error in form.fiscal_code.errors %}
-                                    <div>{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            {{ form.fiscal_code.label(class="form-label") }}
+                            {{ form.fiscal_code(class="form-control", style="text-transform: uppercase") }}
+                            {% if form.fiscal_code.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.fiscal_code.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form.fir_id.label(class="form-label") }}
+                            {{ form.fir_id(class="form-control") }}
+                            {% if form.fir_id.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.fir_id.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
 
                     <div class="mb-3">

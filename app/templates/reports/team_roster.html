@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Team Roster Report') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1>{{ _('Team Roster Report') }}</h1>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">{{ form.team_id.label }}</label>
+                {{ form.team_id(class="form-select") }}
+            </div>
+            <div class="col-md-2">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if athletes %}
+<div class="mb-3">
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=csv" class="btn btn-sm btn-outline-success">{{ _('Export CSV') }}</a>
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=pdf" class="btn btn-sm btn-outline-danger">{{ _('Export PDF') }}</a>
+    <span class="text-muted ms-2">{{ athletes|length }} {{ _('athletes') }}</span>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ _('Name') }}</th>
+                <th>{{ _('Age') }}</th>
+                <th>{{ _('FIR ID') }}</th>
+                <th>{{ _('Team') }}</th>
+                <th>{{ _('ID Document') }}</th>
+                <th>{{ _('Medical Cert.') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for athlete in athletes %}
+            <tr>
+                <td><a href="{{ url_for('athletes.detail', id=athlete.id) }}">{{ athlete.get_full_name() }}</a></td>
+                <td>{{ athlete.get_age() }}</td>
+                <td>{{ athlete.fir_id or '-' }}</td>
+                <td>{{ athlete.team.name if athlete.team else '-' }}</td>
+                <td>
+                    {% if athlete.document_expiry %}
+                        {% if athlete.document_expiry < today %}
+                            <span class="badge bg-danger">{{ _('Expired') }}</span>
+                        {% elif athlete.document_expiry <= alert_date %}
+                            <span class="badge bg-warning text-dark">{{ _('Expiring') }}</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ _('Valid') }}</span>
+                        {% endif %}
+                        {{ athlete.document_expiry.strftime('%d/%m/%Y') }}
+                    {% else %}
+                        <span class="text-muted">-</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if athlete.has_medical_certificate and athlete.certificate_expiry %}
+                        {% if athlete.certificate_expiry < today %}
+                            <span class="badge bg-danger">{{ _('Expired') }}</span>
+                        {% elif athlete.certificate_expiry <= alert_date %}
+                            <span class="badge bg-warning text-dark">{{ _('Expiring') }}</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ _('Valid') }}</span>
+                        {% endif %}
+                        {{ athlete.certificate_expiry.strftime('%d/%m/%Y') }}
+                    {% else %}
+                        <span class="text-muted">{{ _('N/A') }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">{{ _('No athletes found matching the selected filters.') }}</div>
+{% endif %}
+{% endblock %}

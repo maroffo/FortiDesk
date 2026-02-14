@@ -4,7 +4,7 @@ from app import create_app, db
 from app.models import (User, Athlete, Guardian, Staff, Team, TeamStaffAssignment,
                         Attendance, Equipment, EquipmentAssignment,
                         Season, TrainingSession, Match, MatchLineup,
-                        Document, EmergencyContact, Announcement)
+                        Document, EmergencyContact, Announcement, Insurance)
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -27,7 +27,8 @@ def make_shell_context():
         'MatchLineup': MatchLineup,
         'Document': Document,
         'EmergencyContact': EmergencyContact,
-        'Announcement': Announcement
+        'Announcement': Announcement,
+        'Insurance': Insurance
     }
 
 def init_db():
@@ -142,6 +143,17 @@ def _apply_schema_updates():
                 ))
                 db.session.commit()
                 app.logger.info(f'Added {col_name} column to athletes table')
+
+    # athletes.fir_id
+    if 'athletes' in inspector.get_table_names():
+        columns = [c['name'] for c in inspector.get_columns('athletes')]
+        if 'fir_id' not in columns:
+            db.session.execute(text(
+                'ALTER TABLE athletes ADD COLUMN fir_id VARCHAR(20) NULL, '
+                'ADD UNIQUE INDEX idx_athletes_fir_id (fir_id)'
+            ))
+            db.session.commit()
+            app.logger.info('Added fir_id column to athletes table')
 
 
 if __name__ == '__main__':

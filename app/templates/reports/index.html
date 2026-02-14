@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Reports') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1>{{ _('Reports') }}</h1>
+        <p class="text-muted">{{ _('Generate and export reports for your organization.') }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Team Roster') }}</h5>
+                <p class="card-text">{{ _('Complete team roster with document and certificate status.') }}</p>
+                <a href="{{ url_for('reports.team_roster') }}" class="btn btn-primary">{{ _('Generate') }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Attendance Summary') }}</h5>
+                <p class="card-text">{{ _('Attendance statistics per athlete with filters.') }}</p>
+                <a href="{{ url_for('reports.attendance_summary') }}" class="btn btn-primary">{{ _('Generate') }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Equipment Inventory') }}</h5>
+                <p class="card-text">{{ _('Full equipment inventory with status and condition.') }}</p>
+                <a href="{{ url_for('reports.equipment_inventory') }}" class="btn btn-primary">{{ _('Generate') }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Document Status') }}</h5>
+                <p class="card-text">{{ _('Document expiry status for all uploaded documents.') }}</p>
+                <a href="{{ url_for('reports.document_status') }}" class="btn btn-primary">{{ _('Generate') }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Insurance Status') }}</h5>
+                <p class="card-text">{{ _('Insurance policy status for all athletes.') }}</p>
+                <a href="{{ url_for('reports.insurance_status') }}" class="btn btn-primary">{{ _('Generate') }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,5 +11,6 @@ from .match import Match as Match, MatchLineup as MatchLineup
 from .document import Document as Document
 from .emergency_contact import EmergencyContact as EmergencyContact
 from .announcement import Announcement as Announcement
+from .insurance import Insurance as Insurance
 
-__all__ = ['User', 'Athlete', 'Guardian', 'Staff', 'Attendance', 'Equipment', 'EquipmentAssignment', 'Team', 'TeamStaffAssignment', 'Season', 'TrainingSession', 'Match', 'MatchLineup', 'Document', 'EmergencyContact', 'Announcement']
+__all__ = ['User', 'Athlete', 'Guardian', 'Staff', 'Attendance', 'Equipment', 'EquipmentAssignment', 'Team', 'TeamStaffAssignment', 'Season', 'TrainingSession', 'Match', 'MatchLineup', 'Document', 'EmergencyContact', 'Announcement', 'Insurance']

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Equipment Inventory') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1>{{ _('Equipment Inventory Report') }}</h1>
+    </div>
+</div>
+
+{% if equipment %}
+<div class="mb-3">
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=csv" class="btn btn-sm btn-outline-success">{{ _('Export CSV') }}</a>
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=pdf" class="btn btn-sm btn-outline-danger">{{ _('Export PDF') }}</a>
+    <span class="text-muted ms-2">{{ equipment|length }} {{ _('items') }}</span>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ _('Name') }}</th>
+                <th>{{ _('Code') }}</th>
+                <th>{{ _('Category') }}</th>
+                <th>{{ _('Condition') }}</th>
+                <th>{{ _('Status') }}</th>
+                <th>{{ _('Location') }}</th>
+                <th>{{ _('Quantity') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in equipment %}
+            <tr>
+                <td><a href="{{ url_for('equipment.view', id=e.id) }}">{{ e.name }}</a></td>
+                <td>{{ e.code }}</td>
+                <td>{{ e.get_category_display() }}</td>
+                <td>{{ e.get_condition_display() }}</td>
+                <td>{{ e.get_status_display() }}</td>
+                <td>{{ e.location or '-' }}</td>
+                <td>{{ e.quantity or 1 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">{{ _('No equipment found.') }}</div>
+{% endif %}
+{% endblock %}

@@ -12,7 +12,8 @@ class Athlete(db.Model):
     birth_date = db.Column(db.Date, nullable=False)
     birth_place = db.Column(db.String(100), nullable=False)
     fiscal_code = db.Column(db.String(16), unique=True, nullable=False, index=True)
-    
+    fir_id = db.Column(db.String(20), unique=True, nullable=True, index=True)
+
     # Residential address
     street_address = db.Column(db.String(200), nullable=False)
     street_number = db.Column(db.String(10), nullable=False)

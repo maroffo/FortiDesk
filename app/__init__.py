@@ -79,6 +79,7 @@ def create_app(config_name='default'):
     from app.views.calendar import calendar_bp
     from app.views.documents import documents_bp
     from app.views.communications import communications_bp
+    from app.views.reports import reports_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
@@ -94,6 +95,7 @@ def create_app(config_name='default'):
     app.register_blueprint(calendar_bp)
     app.register_blueprint(documents_bp)
     app.register_blueprint(communications_bp)
+    app.register_blueprint(reports_bp)
 
     # Register CLI commands
     from app.cli import register_commands
