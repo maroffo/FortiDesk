@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('New Training Session') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>{{ _('Create New Training Session') }}</h1>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('training.new') }}">
+                    {{ form.hidden_tag() }}
+
+                    <!-- Title -->
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else "")) }}
+                        {% if form.title.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Date and Time -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form.date.label(class="form-label") }}
+                            {{ form.date(class="form-control" + (" is-invalid" if form.date.errors else "")) }}
+                            {% if form.date.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.date.errors %}{{ error }}{% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form.start_time.label(class="form-label") }}
+                            {{ form.start_time(class="form-control" + (" is-invalid" if form.start_time.errors else "")) }}
+                            {% if form.start_time.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.start_time.errors %}{{ error }}{% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form.end_time.label(class="form-label") }}
+                            {{ form.end_time(class="form-control" + (" is-invalid" if form.end_time.errors else "")) }}
+                            {% if form.end_time.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.end_time.errors %}{{ error }}{% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="mb-3">
+                        {{ form.location.label(class="form-label") }}
+                        {{ form.location(class="form-control") }}
+                    </div>
+
+                    <!-- Session Type and Team -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.session_type.label(class="form-label") }}
+                            {{ form.session_type(class="form-select" + (" is-invalid" if form.session_type.errors else "")) }}
+                            {% if form.session_type.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.session_type.errors %}{{ error }}{% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.team_id.label(class="form-label") }}
+                            {{ form.team_id(class="form-select" + (" is-invalid" if form.team_id.errors else "")) }}
+                            {% if form.team_id.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.team_id.errors %}{{ error }}{% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Season and Coach -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.season_id.label(class="form-label") }}
+                            {{ form.season_id(class="form-select") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.coach_id.label(class="form-label") }}
+                            {{ form.coach_id(class="form-select") }}
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="mb-3">
+                        {{ form.notes.label(class="form-label") }}
+                        {{ form.notes(class="form-control", rows=3) }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('training.index') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

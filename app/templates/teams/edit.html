@@ -43,6 +43,12 @@
                         <div class="form-text">{{ _('e.g., 2024-2025') }}</div>
                     </div>
 
+                    <!-- Season (linked) -->
+                    <div class="mb-3">
+                        {{ form.season_id.label(class="form-label") }}
+                        {{ form.season_id(class="form-control") }}
+                    </div>
+
                     <!-- Head Coach -->
                     <div class="mb-3">
                         {{ form.head_coach_id.label(class="form-label") }}

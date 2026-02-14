@@ -20,6 +20,9 @@ class Team(db.Model):
     # Head Coach (one-to-one with Staff)
     head_coach_id = db.Column(db.Integer, db.ForeignKey('staff.id'))
 
+    # Season FK (relationship defined on Season model via backref='season_ref')
+    season_id = db.Column(db.Integer, db.ForeignKey('seasons.id'))
+
     # Metadata
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)

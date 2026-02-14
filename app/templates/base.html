@@ -23,6 +23,8 @@
                 <a class="nav-link" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a>
                 <a class="nav-link" href="{{ url_for('attendance.index') }}">{{ _('Attendance') }}</a>
                 <a class="nav-link" href="{{ url_for('equipment.index') }}">{{ _('Equipment') }}</a>
+                <a class="nav-link" href="{{ url_for('seasons.index') }}">{{ _('Seasons') }}</a>
+                <a class="nav-link" href="{{ url_for('training.index') }}">{{ _('Training') }}</a>
                 {% if current_user.is_admin() %}
                 <a class="nav-link" href="{{ url_for('admin.users') }}">{{ _('Admin') }}</a>
                 {% endif %}
@@ -48,6 +50,8 @@
                         <li><a class="dropdown-item" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('attendance.index') }}">{{ _('Attendance') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('equipment.index') }}">{{ _('Equipment') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('seasons.index') }}">{{ _('Seasons') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('training.index') }}">{{ _('Training') }}</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                     </ul>

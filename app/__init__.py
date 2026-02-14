@@ -68,6 +68,8 @@ def create_app(config_name='default'):
     from app.views.equipment import equipment_bp
     from app.views.teams import teams_bp
     from app.views.admin import admin_bp
+    from app.views.seasons import seasons_bp
+    from app.views.training import training_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
@@ -77,6 +79,8 @@ def create_app(config_name='default'):
     app.register_blueprint(equipment_bp)
     app.register_blueprint(teams_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(seasons_bp)
+    app.register_blueprint(training_bp)
 
     @app.errorhandler(404)
     def not_found_error(error):

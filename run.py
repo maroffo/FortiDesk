@@ -2,7 +2,8 @@ import os
 import time
 from app import create_app, db
 from app.models import (User, Athlete, Guardian, Staff, Team, TeamStaffAssignment,
-                        Attendance, Equipment, EquipmentAssignment)
+                        Attendance, Equipment, EquipmentAssignment,
+                        Season, TrainingSession)
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -18,7 +19,9 @@ def make_shell_context():
         'TeamStaffAssignment': TeamStaffAssignment,
         'Attendance': Attendance,
         'Equipment': Equipment,
-        'EquipmentAssignment': EquipmentAssignment
+        'EquipmentAssignment': EquipmentAssignment,
+        'Season': Season,
+        'TrainingSession': TrainingSession
     }
 
 def init_db():
@@ -96,6 +99,26 @@ def _apply_schema_updates():
             ))
             db.session.commit()
             app.logger.info('Added team_id column to athletes table')
+
+    # teams.season_id
+    if 'teams' in inspector.get_table_names():
+        columns = [c['name'] for c in inspector.get_columns('teams')]
+        if 'season_id' not in columns:
+            db.session.execute(text(
+                'ALTER TABLE teams ADD COLUMN season_id INTEGER NULL'
+            ))
+            db.session.commit()
+            app.logger.info('Added season_id column to teams table')
+
+    # attendance.training_session_id
+    if 'attendance' in inspector.get_table_names():
+        columns = [c['name'] for c in inspector.get_columns('attendance')]
+        if 'training_session_id' not in columns:
+            db.session.execute(text(
+                'ALTER TABLE attendance ADD COLUMN training_session_id INTEGER NULL'
+            ))
+            db.session.commit()
+            app.logger.info('Added training_session_id column to attendance table')
 
 
 if __name__ == '__main__':

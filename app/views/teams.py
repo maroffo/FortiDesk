@@ -3,9 +3,9 @@ from flask_login import login_required, current_user
 from flask_babel import gettext as _
 from sqlalchemy.orm import joinedload
 from app import db
-from app.models import Team, TeamStaffAssignment, Staff, Athlete
+from app.models import Team, TeamStaffAssignment, Staff, Athlete, Season, TrainingSession
 from app.forms.team_forms import TeamForm, TeamStaffAssignmentForm
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 teams_bp = Blueprint('teams', __name__, url_prefix='/teams')
 
@@ -29,6 +29,8 @@ def new():
     form = TeamForm()
     staff_members = Staff.query.filter_by(is_active=True).order_by(Staff.last_name).all()
     form.head_coach_id.choices = [('', _('-- Select Head Coach --'))] + [(s.id, s.get_full_name()) for s in staff_members]
+    seasons = Season.query.filter_by(is_active=True).order_by(Season.start_date.desc()).all()
+    form.season_id.choices = [('', _('-- No Season --'))] + [(s.id, s.name) for s in seasons]
 
     if form.validate_on_submit():
         team = Team(
@@ -36,6 +38,7 @@ def new():
             description=form.description.data,
             age_group=form.age_group.data,
             season=form.season.data,
+            season_id=form.season_id.data if form.season_id.data else None,
             head_coach_id=form.head_coach_id.data if form.head_coach_id.data else None,
             created_by=current_user.id
         )
@@ -62,9 +65,19 @@ def view(id):
         joinedload(TeamStaffAssignment.staff)
     ).filter_by(team_id=id, role='escort', is_active=True).all()
 
+    # Get upcoming training sessions (next 30 days)
+    upcoming_sessions = TrainingSession.query.filter(
+        TrainingSession.team_id == id,
+        TrainingSession.is_active == True,  # noqa: E712
+        TrainingSession.cancelled == False,  # noqa: E712
+        TrainingSession.date >= date.today(),
+        TrainingSession.date <= date.today() + timedelta(days=30)
+    ).order_by(TrainingSession.date, TrainingSession.start_time).limit(5).all()
+
     return render_template('teams/view.html', team=team, athletes=athletes,
                            assistant_assignments=assistant_assignments,
-                           escort_assignments=escort_assignments)
+                           escort_assignments=escort_assignments,
+                           upcoming_sessions=upcoming_sessions)
 
 
 @teams_bp.route('/<int:id>/edit', methods=['GET', 'POST'])
@@ -79,12 +92,15 @@ def edit(id):
     form = TeamForm(obj=team)
     staff_members = Staff.query.filter_by(is_active=True).order_by(Staff.last_name).all()
     form.head_coach_id.choices = [('', _('-- No Head Coach --'))] + [(s.id, s.get_full_name()) for s in staff_members]
+    seasons = Season.query.filter_by(is_active=True).order_by(Season.start_date.desc()).all()
+    form.season_id.choices = [('', _('-- No Season --'))] + [(s.id, s.name) for s in seasons]
 
     if form.validate_on_submit():
         team.name = form.name.data
         team.description = form.description.data
         team.age_group = form.age_group.data
         team.season = form.season.data
+        team.season_id = form.season_id.data if form.season_id.data else None
         team.head_coach_id = form.head_coach_id.data if form.head_coach_id.data else None
         team.updated_at = datetime.utcnow()
         db.session.commit()

@@ -41,6 +41,14 @@
                 {% if team.season %}
                 <p><strong>{{ _('Season') }}:</strong> {{ team.season }}</p>
                 {% endif %}
+                {% if team.season_ref %}
+                <p><strong>{{ _('Linked Season') }}:</strong>
+                    <a href="{{ url_for('seasons.view', id=team.season_ref.id) }}">{{ team.season_ref.name }}</a>
+                    {% if team.season_ref.is_current %}
+                    <span class="badge bg-success">{{ _('Current') }}</span>
+                    {% endif %}
+                </p>
+                {% endif %}
                 <p><strong>{{ _('Athletes') }}:</strong> {{ team.get_athlete_count() }}</p>
                 <p><strong>{{ _('Created') }}:</strong> {{ team.created_at.strftime('%d/%m/%Y') }}</p>
             </div>
@@ -145,6 +153,48 @@
         </div>
     </div>
 </div>
+
+<!-- Upcoming Training Sessions -->
+{% if upcoming_sessions %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>{{ _('Upcoming Training Sessions') }}</h5>
+                <a href="{{ url_for('training.index', team_id=team.id) }}" class="btn btn-sm btn-outline-primary">{{ _('View All') }}</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Date') }}</th>
+                                <th>{{ _('Title') }}</th>
+                                <th>{{ _('Time') }}</th>
+                                <th>{{ _('Location') }}</th>
+                                <th>{{ _('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for session in upcoming_sessions %}
+                            <tr>
+                                <td>{{ session.date.strftime('%d/%m/%Y') }}</td>
+                                <td>{{ session.title }}</td>
+                                <td>{{ session.start_time.strftime('%H:%M') }} - {{ session.end_time.strftime('%H:%M') }}</td>
+                                <td>{{ session.location or '-' }}</td>
+                                <td>
+                                    <a href="{{ url_for('training.view', id=session.id) }}" class="btn btn-sm btn-outline-primary">{{ _('View') }}</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <!-- Athletes -->
 <div class="row">

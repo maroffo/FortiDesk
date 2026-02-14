@@ -14,6 +14,11 @@ class Attendance(db.Model):
     # Foreign keys
     athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.id'), nullable=False)
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    training_session_id = db.Column(db.Integer, db.ForeignKey('training_sessions.id'))
+
+    # Relationships for training session
+    training_session = db.relationship('TrainingSession',
+                                       backref=db.backref('attendance_records', lazy='dynamic'))
 
     # Attendance details
     date = db.Column(db.Date, nullable=False, index=True)
