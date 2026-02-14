@@ -1,4 +1,5 @@
 from datetime import datetime, date
+from flask_babel import gettext as _
 from app import db
 
 
@@ -50,32 +51,32 @@ class Equipment(db.Model):
     def get_category_display(self):
         """Return localized category display"""
         category_map = {
-            'ball': 'Ball',
-            'jersey': 'Jersey',
-            'protective': 'Protective Gear',
-            'training_aid': 'Training Aid',
-            'other': 'Other'
+            'ball': _('Ball'),
+            'jersey': _('Jersey'),
+            'protective': _('Protective Gear'),
+            'training_aid': _('Training Aid'),
+            'other': _('Other')
         }
         return category_map.get(self.category, self.category)
 
     def get_condition_display(self):
         """Return localized condition display"""
         condition_map = {
-            'new': 'New',
-            'good': 'Good',
-            'fair': 'Fair',
-            'poor': 'Poor',
-            'damaged': 'Damaged'
+            'new': _('New'),
+            'good': _('Good'),
+            'fair': _('Fair'),
+            'poor': _('Poor'),
+            'damaged': _('Damaged')
         }
         return condition_map.get(self.condition, self.condition)
 
     def get_status_display(self):
         """Return localized status display"""
         status_map = {
-            'available': 'Available',
-            'assigned': 'Assigned',
-            'maintenance': 'In Maintenance',
-            'retired': 'Retired'
+            'available': _('Available'),
+            'assigned': _('Assigned'),
+            'maintenance': _('In Maintenance'),
+            'retired': _('Retired')
         }
         return status_map.get(self.status, self.status)
 

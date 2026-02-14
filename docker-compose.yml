@@ -37,6 +37,7 @@ services:
         condition: service_healthy
     volumes:
       - ./app/static:/app/app/static:ro
+      - fortidesk_logs:/app/logs
     networks:
       - fortidesk_network
     healthcheck:
@@ -72,6 +73,8 @@ volumes:
   mysql_data:
     driver: local
   nginx_logs:
+    driver: local
+  fortidesk_logs:
     driver: local
 
 networks:

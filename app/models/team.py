@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask_babel import gettext as _
 from app import db
 
 
@@ -105,7 +106,7 @@ class TeamStaffAssignment(db.Model):
     def get_role_display(self):
         """Return localized role display"""
         role_map = {
-            'assistant_coach': 'Assistant Coach',
-            'escort': 'Escort/Accompanier'
+            'assistant_coach': _('Assistant Coach'),
+            'escort': _('Escort/Accompanier')
         }
         return role_map.get(self.role, self.role)

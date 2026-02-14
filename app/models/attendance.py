@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask_babel import gettext as _
 from app import db
 
 
@@ -41,18 +42,18 @@ class Attendance(db.Model):
     def get_status_display(self):
         """Return localized status display"""
         status_map = {
-            'present': 'Present',
-            'absent': 'Absent',
-            'excused': 'Excused',
-            'late': 'Late'
+            'present': _('Present'),
+            'absent': _('Absent'),
+            'excused': _('Excused'),
+            'late': _('Late')
         }
         return status_map.get(self.status, self.status)
 
     def get_session_type_display(self):
         """Return localized session type display"""
         type_map = {
-            'training': 'Training',
-            'match': 'Match',
-            'event': 'Event'
+            'training': _('Training'),
+            'match': _('Match'),
+            'event': _('Event')
         }
         return type_map.get(self.session_type, self.session_type)

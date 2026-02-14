@@ -30,7 +30,7 @@ def init_db():
         try:
             with app.app_context():
                 db.create_all()
-                print("Database tables created successfully!")
+                app.logger.info('Database tables created successfully')
 
                 # Add columns that create_all() won't add to existing tables
                 _apply_schema_updates()
@@ -48,7 +48,7 @@ def init_db():
                     )
                     admin_user.set_password('admin123')
                     db.session.add(admin_user)
-                    print("Created default admin user")
+                    app.logger.info('Created default admin user')
 
                 coach_user = User.query.filter_by(username='coach').first()
                 if not coach_user:
@@ -62,18 +62,18 @@ def init_db():
                     )
                     coach_user.set_password('coach123')
                     db.session.add(coach_user)
-                    print("Created default coach user")
+                    app.logger.info('Created default coach user')
 
                 db.session.commit()
-                print("Database initialized successfully!")
+                app.logger.info('Database initialized successfully')
                 break
         except Exception as e:
             retry_count += 1
-            print(f"Database connection failed (attempt {retry_count}/{max_retries}): {e}")
+            app.logger.warning(f'Database connection failed (attempt {retry_count}/{max_retries}): {e}')
             if retry_count < max_retries:
                 time.sleep(5)
             else:
-                print("Failed to connect to database after maximum retries")
+                app.logger.error('Failed to connect to database after maximum retries')
                 raise
 
 def _apply_schema_updates():
@@ -95,7 +95,7 @@ def _apply_schema_updates():
                 'ADD CONSTRAINT fk_athletes_team_id FOREIGN KEY (team_id) REFERENCES teams(id)'
             ))
             db.session.commit()
-            print("Added team_id column to athletes table")
+            app.logger.info('Added team_id column to athletes table')
 
 
 if __name__ == '__main__':

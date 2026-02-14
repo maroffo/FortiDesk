@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask_babel import gettext as _
 from app import db
 
 
@@ -73,13 +74,13 @@ class Staff(db.Model):
     def get_role_display(self):
         """Returns the formatted role name"""
         role_mapping = {
-            'coach': 'Coach',
-            'assistant_coach': 'Assistant Coach',
-            'escort': 'Escort',
-            'manager': 'Manager',
-            'president': 'President',
-            'vice_president': 'Vice President',
-            'secretary': 'Secretary'
+            'coach': _('Coach'),
+            'assistant_coach': _('Assistant Coach'),
+            'escort': _('Escort'),
+            'manager': _('Manager'),
+            'president': _('President'),
+            'vice_president': _('Vice President'),
+            'secretary': _('Secretary')
         }
         return role_mapping.get(self.role, self.role.replace('_', ' ').title())
 
