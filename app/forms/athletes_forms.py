@@ -36,7 +36,7 @@ class AthleteForm(FlaskForm):
 
     # Team
     team_id = SelectField(_l('Team'),
-                         coerce=int,
+                         coerce=lambda x: int(x) if x and str(x).strip() else None,
                          validators=[Optional()])
 
     # Address

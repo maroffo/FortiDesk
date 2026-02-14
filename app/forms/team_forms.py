@@ -11,7 +11,9 @@ class TeamForm(FlaskForm):
     description = TextAreaField(_l('Description'), validators=[Optional()])
     age_group = StringField(_l('Age Group'), validators=[Optional(), Length(max=50)])
     season = StringField(_l('Season'), validators=[Optional(), Length(max=20)])
-    head_coach_id = SelectField(_l('Head Coach'), coerce=int, validators=[Optional()])
+    head_coach_id = SelectField(_l('Head Coach'),
+                                coerce=lambda x: int(x) if x and str(x).strip() else None,
+                                validators=[Optional()])
     submit = SubmitField(_l('Save Team'))
 
 

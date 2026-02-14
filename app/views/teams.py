@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from flask_babel import gettext as _
+from sqlalchemy.orm import joinedload
 from app import db
 from app.models import Team, TeamStaffAssignment, Staff, Athlete
 from app.forms.team_forms import TeamForm, TeamStaffAssignmentForm
@@ -53,9 +54,13 @@ def view(id):
     team = Team.query.get_or_404(id)
     athletes = team.athletes.filter_by(is_active=True).order_by(Athlete.last_name, Athlete.first_name).all()
 
-    # Get staff assignments with their objects
-    assistant_assignments = team.staff_assignments.filter_by(role='assistant_coach', is_active=True).all()
-    escort_assignments = team.staff_assignments.filter_by(role='escort', is_active=True).all()
+    # Get staff assignments with eager-loaded staff to avoid N+1
+    assistant_assignments = TeamStaffAssignment.query.options(
+        joinedload(TeamStaffAssignment.staff)
+    ).filter_by(team_id=id, role='assistant_coach', is_active=True).all()
+    escort_assignments = TeamStaffAssignment.query.options(
+        joinedload(TeamStaffAssignment.staff)
+    ).filter_by(team_id=id, role='escort', is_active=True).all()
 
     return render_template('teams/view.html', team=team, athletes=athletes,
                            assistant_assignments=assistant_assignments,
@@ -119,33 +124,42 @@ def assign_staff(id):
     form.staff_id.choices = [(s.id, f'{s.get_full_name()} - {s.get_role_display()}') for s in staff_members]
 
     if form.validate_on_submit():
-        # Check if this assignment already exists
+        # Check if this assignment already exists (active or inactive)
         existing = TeamStaffAssignment.query.filter_by(
             team_id=id,
             staff_id=form.staff_id.data,
-            role=form.role.data,
-            is_active=True
+            role=form.role.data
         ).first()
 
-        if existing:
+        if existing and existing.is_active:
             flash(_('This staff member already has this role in this team.'), 'warning')
             return redirect(url_for('teams.view', id=id))
 
-        assignment = TeamStaffAssignment(
-            team_id=id,
-            staff_id=form.staff_id.data,
-            role=form.role.data,
-            assigned_date=form.assigned_date.data,
-            notes=form.notes.data,
-            assigned_by=current_user.id
-        )
-        db.session.add(assignment)
+        if existing and not existing.is_active:
+            # Reactivate the soft-deleted assignment
+            existing.is_active = True
+            existing.assigned_date = form.assigned_date.data
+            existing.notes = form.notes.data
+            existing.assigned_by = current_user.id
+            existing.updated_at = datetime.utcnow()
+        else:
+            assignment = TeamStaffAssignment(
+                team_id=id,
+                staff_id=form.staff_id.data,
+                role=form.role.data,
+                assigned_date=form.assigned_date.data,
+                notes=form.notes.data,
+                assigned_by=current_user.id
+            )
+            db.session.add(assignment)
+
         db.session.commit()
         flash(_('Staff assigned successfully.'), 'success')
         return redirect(url_for('teams.view', id=id))
 
-    # Set default date
-    form.assigned_date.data = date.today()
+    # Set default date only on GET (preserve user input on validation failure)
+    if request.method == 'GET':
+        form.assigned_date.data = date.today()
     return render_template('teams/assign_staff.html', form=form, team=team)
 
 

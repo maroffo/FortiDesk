@@ -32,6 +32,9 @@ def init_db():
                 db.create_all()
                 print("Database tables created successfully!")
 
+                # Add columns that create_all() won't add to existing tables
+                _apply_schema_updates()
+
                 # Create default users if they don't exist
                 admin_user = User.query.filter_by(username='admin').first()
                 if not admin_user:
@@ -72,6 +75,28 @@ def init_db():
             else:
                 print("Failed to connect to database after maximum retries")
                 raise
+
+def _apply_schema_updates():
+    """Add columns to existing tables that db.create_all() won't modify.
+
+    create_all() only creates new tables; it does not ALTER existing ones.
+    This function checks for missing columns and adds them manually.
+    """
+    from sqlalchemy import inspect, text
+    inspector = inspect(db.engine)
+
+    # athletes.team_id
+    if 'athletes' in inspector.get_table_names():
+        columns = [c['name'] for c in inspector.get_columns('athletes')]
+        if 'team_id' not in columns:
+            db.session.execute(text(
+                'ALTER TABLE athletes ADD COLUMN team_id INTEGER NULL, '
+                'ADD INDEX idx_athletes_team_id (team_id), '
+                'ADD CONSTRAINT fk_athletes_team_id FOREIGN KEY (team_id) REFERENCES teams(id)'
+            ))
+            db.session.commit()
+            print("Added team_id column to athletes table")
+
 
 if __name__ == '__main__':
     init_db()
