@@ -147,3 +147,15 @@ class AthleteForm(FlaskForm):
         """Validate that two guardians have different types if they are father/mother"""
         if field.data in ['father', 'mother'] and self.guardian1_type.data == field.data:
             raise ValidationError(_l('Cannot have two guardians of the same type'))
+
+    def validate_fir_id(self, field):
+        """Validate FIR ID uniqueness (excluding current athlete on edit)."""
+        if not field.data:
+            return
+        from app.models import Athlete
+        existing = Athlete.query.filter(
+            Athlete.fir_id == field.data.strip(),
+            Athlete.is_active.is_(True)
+        ).first()
+        if existing and (not self._athlete_id or existing.id != self._athlete_id):
+            raise ValidationError(_l('An athlete with this FIR ID already exists'))

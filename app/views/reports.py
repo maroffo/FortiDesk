@@ -193,7 +193,7 @@ def equipment_inventory():
             e.name, e.code,
             e.get_category_display(), e.get_condition_display(),
             e.get_status_display(),
-            e.location or '-', str(e.quantity or 1)
+            e.location or '-', str(e.quantity if e.quantity is not None else 1)
         ])
 
     fmt = request.args.get('format')

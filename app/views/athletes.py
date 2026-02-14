@@ -43,6 +43,7 @@ def new():
         return redirect(url_for('athletes.index'))
 
     form = AthleteForm()
+    form._athlete_id = None
 
     # Populate team choices
     teams = Team.query.filter_by(is_active=True).order_by(Team.name).all()
@@ -161,6 +162,7 @@ def edit(id):
         abort(404)
 
     form = AthleteForm(obj=athlete)
+    form._athlete_id = athlete.id
 
     # Populate team choices
     teams = Team.query.filter_by(is_active=True).order_by(Team.name).all()

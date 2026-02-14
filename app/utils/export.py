@@ -24,6 +24,7 @@ def export_csv(filename, headers, rows):
         Flask Response with CSV content
     """
     output = io.StringIO()
+    output.write('\ufeff')  # BOM for Excel compatibility
     writer = csv.writer(output)
     writer.writerow(headers)
     for row in rows:
