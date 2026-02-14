@@ -8,7 +8,7 @@ from sqlalchemy.orm import joinedload
 from app import db
 from app.models import Announcement, Team
 from app.forms.communication_forms import AnnouncementForm
-from app.utils.email import send_announcement
+from app.utils.email import send_announcement_background
 
 communications_bp = Blueprint('communications', __name__, url_prefix='/communications')
 
@@ -83,9 +83,8 @@ def new():
         db.session.commit()
 
         if form.send_email.data:
-            sent_count = send_announcement(announcement)
-            flash(_('Announcement created and email sent to %(count)d recipients.',
-                     count=sent_count), 'success')
+            send_announcement_background(announcement.id)
+            flash(_('Announcement created. Emails are being sent in the background.'), 'success')
         else:
             flash(_('Announcement created successfully.'), 'success')
 
@@ -131,9 +130,9 @@ def send(id):
         return redirect(url_for('communications.index'))
 
     announcement = Announcement.query.get_or_404(id)
-    sent_count = send_announcement(announcement)
     announcement.send_email = True
     db.session.commit()
 
-    flash(_('Email sent to %(count)d recipients.', count=sent_count), 'success')
+    send_announcement_background(announcement.id)
+    flash(_('Emails are being sent in the background.'), 'success')
     return redirect(url_for('communications.view', id=announcement.id))
