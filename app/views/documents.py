@@ -11,7 +11,7 @@ from flask_babel import gettext as _
 from app import db
 from app.models import Document, Athlete, Staff
 from app.forms.document_forms import DocumentUploadForm, DocumentSearchForm
-from app.utils.uploads import save_upload, delete_upload
+from app.utils.uploads import save_upload
 
 documents_bp = Blueprint('documents', __name__, url_prefix='/documents')
 
@@ -210,14 +210,13 @@ def download(id):
 @documents_bp.route('/<int:id>/delete', methods=['POST'])
 @login_required
 def delete(id):
-    """Soft delete a document and remove the file from disk."""
+    """Soft delete a document (file kept on disk for potential restoration)."""
     if not current_user.is_admin():
         flash(_('Permission denied.'), 'error')
         return redirect(url_for('documents.index'))
 
     document = Document.query.get_or_404(id)
     document.is_active = False
-    delete_upload(document.file_path)
     db.session.commit()
 
     flash(_('Document deleted.'), 'success')
