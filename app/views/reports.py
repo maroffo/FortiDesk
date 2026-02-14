@@ -6,8 +6,10 @@ from datetime import date, timedelta
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from flask_babel import gettext as _
+from sqlalchemy import func, case
 from sqlalchemy.orm import joinedload
 
+from app import db
 from app.models import (
     Athlete, Team, Season, Equipment, Attendance, Document, Insurance, Staff
 )
@@ -115,38 +117,50 @@ def attendance_summary():
         (str(s.id), s.name) for s in seasons
     ]
 
-    query = Attendance.query.filter_by(is_active=True).options(
-        joinedload(Attendance.athlete)
-    )
+    # Build stats with SQL aggregation (one row per athlete)
+    stats_query = db.session.query(
+        Attendance.athlete_id,
+        func.count(Attendance.id).label('total'),
+        func.sum(case((Attendance.status == 'present', 1), else_=0)).label('present'),
+        func.sum(case((Attendance.status == 'absent', 1), else_=0)).label('absent'),
+        func.sum(case((Attendance.status == 'excused', 1), else_=0)).label('excused'),
+        func.sum(case((Attendance.status == 'late', 1), else_=0)).label('late'),
+    ).filter(Attendance.is_active.is_(True))
 
     if form.team_id.data:
-        query = query.join(Athlete).filter(Athlete.team_id == form.team_id.data)
+        stats_query = stats_query.join(Athlete).filter(Athlete.team_id == form.team_id.data)
 
     if form.start_date.data:
-        query = query.filter(Attendance.date >= form.start_date.data)
+        stats_query = stats_query.filter(Attendance.date >= form.start_date.data)
     if form.end_date.data:
-        query = query.filter(Attendance.date <= form.end_date.data)
+        stats_query = stats_query.filter(Attendance.date <= form.end_date.data)
 
-    records = query.order_by(Attendance.date.desc()).all()
+    stats_query = stats_query.group_by(Attendance.athlete_id)
+    results = stats_query.all()
 
-    # Build per-athlete statistics
-    athlete_stats = {}
-    for r in records:
-        aid = r.athlete_id
-        if aid not in athlete_stats:
-            athlete_stats[aid] = {
-                'name': r.athlete.get_full_name() if r.athlete else _('Unknown'),
-                'total': 0, 'present': 0, 'absent': 0, 'excused': 0, 'late': 0
-            }
-        athlete_stats[aid]['total'] += 1
-        if r.status in athlete_stats[aid]:
-            athlete_stats[aid][r.status] += 1
+    # Resolve athlete names in a single query
+    athlete_ids = [r.athlete_id for r in results]
+    athlete_names = {}
+    if athlete_ids:
+        for a in Athlete.query.filter(Athlete.id.in_(athlete_ids)).all():
+            athlete_names[a.id] = a.get_full_name()
 
-    stats_list = sorted(athlete_stats.values(), key=lambda x: x['name'])
-    for s in stats_list:
-        s['presence_pct'] = (
-            round(s['present'] / s['total'] * 100, 1) if s['total'] > 0 else 0
-        )
+    total_records = 0
+    stats_list = []
+    for r in results:
+        total = int(r.total)
+        present = int(r.present)
+        total_records += total
+        stats_list.append({
+            'name': athlete_names.get(r.athlete_id, _('Unknown')),
+            'total': total,
+            'present': present,
+            'absent': int(r.absent),
+            'excused': int(r.excused),
+            'late': int(r.late),
+            'presence_pct': round(present / total * 100, 1) if total > 0 else 0,
+        })
+    stats_list.sort(key=lambda x: x['name'])
 
     headers = [
         _('Athlete'), _('Total'), _('Present'), _('Absent'),
@@ -168,7 +182,7 @@ def attendance_summary():
 
     return render_template('reports/attendance_summary.html',
                            form=form, stats=stats_list,
-                           total_records=len(records))
+                           total_records=total_records)
 
 
 @reports_bp.route('/equipment-inventory')

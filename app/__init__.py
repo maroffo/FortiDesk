@@ -5,12 +5,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_babel import Babel, lazy_gettext as _l
 from flask_mail import Mail
+from flask_wtf.csrf import CSRFProtect
 from config import config
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 babel = Babel()
 mail = Mail()
+csrf = CSRFProtect()
 
 def get_locale():
     """Determine the best locale based on user preference or browser settings"""
@@ -56,6 +58,9 @@ def create_app(config_name='default'):
 
     # Initialize Babel
     babel.init_app(app, locale_selector=get_locale)
+
+    # Initialize CSRF protection (provides csrf_token() template global)
+    csrf.init_app(app)
 
     # Initialize Flask-Mail
     mail.init_app(app)

@@ -44,6 +44,14 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
 
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+    WTF_CSRF_ENABLED = False
+    SERVER_NAME = 'localhost'
+    UPLOAD_FOLDER = '/tmp/fortidesk_test_uploads'
+
+
 class ProductionConfig(Config):
     DEBUG = False
     SESSION_COOKIE_SECURE = True
@@ -56,5 +64,6 @@ class ProductionConfig(Config):
 config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig,
+    'testing': TestingConfig,
     'default': DevelopmentConfig
 }

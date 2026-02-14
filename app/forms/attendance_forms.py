@@ -59,7 +59,9 @@ class AttendanceReportForm(FlaskForm):
     team_id = SelectField(_l('Team'),
                           coerce=lambda x: int(x) if x and str(x).strip() else None,
                           validators=[Optional()])
-    athlete_id = SelectField(_l('Athlete'), coerce=int, validators=[Optional()])
+    athlete_id = SelectField(_l('Athlete'),
+                              coerce=lambda x: int(x) if x and str(x).strip() else None,
+                              validators=[Optional()])
     start_date = DateField(_l('From Date'), validators=[Optional()])
     end_date = DateField(_l('To Date'), validators=[Optional()])
     session_type = SelectField(

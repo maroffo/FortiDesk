@@ -1,5 +1,7 @@
 # ABOUTME: Email utility functions for sending mail via Flask-Mail
-# ABOUTME: Handles individual emails, announcements, and expiry reminder batches
+# ABOUTME: Handles individual emails, announcements (async), and expiry reminder batches
+
+import threading
 
 from flask import current_app, render_template
 from flask_mail import Message
@@ -24,8 +26,28 @@ def send_email(subject, recipients, html_body, text_body=None):
         return False
 
 
-def send_announcement(announcement):
-    """Send announcement email to relevant guardians/staff.
+def send_announcement_background(announcement_id):
+    """Send announcement emails in a background thread.
+
+    Spawns a daemon thread so the HTTP response returns immediately.
+    The thread updates announcement.email_sent_at and recipient_count
+    when done (visible on page refresh).
+    """
+    app = current_app._get_current_object()
+
+    def _worker():
+        with app.app_context():
+            from app.models import Announcement
+            announcement = db.session.get(Announcement, announcement_id)
+            if announcement:
+                _send_announcement(announcement)
+
+    thread = threading.Thread(target=_worker, daemon=True)
+    thread.start()
+
+
+def _send_announcement(announcement):
+    """Send announcement email to relevant guardians/staff (internal).
 
     If announcement.team_id is set, only send to guardians of athletes in that team
     and staff assigned to that team. Otherwise, send to all active guardians and staff.
@@ -54,7 +76,7 @@ def send_announcement(announcement):
             if assignment.staff and assignment.staff.email and assignment.staff.is_active:
                 recipients.add(assignment.staff.email)
         # Head coach
-        team = Team.query.get(announcement.team_id)
+        team = db.session.get(Team, announcement.team_id)
         if team and team.head_coach and team.head_coach.email:
             recipients.add(team.head_coach.email)
     else:
@@ -71,7 +93,7 @@ def send_announcement(announcement):
 
     if not recipients:
         current_app.logger.info(f'No recipients for announcement #{announcement.id}')
-        return 0
+        return
 
     html_body = render_template('email/team_announcement.html',
                                 announcement=announcement)
@@ -98,7 +120,6 @@ def send_announcement(announcement):
     current_app.logger.info(
         f'Announcement #{announcement.id} sent to {sent_count}/{len(recipients)} recipients'
     )
-    return sent_count
 
 
 def send_expiry_reminders():
