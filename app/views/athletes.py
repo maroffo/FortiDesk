@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from flask_babel import gettext as _
 from app import db
 from sqlalchemy.orm import joinedload
-from app.models import Athlete, Guardian, Team, MatchLineup
+from app.models import Athlete, Guardian, Team, Match, MatchLineup
 from app.forms.athletes_forms import AthleteForm
 
 athletes_bp = Blueprint('athletes', __name__, url_prefix='/athletes')
@@ -124,12 +124,14 @@ def detail(id):
     if not athlete.is_active:
         abort(404)
 
-    # Get match history from lineups
-    match_lineups = MatchLineup.query.options(
+    # Get match history from lineups, ordered by match date descending
+    match_lineups = MatchLineup.query.join(
+        MatchLineup.match
+    ).options(
         joinedload(MatchLineup.match)
-    ).filter_by(athlete_id=id).all()
-    # Sort by match date descending
-    match_lineups.sort(key=lambda ml: ml.match.date, reverse=True)
+    ).filter(
+        MatchLineup.athlete_id == id
+    ).order_by(Match.date.desc()).all()
 
     return render_template('athletes/detail.html', athlete=athlete,
                            match_lineups=match_lineups)

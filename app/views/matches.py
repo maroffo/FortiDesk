@@ -222,15 +222,27 @@ def lineup(id):
         # Clear existing lineup
         MatchLineup.query.filter_by(match_id=id).delete()
 
+        # Build set of valid athlete IDs for this team
+        valid_athlete_ids = {a.id for a in athletes}
+
         selected_ids = request.form.getlist('athlete_ids')
         for athlete_id_str in selected_ids:
-            athlete_id = int(athlete_id_str)
+            try:
+                athlete_id = int(athlete_id_str)
+            except (ValueError, TypeError):
+                continue
+            if athlete_id not in valid_athlete_ids:
+                continue
             jersey_raw = request.form.get(f'jersey_{athlete_id}', '')
+            try:
+                jersey_number = int(jersey_raw) if jersey_raw.strip() else None
+            except (ValueError, TypeError):
+                jersey_number = None
             entry = MatchLineup(
                 match_id=id,
                 athlete_id=athlete_id,
                 position=request.form.get(f'position_{athlete_id}', ''),
-                jersey_number=int(jersey_raw) if jersey_raw.strip() else None,
+                jersey_number=jersey_number,
                 is_starter=f'starter_{athlete_id}' in request.form,
                 is_captain=f'captain_{athlete_id}' in request.form,
                 notes=request.form.get(f'notes_{athlete_id}', '')
