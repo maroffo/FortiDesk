@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Expiring Documents') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-6">
+        <h1>{{ _('Expiring Documents') }}</h1>
+    </div>
+    <div class="col-md-6 text-end">
+        <a href="{{ url_for('documents.index') }}" class="btn btn-secondary">{{ _('All Documents') }}</a>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('documents.expiring') }}">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label">{{ _('Expiring Within') }}</label>
+                    <select name="days" class="form-select">
+                        <option value="30" {% if selected_days == 30 %}selected{% endif %}>{{ _('30 days') }}</option>
+                        <option value="60" {% if selected_days == 60 %}selected{% endif %}>{{ _('60 days') }}</option>
+                        <option value="90" {% if selected_days == 90 %}selected{% endif %}>{{ _('90 days') }}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">{{ _('Entity Type') }}</label>
+                    <select name="entity_type" class="form-select">
+                        <option value="">{{ _('All') }}</option>
+                        <option value="athlete" {% if selected_entity_type == 'athlete' %}selected{% endif %}>{{ _('Athlete') }}</option>
+                        <option value="staff" {% if selected_entity_type == 'staff' %}selected{% endif %}>{{ _('Staff') }}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">{{ _('Filter') }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if documents %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ _('Title') }}</th>
+                        <th>{{ _('Type') }}</th>
+                        <th>{{ _('Entity') }}</th>
+                        <th>{{ _('Expiry Date') }}</th>
+                        <th>{{ _('Days Remaining') }}</th>
+                        <th>{{ _('Status') }}</th>
+                        <th>{{ _('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in documents %}
+                    <tr class="{% if doc.is_expired() %}table-danger{% elif doc.days_until_expiry() <= 14 %}table-warning{% endif %}">
+                        <td>{{ doc.title }}</td>
+                        <td>{{ doc.get_document_type_display() }}</td>
+                        <td>
+                            <span class="badge bg-{% if doc.entity_type == 'athlete' %}info{% else %}secondary{% endif %} me-1">{{ _(doc.entity_type.title()) }}</span>
+                            {{ entity_names[doc.id] }}
+                        </td>
+                        <td>{{ doc.expiry_date.strftime('%d/%m/%Y') }}</td>
+                        <td>
+                            {% set days_left = doc.days_until_expiry() %}
+                            {% if days_left < 0 %}
+                                {{ days_left }} {{ _('days') }}
+                            {% else %}
+                                {{ days_left }} {{ _('days') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if doc.is_expired() %}
+                                <span class="badge bg-danger">{{ _('Expired') }}</span>
+                            {% elif doc.days_until_expiry() <= 14 %}
+                                <span class="badge bg-warning text-dark">{{ _('Expiring Soon') }}</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">{{ _('Expiring') }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('documents.view', id=doc.id) }}" class="btn btn-sm btn-outline-primary">{{ _('View') }}</a>
+                            <a href="{{ url_for('documents.download', id=doc.id) }}" class="btn btn-sm btn-outline-success">{{ _('Download') }}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted">{{ _('No expiring documents found within the selected period.') }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

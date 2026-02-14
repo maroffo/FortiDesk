@@ -72,6 +72,7 @@ def create_app(config_name='default'):
     from app.views.training import training_bp
     from app.views.matches import matches_bp
     from app.views.calendar import calendar_bp
+    from app.views.documents import documents_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
@@ -85,6 +86,7 @@ def create_app(config_name='default'):
     app.register_blueprint(training_bp)
     app.register_blueprint(matches_bp)
     app.register_blueprint(calendar_bp)
+    app.register_blueprint(documents_bp)
 
     @app.errorhandler(404)
     def not_found_error(error):

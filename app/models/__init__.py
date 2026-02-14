@@ -8,5 +8,7 @@ from .team import Team as Team, TeamStaffAssignment as TeamStaffAssignment
 from .season import Season as Season
 from .training_session import TrainingSession as TrainingSession
 from .match import Match as Match, MatchLineup as MatchLineup
+from .document import Document as Document
+from .emergency_contact import EmergencyContact as EmergencyContact
 
-__all__ = ['User', 'Athlete', 'Guardian', 'Staff', 'Attendance', 'Equipment', 'EquipmentAssignment', 'Team', 'TeamStaffAssignment', 'Season', 'TrainingSession', 'Match', 'MatchLineup']
+__all__ = ['User', 'Athlete', 'Guardian', 'Staff', 'Attendance', 'Equipment', 'EquipmentAssignment', 'Team', 'TeamStaffAssignment', 'Season', 'TrainingSession', 'Match', 'MatchLineup', 'Document', 'EmergencyContact']

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Upload Document') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<h1>{{ _('Upload Document') }}</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.title.label(class="form-label") }}
+                    {{ form.title(class="form-control") }}
+                    {% for error in form.title.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.document_type.label(class="form-label") }}
+                    {{ form.document_type(class="form-select") }}
+                    {% for error in form.document_type.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.entity_type.label(class="form-label") }}
+                    {{ form.entity_type(class="form-select", id="entity_type") }}
+                    {% for error in form.entity_type.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.entity_id.label(class="form-label") }}
+                    {{ form.entity_id(class="form-select", id="entity_id") }}
+                    {% for error in form.entity_id.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.file.label(class="form-label") }}
+                    {{ form.file(class="form-control") }}
+                    <small class="form-text text-muted">{{ _('Allowed: PDF, PNG, JPG. Max 16 MB.') }}</small>
+                    {% for error in form.file.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.expiry_date.label(class="form-label") }}
+                    {{ form.expiry_date(class="form-control") }}
+                    {% for error in form.expiry_date.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                {{ form.notes.label(class="form-label") }}
+                {{ form.notes(class="form-control", rows=3) }}
+            </div>
+
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('documents.index') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var entityTypeSelect = document.getElementById('entity_type');
+    var entityIdSelect = document.getElementById('entity_id');
+
+    entityTypeSelect.addEventListener('change', function() {
+        var entityType = this.value;
+        entityIdSelect.innerHTML = '';
+
+        fetch('{{ url_for("documents.api_entities", entity_type="__TYPE__") }}'.replace('__TYPE__', entityType))
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                data.forEach(function(entity) {
+                    var option = document.createElement('option');
+                    option.value = entity.id;
+                    option.textContent = entity.name;
+                    entityIdSelect.appendChild(option);
+                });
+            });
+    });
+});
+</script>
+{% endblock %}

@@ -263,6 +263,64 @@
                 </div>
             </div>
 
+            <!-- Medical Information -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">{{ _('Medical Information') }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form.blood_type.label(class="form-label") }}
+                            {{ form.blood_type(class="form-control") }}
+                            {% if form.blood_type.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.blood_type.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-8 mb-3">
+                            {{ form.allergies.label(class="form-label") }}
+                            {{ form.allergies(class="form-control", rows="2") }}
+                            {% if form.allergies.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.allergies.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.medical_conditions.label(class="form-label") }}
+                        {{ form.medical_conditions(class="form-control", rows="2") }}
+                        {% if form.medical_conditions.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.medical_conditions.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.special_notes.label(class="form-label") }}
+                        {{ form.special_notes(class="form-control", rows="2") }}
+                        {% if form.special_notes.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.special_notes.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
             <!-- Guardian Data -->
             <div class="card mb-4">
                 <div class="card-header">

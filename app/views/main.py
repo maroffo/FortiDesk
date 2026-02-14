@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, redirect, url_for, session, request
 from flask_login import login_required, current_user
 from datetime import date, timedelta
-from app.models import Athlete, Staff, Team, Equipment, Attendance
+from app.models import Athlete, Staff, Team, Equipment, Attendance, Document
 
 main_bp = Blueprint('main', __name__)
 
@@ -29,37 +29,44 @@ def dashboard():
 
     # Expiry alerts: athletes
     athlete_doc_alerts = Athlete.query.filter(
-        Athlete.is_active == True,
+        Athlete.is_active == True,  # noqa: E712
         Athlete.document_expiry <= alert_threshold
     ).order_by(Athlete.document_expiry).all()
 
     athlete_cert_alerts = Athlete.query.filter(
-        Athlete.is_active == True,
-        Athlete.has_medical_certificate == True,
+        Athlete.is_active == True,  # noqa: E712
+        Athlete.has_medical_certificate == True,  # noqa: E712
         Athlete.certificate_expiry <= alert_threshold
     ).order_by(Athlete.certificate_expiry).all()
 
     # Expiry alerts: staff
     staff_doc_alerts = Staff.query.filter(
-        Staff.is_active == True,
+        Staff.is_active == True,  # noqa: E712
         Staff.document_expiry <= alert_threshold
     ).order_by(Staff.document_expiry).all()
 
     staff_cert_alerts = Staff.query.filter(
-        Staff.is_active == True,
-        Staff.has_medical_certificate == True,
+        Staff.is_active == True,  # noqa: E712
+        Staff.has_medical_certificate == True,  # noqa: E712
         Staff.certificate_expiry <= alert_threshold
     ).order_by(Staff.certificate_expiry).all()
 
     staff_bg_alerts = Staff.query.filter(
-        Staff.is_active == True,
-        Staff.has_background_check == True,
+        Staff.is_active == True,  # noqa: E712
+        Staff.has_background_check == True,  # noqa: E712
         Staff.background_check_expiry <= alert_threshold
     ).order_by(Staff.background_check_expiry).all()
 
+    # Expiry alerts: uploaded documents
+    document_expiry_alerts = Document.query.filter(
+        Document.is_active == True,  # noqa: E712
+        Document.expiry_date.isnot(None),
+        Document.expiry_date <= alert_threshold
+    ).order_by(Document.expiry_date).all()
+
     # Equipment needing maintenance
     equipment_maintenance = Equipment.query.filter(
-        Equipment.is_active == True,
+        Equipment.is_active == True,  # noqa: E712
         Equipment.next_maintenance_date <= today
     ).all()
 
@@ -83,6 +90,7 @@ def dashboard():
         staff_doc_alerts=staff_doc_alerts,
         staff_cert_alerts=staff_cert_alerts,
         staff_bg_alerts=staff_bg_alerts,
+        document_expiry_alerts=document_expiry_alerts,
         equipment_maintenance=equipment_maintenance,
         recent_athletes=recent_athletes,
         recent_attendance=recent_attendance,

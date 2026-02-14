@@ -29,7 +29,13 @@ class Athlete(db.Model):
     has_medical_certificate = db.Column(db.Boolean, default=False, nullable=False)
     certificate_type = db.Column(db.String(50), nullable=True)  # 'medical' or 'sports_booklet'
     certificate_expiry = db.Column(db.Date, nullable=True)
-    
+
+    # Medical info
+    allergies = db.Column(db.Text)
+    medical_conditions = db.Column(db.Text)
+    blood_type = db.Column(db.String(5))  # e.g. A+, B-, O+, AB+
+    special_notes = db.Column(db.Text)
+
     # Team assignment
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable=True, index=True)
 

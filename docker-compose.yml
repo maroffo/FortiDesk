@@ -38,6 +38,7 @@ services:
     volumes:
       - ./app/static:/app/app/static:ro
       - fortidesk_logs:/app/logs
+      - fortidesk_uploads:/app/uploads
     networks:
       - fortidesk_network
     healthcheck:
@@ -75,6 +76,8 @@ volumes:
   nginx_logs:
     driver: local
   fortidesk_logs:
+    driver: local
+  fortidesk_uploads:
     driver: local
 
 networks:

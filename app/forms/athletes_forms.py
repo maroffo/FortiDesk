@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, SelectField, BooleanField, SubmitField
+from wtforms import StringField, DateField, SelectField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, Regexp, Optional, ValidationError
 from flask_babel import lazy_gettext as _l
 from datetime import date
@@ -72,6 +72,16 @@ class AthleteForm(FlaskForm):
     certificate_expiry = DateField(_l('Certificate Expiry'),
                                     validators=[Optional()],
                                     format='%Y-%m-%d')
+
+    # Medical info
+    allergies = TextAreaField(_l('Allergies'), validators=[Optional(), Length(max=500)])
+    medical_conditions = TextAreaField(_l('Medical Conditions'), validators=[Optional(), Length(max=500)])
+    blood_type = SelectField(_l('Blood Type'),
+                             choices=[('', _l('-- Unknown --')), ('A+', 'A+'), ('A-', 'A-'),
+                                      ('B+', 'B+'), ('B-', 'B-'), ('AB+', 'AB+'), ('AB-', 'AB-'),
+                                      ('O+', 'O+'), ('O-', 'O-')],
+                             validators=[Optional()])
+    special_notes = TextAreaField(_l('Special Notes'), validators=[Optional(), Length(max=500)])
 
     # Guardians
     guardian1_first_name = StringField(_l('Guardian 1 First Name'),

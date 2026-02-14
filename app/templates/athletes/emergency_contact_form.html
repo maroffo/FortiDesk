@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if contact is defined and contact %}{{ _('Edit Emergency Contact') }}{% else %}{{ _('Add Emergency Contact') }}{% endif %} - {{ athlete.get_full_name() }} - FortiDesk
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>{% if contact is defined and contact %}{{ _('Edit Emergency Contact') }}{% else %}{{ _('Add Emergency Contact') }}{% endif %}</h1>
+            <a href="{{ url_for('athletes.detail', id=athlete.id) }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> {{ _('Back to Athlete') }}
+            </a>
+        </div>
+
+        <p class="text-muted mb-4">{{ _('Athlete') }}: <strong>{{ athlete.get_full_name() }}</strong></p>
+
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">{{ _('Contact Information') }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.contact_name.label(class="form-label") }}
+                            {{ form.contact_name(class="form-control") }}
+                            {% if form.contact_name.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.contact_name.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            {{ form.relationship.label(class="form-label") }}
+                            {{ form.relationship(class="form-control") }}
+                            {% if form.relationship.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.relationship.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.phone.label(class="form-label") }}
+                            {{ form.phone(class="form-control") }}
+                            {% if form.phone.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.phone.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            {{ form.email.label(class="form-label") }}
+                            {{ form.email(class="form-control") }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.email.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            {{ form.is_primary_doctor(class="form-check-input") }}
+                            {{ form.is_primary_doctor.label(class="form-check-label") }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.medical_notes.label(class="form-label") }}
+                        {{ form.medical_notes(class="form-control", rows="3") }}
+                        {% if form.medical_notes.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.medical_notes.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('athletes.detail', id=athlete.id) }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

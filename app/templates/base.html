@@ -27,6 +27,7 @@
                 <a class="nav-link" href="{{ url_for('training.index') }}">{{ _('Training') }}</a>
                 <a class="nav-link" href="{{ url_for('matches.index') }}">{{ _('Matches') }}</a>
                 <a class="nav-link" href="{{ url_for('calendar.index') }}">{{ _('Calendar') }}</a>
+                <a class="nav-link" href="{{ url_for('documents.index') }}">{{ _('Documents') }}</a>
                 {% if current_user.is_admin() %}
                 <a class="nav-link" href="{{ url_for('admin.users') }}">{{ _('Admin') }}</a>
                 {% endif %}
@@ -56,6 +57,7 @@
                         <li><a class="dropdown-item" href="{{ url_for('training.index') }}">{{ _('Training') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('matches.index') }}">{{ _('Matches') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('calendar.index') }}">{{ _('Calendar') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('documents.index') }}">{{ _('Documents') }}</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                     </ul>

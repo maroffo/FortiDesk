@@ -58,7 +58,7 @@
                 <h5 class="mb-0">{{ _('Expiry Alerts') }}</h5>
             </div>
             <div class="card-body">
-                {% set has_alerts = athlete_doc_alerts or athlete_cert_alerts or staff_doc_alerts or staff_cert_alerts or staff_bg_alerts or equipment_maintenance %}
+                {% set has_alerts = athlete_doc_alerts or athlete_cert_alerts or staff_doc_alerts or staff_cert_alerts or staff_bg_alerts or document_expiry_alerts or equipment_maintenance %}
                 {% if not has_alerts %}
                     <div class="alert alert-success mb-0">
                         {{ _('All clear! No expiring documents or pending maintenance.') }}
@@ -167,6 +167,29 @@
                                     <span class="badge bg-danger">{{ _('Expired') }} {{ member.background_check_expiry.strftime('%d/%m/%Y') }}</span>
                                 {% else %}
                                     <span class="badge bg-warning text-dark">{{ _('Expires') }} {{ member.background_check_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {# Uploaded Document Expiry Alerts #}
+                    {% if document_expiry_alerts %}
+                    <h6>{{ _('Uploaded Documents') }}</h6>
+                    <ul class="list-group mb-3">
+                        {% for doc in document_expiry_alerts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <a href="{{ url_for('documents.view', id=doc.id) }}">{{ doc.title }}</a>
+                                - {{ doc.get_document_type_display() }}
+                                ({{ doc.entity_type|title }})
+                            </span>
+                            <span>
+                                {% if doc.expiry_date < today %}
+                                    <span class="badge bg-danger">{{ _('Expired') }} {{ doc.expiry_date.strftime('%d/%m/%Y') }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{{ _('Expires') }} {{ doc.expiry_date.strftime('%d/%m/%Y') }}</span>
                                 {% endif %}
                             </span>
                         </li>

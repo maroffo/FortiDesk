@@ -233,6 +233,112 @@
     </div>
 </div>
 
+<!-- Medical Information -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Medical Information') }}</h5>
+            </div>
+            <div class="card-body">
+                {% if athlete.blood_type or athlete.allergies or athlete.medical_conditions or athlete.special_notes %}
+                <div class="row">
+                    {% if athlete.blood_type %}
+                    <div class="col-md-3 mb-2">
+                        <strong>{{ _('Blood Type') }}:</strong> {{ athlete.blood_type }}
+                    </div>
+                    {% endif %}
+                    {% if athlete.allergies %}
+                    <div class="col-md-9 mb-2">
+                        <strong>{{ _('Allergies') }}:</strong> {{ athlete.allergies }}
+                    </div>
+                    {% endif %}
+                    {% if athlete.medical_conditions %}
+                    <div class="col-12 mb-2">
+                        <strong>{{ _('Medical Conditions') }}:</strong> {{ athlete.medical_conditions }}
+                    </div>
+                    {% endif %}
+                    {% if athlete.special_notes %}
+                    <div class="col-12 mb-2">
+                        <strong>{{ _('Special Notes') }}:</strong> {{ athlete.special_notes }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">{{ _('No medical information recorded.') }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Emergency Contacts -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ _('Emergency Contacts') }}</h5>
+                {% if current_user.is_admin() or current_user.is_coach() %}
+                <a href="{{ url_for('athletes.add_emergency_contact', id=athlete.id) }}" class="btn btn-sm btn-outline-primary">{{ _('Add') }}</a>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% if emergency_contacts %}
+                <div class="row">
+                    {% for contact in emergency_contacts %}
+                    <div class="col-md-6 mb-3">
+                        <div class="border rounded p-3">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="text-primary">
+                                    {{ contact.contact_name }}
+                                    {% if contact.is_primary_doctor %}
+                                    <span class="badge bg-info">{{ _('Primary Doctor') }}</span>
+                                    {% endif %}
+                                </h6>
+                                {% if current_user.is_admin() or current_user.is_coach() %}
+                                <div>
+                                    <a href="{{ url_for('athletes.edit_emergency_contact', athlete_id=athlete.id, id=contact.id) }}" class="btn btn-sm btn-outline-primary">{{ _('Edit') }}</a>
+                                    <form method="POST" action="{{ url_for('athletes.delete_emergency_contact', athlete_id=athlete.id, id=contact.id) }}" class="d-inline" onsubmit="return confirm('{{ _('Remove this contact?') }}');">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">{{ _('Remove') }}</button>
+                                    </form>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <table class="table table-sm table-borderless mb-0">
+                                <tr>
+                                    <td><strong>{{ _('Relationship') }}:</strong></td>
+                                    <td>{{ contact.get_relationship_display() }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>{{ _('Phone') }}:</strong></td>
+                                    <td><a href="tel:{{ contact.phone }}">{{ contact.phone }}</a></td>
+                                </tr>
+                                {% if contact.email %}
+                                <tr>
+                                    <td><strong>{{ _('Email') }}:</strong></td>
+                                    <td><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></td>
+                                </tr>
+                                {% endif %}
+                                {% if contact.medical_notes %}
+                                <tr>
+                                    <td><strong>{{ _('Notes') }}:</strong></td>
+                                    <td>{{ contact.medical_notes }}</td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">{{ _('No emergency contacts registered.') }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Match History -->
 {% if match_lineups %}
 <div class="row">

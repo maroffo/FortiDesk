@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Documents') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-6">
+        <h1>{{ _('Documents') }}</h1>
+    </div>
+    <div class="col-md-6 text-end">
+        {% if current_user.is_admin() or current_user.is_coach() %}
+        <a href="{{ url_for('documents.upload') }}" class="btn btn-primary">{{ _('Upload Document') }}</a>
+        {% endif %}
+        <a href="{{ url_for('documents.expiring') }}" class="btn btn-warning">{{ _('Expiring Documents') }}</a>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('documents.index') }}">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-3">
+                    {{ form.document_type.label(class="form-label") }}
+                    {{ form.document_type(class="form-select") }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.entity_type.label(class="form-label") }}
+                    {{ form.entity_type(class="form-select") }}
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">{{ _('Search') }}</label>
+                    <input type="text" name="search" class="form-control" value="{{ search }}" placeholder="{{ _('Title or filename...') }}">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">{{ _('Filter') }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if documents %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ _('Title') }}</th>
+                        <th>{{ _('Type') }}</th>
+                        <th>{{ _('Entity') }}</th>
+                        <th>{{ _('Expiry') }}</th>
+                        <th>{{ _('Status') }}</th>
+                        <th>{{ _('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in documents %}
+                    <tr>
+                        <td>{{ doc.title }}</td>
+                        <td>{{ doc.get_document_type_display() }}</td>
+                        <td>
+                            <span class="badge bg-{% if doc.entity_type == 'athlete' %}info{% else %}secondary{% endif %} me-1">{{ _(doc.entity_type.title()) }}</span>
+                            {{ entity_names[doc.id] }}
+                        </td>
+                        <td>{{ doc.expiry_date.strftime('%d/%m/%Y') if doc.expiry_date else '-' }}</td>
+                        <td>
+                            {% if doc.expiry_date %}
+                                {% if doc.is_expired() %}
+                                    <span class="badge bg-danger">{{ _('Expired') }}</span>
+                                {% elif doc.days_until_expiry() <= 30 %}
+                                    <span class="badge bg-warning text-dark">{{ _('Expiring') }}</span>
+                                {% else %}
+                                    <span class="badge bg-success">{{ _('Valid') }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="badge bg-secondary">{{ _('No Expiry') }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('documents.view', id=doc.id) }}" class="btn btn-sm btn-outline-primary">{{ _('View') }}</a>
+                            <a href="{{ url_for('documents.download', id=doc.id) }}" class="btn btn-sm btn-outline-success">{{ _('Download') }}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if pagination.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('documents.index', page=pagination.prev_num, document_type=form.document_type.data, entity_type=form.entity_type.data, search=search) }}">{{ _('Previous') }}</a>
+                </li>
+                {% for page_num in pagination.iter_pages() %}
+                    {% if page_num %}
+                        <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('documents.index', page=page_num, document_type=form.document_type.data, entity_type=form.entity_type.data, search=search) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('documents.index', page=pagination.next_num, document_type=form.document_type.data, entity_type=form.entity_type.data, search=search) }}">{{ _('Next') }}</a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <p class="text-muted">{{ _('No documents found.') }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

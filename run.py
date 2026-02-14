@@ -3,7 +3,8 @@ import time
 from app import create_app, db
 from app.models import (User, Athlete, Guardian, Staff, Team, TeamStaffAssignment,
                         Attendance, Equipment, EquipmentAssignment,
-                        Season, TrainingSession, Match, MatchLineup)
+                        Season, TrainingSession, Match, MatchLineup,
+                        Document, EmergencyContact)
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -23,7 +24,9 @@ def make_shell_context():
         'Season': Season,
         'TrainingSession': TrainingSession,
         'Match': Match,
-        'MatchLineup': MatchLineup
+        'MatchLineup': MatchLineup,
+        'Document': Document,
+        'EmergencyContact': EmergencyContact
     }
 
 def init_db():
@@ -121,6 +124,23 @@ def _apply_schema_updates():
             ))
             db.session.commit()
             app.logger.info('Added training_session_id column to attendance table')
+
+    # athletes medical fields (allergies, medical_conditions, blood_type, special_notes)
+    if 'athletes' in inspector.get_table_names():
+        columns = [c['name'] for c in inspector.get_columns('athletes')]
+        medical_columns = {
+            'allergies': 'TEXT',
+            'medical_conditions': 'TEXT',
+            'blood_type': 'VARCHAR(5)',
+            'special_notes': 'TEXT',
+        }
+        for col_name, col_type in medical_columns.items():
+            if col_name not in columns:
+                db.session.execute(text(
+                    f'ALTER TABLE athletes ADD COLUMN {col_name} {col_type} NULL'
+                ))
+                db.session.commit()
+                app.logger.info(f'Added {col_name} column to athletes table')
 
 
 if __name__ == '__main__':
