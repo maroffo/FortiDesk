@@ -3,6 +3,7 @@
 
 from flask import current_app, render_template
 from flask_mail import Message
+from sqlalchemy.orm import joinedload
 from app import mail, db
 
 
@@ -36,7 +37,9 @@ def send_announcement(announcement):
 
     if announcement.team_id:
         # Guardians of team athletes
-        athletes = Athlete.query.filter_by(
+        athletes = Athlete.query.options(
+            joinedload(Athlete.guardians)
+        ).filter_by(
             team_id=announcement.team_id, is_active=True
         ).all()
         for athlete in athletes:
@@ -55,7 +58,7 @@ def send_announcement(announcement):
         if team and team.head_coach and team.head_coach.email:
             recipients.add(team.head_coach.email)
     else:
-        # All guardians
+        # All active guardians
         guardians = Guardian.query.filter_by(is_active=True).all()
         for g in guardians:
             if g.email:
@@ -73,9 +76,20 @@ def send_announcement(announcement):
     html_body = render_template('email/team_announcement.html',
                                 announcement=announcement)
     sent_count = 0
-    for recipient in recipients:
-        if send_email(announcement.subject, [recipient], html_body):
-            sent_count += 1
+    with mail.connect() as conn:
+        for recipient in recipients:
+            msg = Message(
+                subject=announcement.subject,
+                recipients=[recipient],
+                html=html_body,
+                body='',
+                sender=current_app.config.get('MAIL_DEFAULT_SENDER')
+            )
+            try:
+                conn.send(msg)
+                sent_count += 1
+            except Exception as e:
+                current_app.logger.error(f'Failed to send email to {recipient}: {e}')
 
     announcement.email_sent_at = datetime.utcnow()
     announcement.recipient_count = sent_count
@@ -110,36 +124,47 @@ def send_expiry_reminders():
         return 0
 
     sent_count = 0
-    for doc in expiring_docs:
-        recipients = []
-        entity_name = ''
+    with mail.connect() as conn:
+        for doc in expiring_docs:
+            recipients = []
+            entity_name = ''
 
-        if doc.entity_type == 'athlete':
-            athlete = Athlete.query.get(doc.entity_id)
-            if athlete and athlete.is_active:
-                entity_name = athlete.get_full_name()
-                for guardian in athlete.guardians:
-                    if guardian.email and guardian.is_active:
-                        recipients.append(guardian.email)
-        elif doc.entity_type == 'staff':
-            staff = Staff.query.get(doc.entity_id)
-            if staff and staff.is_active and staff.email:
-                entity_name = staff.get_full_name()
-                recipients.append(staff.email)
+            if doc.entity_type == 'athlete':
+                athlete = Athlete.query.options(
+                    joinedload(Athlete.guardians)
+                ).get(doc.entity_id)
+                if athlete and athlete.is_active:
+                    entity_name = athlete.get_full_name()
+                    for guardian in athlete.guardians:
+                        if guardian.email and guardian.is_active:
+                            recipients.append(guardian.email)
+            elif doc.entity_type == 'staff':
+                staff = Staff.query.get(doc.entity_id)
+                if staff and staff.is_active and staff.email:
+                    entity_name = staff.get_full_name()
+                    recipients.append(staff.email)
 
-        if recipients:
-            html_body = render_template('email/expiry_reminder.html',
-                                        document=doc,
-                                        entity_name=entity_name)
-            for recipient in recipients:
-                if send_email(
-                    f'Document Expiry Reminder: {doc.title}',
-                    [recipient],
-                    html_body
-                ):
-                    sent_count += 1
+            if recipients:
+                html_body = render_template('email/expiry_reminder.html',
+                                            document=doc,
+                                            entity_name=entity_name)
+                for recipient in recipients:
+                    msg = Message(
+                        subject=f'Document Expiry Reminder: {doc.title}',
+                        recipients=[recipient],
+                        html=html_body,
+                        body='',
+                        sender=current_app.config.get('MAIL_DEFAULT_SENDER')
+                    )
+                    try:
+                        conn.send(msg)
+                        sent_count += 1
+                    except Exception as e:
+                        current_app.logger.error(
+                            f'Failed to send reminder to {recipient}: {e}'
+                        )
 
-            doc.reminder_sent = True
+                doc.reminder_sent = True
 
     db.session.commit()
     current_app.logger.info(f'Sent {sent_count} expiry reminder emails')
