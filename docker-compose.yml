@@ -32,6 +32,12 @@ services:
       FLASK_ENV: production
       DATABASE_URL: mysql+pymysql://${MYSQL_USER:-fortidesk}:${MYSQL_PASSWORD:-fortidesk123}@db:3306/${MYSQL_DATABASE:-fortidesk}
       SECRET_KEY: ${SECRET_KEY:-dev-secret-key-change-in-production}
+      MAIL_SERVER: ${MAIL_SERVER:-localhost}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USE_TLS: ${MAIL_USE_TLS:-true}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_DEFAULT_SENDER: ${MAIL_DEFAULT_SENDER:-noreply@fortitudo1901.it}
     depends_on:
       db:
         condition: service_healthy

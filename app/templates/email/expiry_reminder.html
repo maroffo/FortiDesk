@@ -1,0 +1,31 @@
+{% extends "email/base.html" %}
+{% block content %}
+<h2>{{ _('Document Expiry Reminder') }}</h2>
+<p>{{ _('The following document is expiring soon:') }}</p>
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd;"><strong>{{ _('Document') }}</strong></td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ document.title }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd;"><strong>{{ _('Type') }}</strong></td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ document.get_document_type_display() }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd;"><strong>{{ _('For') }}</strong></td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ entity_name }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd;"><strong>{{ _('Expiry Date') }}</strong></td>
+        <td style="padding: 8px; border: 1px solid #ddd;">
+            {{ document.expiry_date.strftime('%d/%m/%Y') }}
+            {% if document.is_expired() %}
+            <span class="badge-danger">{{ _('Expired') }}</span>
+            {% elif document.days_until_expiry() <= 30 %}
+            <span class="badge-warning">{{ _('Expiring Soon') }}</span>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<p>{{ _('Please ensure this document is renewed before the expiry date.') }}</p>
+{% endblock %}

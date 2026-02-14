@@ -4,11 +4,13 @@ from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_babel import Babel, lazy_gettext as _l
+from flask_mail import Mail
 from config import config
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 babel = Babel()
+mail = Mail()
 
 def get_locale():
     """Determine the best locale based on user preference or browser settings"""
@@ -55,6 +57,9 @@ def create_app(config_name='default'):
     # Initialize Babel
     babel.init_app(app, locale_selector=get_locale)
 
+    # Initialize Flask-Mail
+    mail.init_app(app)
+
     # Call init_app if the config class defines it (e.g. production safety checks)
     config_class = config[config_name]
     if hasattr(config_class, 'init_app'):
@@ -73,6 +78,7 @@ def create_app(config_name='default'):
     from app.views.matches import matches_bp
     from app.views.calendar import calendar_bp
     from app.views.documents import documents_bp
+    from app.views.communications import communications_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
@@ -87,6 +93,11 @@ def create_app(config_name='default'):
     app.register_blueprint(matches_bp)
     app.register_blueprint(calendar_bp)
     app.register_blueprint(documents_bp)
+    app.register_blueprint(communications_bp)
+
+    # Register CLI commands
+    from app.cli import register_commands
+    register_commands(app)
 
     @app.errorhandler(404)
     def not_found_error(error):

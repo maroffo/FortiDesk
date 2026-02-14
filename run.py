@@ -4,7 +4,7 @@ from app import create_app, db
 from app.models import (User, Athlete, Guardian, Staff, Team, TeamStaffAssignment,
                         Attendance, Equipment, EquipmentAssignment,
                         Season, TrainingSession, Match, MatchLineup,
-                        Document, EmergencyContact)
+                        Document, EmergencyContact, Announcement)
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -26,7 +26,8 @@ def make_shell_context():
         'Match': Match,
         'MatchLineup': MatchLineup,
         'Document': Document,
-        'EmergencyContact': EmergencyContact
+        'EmergencyContact': EmergencyContact,
+        'Announcement': Announcement
     }
 
 def init_db():
