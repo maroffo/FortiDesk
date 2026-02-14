@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Teams') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ _('Teams') }}</h1>
+    {% if current_user.is_admin() or current_user.is_coach() %}
+    <a href="{{ url_for('teams.new') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> {{ _('New Team') }}
+    </a>
+    {% endif %}
+</div>
+
+<!-- Teams list -->
+<div class="row">
+    {% if teams %}
+        {% for team in teams %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ team.name }}</h5>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            {% if team.age_group %}
+                            <strong>{{ _('Age Group') }}:</strong> {{ team.age_group }}<br>
+                            {% endif %}
+                            {% if team.season %}
+                            <strong>{{ _('Season') }}:</strong> {{ team.season }}<br>
+                            {% endif %}
+                            {% if team.head_coach %}
+                            <strong>{{ _('Head Coach') }}:</strong> {{ team.head_coach.get_full_name() }}<br>
+                            {% endif %}
+                            <strong>{{ _('Athletes') }}:</strong> {{ team.get_athlete_count() }}
+                        </small>
+                    </p>
+
+                    {% if team.description %}
+                    <p class="card-text">{{ team.description[:100] }}{% if team.description|length > 100 %}...{% endif %}</p>
+                    {% endif %}
+
+                    <a href="{{ url_for('teams.view', id=team.id) }}" class="btn btn-outline-primary btn-sm">
+                        {{ _('View Details') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <h4>{{ _('No teams found') }}</h4>
+                <p>{{ _('There are no teams registered.') }}</p>
+                {% if current_user.is_admin() or current_user.is_coach() %}
+                <a href="{{ url_for('teams.new') }}" class="btn btn-primary">{{ _('Add the first team') }}</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Statistics -->
+{% if teams %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-light">
+            <strong>{{ _('Total teams') }}:</strong> {{ teams|length }}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

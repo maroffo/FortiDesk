@@ -4,5 +4,13 @@ from .guardian import Guardian as Guardian
 from .staff import Staff as Staff
 from .attendance import Attendance as Attendance
 from .equipment import Equipment as Equipment, EquipmentAssignment as EquipmentAssignment
+from .team import Team as Team, TeamStaffAssignment as TeamStaffAssignment
+from .season import Season as Season
+from .training_session import TrainingSession as TrainingSession
+from .match import Match as Match, MatchLineup as MatchLineup
+from .document import Document as Document
+from .emergency_contact import EmergencyContact as EmergencyContact
+from .announcement import Announcement as Announcement
+from .insurance import Insurance as Insurance
 
-__all__ = ['User', 'Athlete', 'Guardian', 'Staff', 'Attendance', 'Equipment', 'EquipmentAssignment']
+__all__ = ['User', 'Athlete', 'Guardian', 'Staff', 'Attendance', 'Equipment', 'EquipmentAssignment', 'Team', 'TeamStaffAssignment', 'Season', 'TrainingSession', 'Match', 'MatchLineup', 'Document', 'EmergencyContact', 'Announcement', 'Insurance']

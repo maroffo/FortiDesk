@@ -12,7 +12,8 @@ class Athlete(db.Model):
     birth_date = db.Column(db.Date, nullable=False)
     birth_place = db.Column(db.String(100), nullable=False)
     fiscal_code = db.Column(db.String(16), unique=True, nullable=False, index=True)
-    
+    fir_id = db.Column(db.String(20), unique=True, nullable=True, index=True)
+
     # Residential address
     street_address = db.Column(db.String(200), nullable=False)
     street_number = db.Column(db.String(10), nullable=False)
@@ -29,16 +30,26 @@ class Athlete(db.Model):
     has_medical_certificate = db.Column(db.Boolean, default=False, nullable=False)
     certificate_type = db.Column(db.String(50), nullable=True)  # 'medical' or 'sports_booklet'
     certificate_expiry = db.Column(db.Date, nullable=True)
-    
+
+    # Medical info
+    allergies = db.Column(db.Text)
+    medical_conditions = db.Column(db.Text)
+    blood_type = db.Column(db.String(5))  # e.g. A+, B-, O+, AB+
+    special_notes = db.Column(db.Text)
+
+    # Team assignment
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable=True, index=True)
+
     # Metadata
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     is_active = db.Column(db.Boolean, default=True, nullable=False)
-    
+
     # Relationships
     guardians = db.relationship('Guardian', backref='athlete', lazy=True, cascade='all, delete-orphan')
     created_by_user = db.relationship('User', backref='athletes_created')
+    # team relationship defined in Team model
     
     def get_full_name(self):
         """Returns the full name"""

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Edit Team') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>{{ _('Edit Team: %(name)s', name=team.name) }}</h1>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('teams.edit', id=team.id) }}">
+                    {{ form.hidden_tag() }}
+
+                    <!-- Team Name -->
+                    <div class="mb-3">
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                        {% if form.name.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        {{ form.description(class="form-control", rows=3) }}
+                    </div>
+
+                    <!-- Age Group -->
+                    <div class="mb-3">
+                        {{ form.age_group.label(class="form-label") }}
+                        {{ form.age_group(class="form-control") }}
+                        <div class="form-text">{{ _('e.g., U6, U8, U10, U12, etc.') }}</div>
+                    </div>
+
+                    <!-- Season -->
+                    <div class="mb-3">
+                        {{ form.season.label(class="form-label") }}
+                        {{ form.season(class="form-control") }}
+                        <div class="form-text">{{ _('e.g., 2024-2025') }}</div>
+                    </div>
+
+                    <!-- Season (linked) -->
+                    <div class="mb-3">
+                        {{ form.season_id.label(class="form-label") }}
+                        {{ form.season_id(class="form-control") }}
+                    </div>
+
+                    <!-- Head Coach -->
+                    <div class="mb-3">
+                        {{ form.head_coach_id.label(class="form-label") }}
+                        {{ form.head_coach_id(class="form-control") }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('teams.view', id=team.id) }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

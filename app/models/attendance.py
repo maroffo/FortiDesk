@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask_babel import gettext as _
 from app import db
 
 
@@ -13,6 +14,11 @@ class Attendance(db.Model):
     # Foreign keys
     athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.id'), nullable=False)
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    training_session_id = db.Column(db.Integer, db.ForeignKey('training_sessions.id'))
+
+    # Relationships for training session
+    training_session = db.relationship('TrainingSession',
+                                       backref=db.backref('attendance_records', lazy='dynamic'))
 
     # Attendance details
     date = db.Column(db.Date, nullable=False, index=True)
@@ -41,18 +47,18 @@ class Attendance(db.Model):
     def get_status_display(self):
         """Return localized status display"""
         status_map = {
-            'present': 'Present',
-            'absent': 'Absent',
-            'excused': 'Excused',
-            'late': 'Late'
+            'present': _('Present'),
+            'absent': _('Absent'),
+            'excused': _('Excused'),
+            'late': _('Late')
         }
         return status_map.get(self.status, self.status)
 
     def get_session_type_display(self):
         """Return localized session type display"""
         type_map = {
-            'training': 'Training',
-            'match': 'Match',
-            'event': 'Event'
+            'training': _('Training'),
+            'match': _('Match'),
+            'event': _('Event')
         }
         return type_map.get(self.session_type, self.session_type)

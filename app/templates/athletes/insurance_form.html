@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if insurance is defined and insurance %}{{ _('Edit Insurance') }}{% else %}{{ _('Add Insurance') }}{% endif %} - {{ athlete.get_full_name() }} - FortiDesk
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>{% if insurance is defined and insurance %}{{ _('Edit Insurance Policy') }}{% else %}{{ _('Add Insurance Policy') }}{% endif %}</h1>
+            <a href="{{ url_for('athletes.detail', id=athlete.id) }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> {{ _('Back to Athlete') }}
+            </a>
+        </div>
+
+        <p class="text-muted mb-4">{{ _('Athlete') }}: <strong>{{ athlete.get_full_name() }}</strong></p>
+
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">{{ _('Policy Details') }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.policy_number.label(class="form-label") }}
+                            {{ form.policy_number(class="form-control") }}
+                            {% if form.policy_number.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.policy_number.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            {{ form.provider.label(class="form-label") }}
+                            {{ form.provider(class="form-control") }}
+                            {% if form.provider.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.provider.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form.insurance_type.label(class="form-label") }}
+                            {{ form.insurance_type(class="form-select") }}
+                            {% if form.insurance_type.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.insurance_type.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form.start_date.label(class="form-label") }}
+                            {{ form.start_date(class="form-control", type="date") }}
+                            {% if form.start_date.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.start_date.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form.end_date.label(class="form-label") }}
+                            {{ form.end_date(class="form-control", type="date") }}
+                            {% if form.end_date.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.end_date.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.coverage_amount.label(class="form-label") }}
+                            {{ form.coverage_amount(class="form-control", placeholder="0.00") }}
+                            {% if form.coverage_amount.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.coverage_amount.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            {{ form.premium_amount.label(class="form-label") }}
+                            {{ form.premium_amount(class="form-control", placeholder="0.00") }}
+                            {% if form.premium_amount.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.premium_amount.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.notes.label(class="form-label") }}
+                        {{ form.notes(class="form-control", rows="3") }}
+                        {% if form.notes.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.notes.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('athletes.detail', id=athlete.id) }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

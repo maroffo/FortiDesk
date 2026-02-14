@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Attendance Summary') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1>{{ _('Attendance Summary Report') }}</h1>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row align-items-end">
+            <div class="col-md-3">
+                <label class="form-label">{{ form.team_id.label }}</label>
+                {{ form.team_id(class="form-select") }}
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">{{ form.start_date.label }}</label>
+                {{ form.start_date(class="form-control", type="date") }}
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">{{ form.end_date.label }}</label>
+                {{ form.end_date(class="form-control", type="date") }}
+            </div>
+            <div class="col-md-2">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if stats %}
+<div class="mb-3">
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=csv" class="btn btn-sm btn-outline-success">{{ _('Export CSV') }}</a>
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=pdf" class="btn btn-sm btn-outline-danger">{{ _('Export PDF') }}</a>
+    <span class="text-muted ms-2">{{ total_records }} {{ _('records') }}, {{ stats|length }} {{ _('athletes') }}</span>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ _('Athlete') }}</th>
+                <th>{{ _('Total') }}</th>
+                <th>{{ _('Present') }}</th>
+                <th>{{ _('Absent') }}</th>
+                <th>{{ _('Excused') }}</th>
+                <th>{{ _('Late') }}</th>
+                <th>{{ _('Presence %') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in stats %}
+            <tr>
+                <td>{{ s.name }}</td>
+                <td>{{ s.total }}</td>
+                <td>{{ s.present }}</td>
+                <td>{{ s.absent }}</td>
+                <td>{{ s.excused }}</td>
+                <td>{{ s.late }}</td>
+                <td>
+                    {% if s.presence_pct >= 80 %}
+                        <span class="badge bg-success">{{ s.presence_pct }}%</span>
+                    {% elif s.presence_pct >= 50 %}
+                        <span class="badge bg-warning text-dark">{{ s.presence_pct }}%</span>
+                    {% else %}
+                        <span class="badge bg-danger">{{ s.presence_pct }}%</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">{{ _('No attendance records found matching the selected filters.') }}</div>
+{% endif %}
+{% endblock %}

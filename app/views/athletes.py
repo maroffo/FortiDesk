@@ -3,8 +3,11 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import login_required, current_user
 from flask_babel import gettext as _
 from app import db
-from app.models import Athlete, Guardian
+from sqlalchemy.orm import joinedload
+from app.models import Athlete, Guardian, Team, Match, MatchLineup, EmergencyContact, Insurance
 from app.forms.athletes_forms import AthleteForm
+from app.forms.emergency_contact_forms import EmergencyContactForm
+from app.forms.insurance_forms import InsuranceForm
 
 athletes_bp = Blueprint('athletes', __name__, url_prefix='/athletes')
 
@@ -40,7 +43,12 @@ def new():
         return redirect(url_for('athletes.index'))
 
     form = AthleteForm()
-    
+    form._athlete_id = None
+
+    # Populate team choices
+    teams = Team.query.filter_by(is_active=True).order_by(Team.name).all()
+    form.team_id.choices = [('', _('-- No Team --'))] + [(t.id, t.name) for t in teams]
+
     if form.validate_on_submit():
         try:
             # Check if fiscal code already exists
@@ -59,6 +67,8 @@ def new():
                 birth_date=form.birth_date.data,
                 birth_place=form.birth_place.data.strip().title(),
                 fiscal_code=form.fiscal_code.data.upper(),
+                fir_id=form.fir_id.data.strip() if form.fir_id.data else None,
+                team_id=form.team_id.data if form.team_id.data else None,
                 street_address=form.street_address.data.strip(),
                 street_number=form.street_number.data.strip(),
                 postal_code=form.postal_code.data.strip(),
@@ -70,6 +80,10 @@ def new():
                 has_medical_certificate=form.has_medical_certificate.data,
                 certificate_type=form.certificate_type.data if form.has_medical_certificate.data else None,
                 certificate_expiry=form.certificate_expiry.data if form.has_medical_certificate.data else None,
+                allergies=form.allergies.data,
+                medical_conditions=form.medical_conditions.data,
+                blood_type=form.blood_type.data if form.blood_type.data else None,
+                special_notes=form.special_notes.data,
                 created_by=current_user.id
             )
 
@@ -118,7 +132,22 @@ def detail(id):
     if not athlete.is_active:
         abort(404)
 
-    return render_template('athletes/detail.html', athlete=athlete)
+    # Get match history from lineups, ordered by match date descending
+    match_lineups = MatchLineup.query.join(
+        MatchLineup.match
+    ).options(
+        joinedload(MatchLineup.match)
+    ).filter(
+        MatchLineup.athlete_id == id
+    ).order_by(Match.date.desc()).all()
+
+    emergency_contacts = EmergencyContact.query.filter_by(
+        athlete_id=id, is_active=True
+    ).all()
+
+    return render_template('athletes/detail.html', athlete=athlete,
+                           match_lineups=match_lineups,
+                           emergency_contacts=emergency_contacts)
 
 @athletes_bp.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -133,6 +162,11 @@ def edit(id):
         abort(404)
 
     form = AthleteForm(obj=athlete)
+    form._athlete_id = athlete.id
+
+    # Populate team choices
+    teams = Team.query.filter_by(is_active=True).order_by(Team.name).all()
+    form.team_id.choices = [('', _('-- No Team --'))] + [(t.id, t.name) for t in teams]
 
     # Populate guardian data in form
     guardians = athlete.guardians
@@ -168,6 +202,8 @@ def edit(id):
             athlete.birth_date = form.birth_date.data
             athlete.birth_place = form.birth_place.data.strip().title()
             athlete.fiscal_code = form.fiscal_code.data.upper()
+            athlete.fir_id = form.fir_id.data.strip() if form.fir_id.data else None
+            athlete.team_id = form.team_id.data if form.team_id.data else None
             athlete.street_address = form.street_address.data.strip()
             athlete.street_number = form.street_number.data.strip()
             athlete.postal_code = form.postal_code.data.strip()
@@ -179,6 +215,10 @@ def edit(id):
             athlete.has_medical_certificate = form.has_medical_certificate.data
             athlete.certificate_type = form.certificate_type.data if form.has_medical_certificate.data else None
             athlete.certificate_expiry = form.certificate_expiry.data if form.has_medical_certificate.data else None
+            athlete.allergies = form.allergies.data
+            athlete.medical_conditions = form.medical_conditions.data
+            athlete.blood_type = form.blood_type.data if form.blood_type.data else None
+            athlete.special_notes = form.special_notes.data
             athlete.updated_at = datetime.utcnow()
 
             # Update existing guardians or create new ones
@@ -263,3 +303,167 @@ def delete(id):
         flash(_('Error during deletion. Please try again.'), 'danger')
         print(f"Error: {e}")
         return redirect(url_for('athletes.detail', id=id))
+
+
+@athletes_bp.route('/<int:id>/emergency-contacts/add', methods=['GET', 'POST'])
+@login_required
+def add_emergency_contact(id):
+    """Add emergency contact to athlete"""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('athletes.detail', id=id))
+
+    athlete = Athlete.query.get_or_404(id)
+    if not athlete.is_active:
+        abort(404)
+
+    form = EmergencyContactForm()
+    if form.validate_on_submit():
+        contact = EmergencyContact(
+            athlete_id=id,
+            contact_name=form.contact_name.data.strip(),
+            relationship=form.relationship.data,
+            phone=form.phone.data.strip(),
+            email=form.email.data.strip() if form.email.data else None,
+            is_primary_doctor=form.is_primary_doctor.data,
+            medical_notes=form.medical_notes.data
+        )
+        db.session.add(contact)
+        db.session.commit()
+        flash(_('Emergency contact added.'), 'success')
+        return redirect(url_for('athletes.detail', id=id))
+
+    return render_template('athletes/emergency_contact_form.html',
+                           form=form, athlete=athlete)
+
+
+@athletes_bp.route('/<int:athlete_id>/emergency-contacts/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_emergency_contact(athlete_id, id):
+    """Edit emergency contact"""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('athletes.detail', id=athlete_id))
+
+    athlete = Athlete.query.get_or_404(athlete_id)
+    if not athlete.is_active:
+        abort(404)
+
+    contact = EmergencyContact.query.get_or_404(id)
+    form = EmergencyContactForm(obj=contact)
+
+    if form.validate_on_submit():
+        contact.contact_name = form.contact_name.data.strip()
+        contact.relationship = form.relationship.data
+        contact.phone = form.phone.data.strip()
+        contact.email = form.email.data.strip() if form.email.data else None
+        contact.is_primary_doctor = form.is_primary_doctor.data
+        contact.medical_notes = form.medical_notes.data
+        contact.updated_at = datetime.utcnow()
+        db.session.commit()
+        flash(_('Emergency contact updated.'), 'success')
+        return redirect(url_for('athletes.detail', id=athlete_id))
+
+    return render_template('athletes/emergency_contact_form.html',
+                           form=form, athlete=athlete, contact=contact)
+
+
+@athletes_bp.route('/<int:athlete_id>/emergency-contacts/<int:id>/delete', methods=['POST'])
+@login_required
+def delete_emergency_contact(athlete_id, id):
+    """Remove emergency contact (soft delete)"""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('athletes.detail', id=athlete_id))
+
+    contact = EmergencyContact.query.get_or_404(id)
+    contact.is_active = False
+    contact.updated_at = datetime.utcnow()
+    db.session.commit()
+    flash(_('Emergency contact removed.'), 'success')
+    return redirect(url_for('athletes.detail', id=athlete_id))
+
+
+@athletes_bp.route('/<int:id>/insurance/new', methods=['GET', 'POST'])
+@login_required
+def insurance_new(id):
+    """Add insurance policy for an athlete."""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('main.dashboard'))
+
+    athlete = Athlete.query.get_or_404(id)
+    if not athlete.is_active:
+        abort(404)
+
+    form = InsuranceForm()
+
+    if form.validate_on_submit():
+        insurance = Insurance(
+            policy_number=form.policy_number.data,
+            provider=form.provider.data,
+            insurance_type=form.insurance_type.data,
+            start_date=form.start_date.data,
+            end_date=form.end_date.data,
+            coverage_amount=form.coverage_amount.data,
+            premium_amount=form.premium_amount.data,
+            notes=form.notes.data,
+            athlete_id=athlete.id,
+            created_by=current_user.id
+        )
+        db.session.add(insurance)
+        db.session.commit()
+        flash(_('Insurance policy added successfully.'), 'success')
+        return redirect(url_for('athletes.detail', id=athlete.id))
+
+    return render_template('athletes/insurance_form.html', form=form, athlete=athlete)
+
+
+@athletes_bp.route('/<int:id>/insurance/<int:ins_id>/edit', methods=['GET', 'POST'])
+@login_required
+def insurance_edit(id, ins_id):
+    """Edit an insurance policy."""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('main.dashboard'))
+
+    athlete = Athlete.query.get_or_404(id)
+    if not athlete.is_active:
+        abort(404)
+
+    insurance = Insurance.query.get_or_404(ins_id)
+
+    if insurance.athlete_id != athlete.id:
+        flash(_('Insurance policy not found.'), 'error')
+        return redirect(url_for('athletes.detail', id=athlete.id))
+
+    form = InsuranceForm(obj=insurance)
+
+    if form.validate_on_submit():
+        form.populate_obj(insurance)
+        insurance.updated_at = datetime.utcnow()
+        db.session.commit()
+        flash(_('Insurance policy updated successfully.'), 'success')
+        return redirect(url_for('athletes.detail', id=athlete.id))
+
+    return render_template('athletes/insurance_form.html', form=form, athlete=athlete, insurance=insurance)
+
+
+@athletes_bp.route('/<int:id>/insurance/<int:ins_id>/delete', methods=['POST'])
+@login_required
+def insurance_delete(id, ins_id):
+    """Soft delete an insurance policy."""
+    if not current_user.is_admin():
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('athletes.detail', id=id))
+
+    insurance = Insurance.query.get_or_404(ins_id)
+    if insurance.athlete_id != id:
+        flash(_('Insurance policy not found.'), 'error')
+        return redirect(url_for('athletes.detail', id=id))
+
+    insurance.is_active = False
+    insurance.updated_at = datetime.utcnow()
+    db.session.commit()
+    flash(_('Insurance policy deleted.'), 'success')
+    return redirect(url_for('athletes.detail', id=id))

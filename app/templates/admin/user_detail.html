@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.get_full_name() }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ user.get_full_name() }}</h1>
+    <div>
+        <a href="{{ url_for('admin.users') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> {{ _('Back to Users') }}
+        </a>
+        <a href="{{ url_for('admin.user_edit', id=user.id) }}" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> {{ _('Edit') }}
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <!-- User Information -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('User Information') }}</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td><strong>{{ _('Username') }}:</strong></td>
+                        <td><code>{{ user.username }}</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ _('Email') }}:</strong></td>
+                        <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ _('Name') }}:</strong></td>
+                        <td>{{ user.get_full_name() }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ _('Role') }}:</strong></td>
+                        <td>
+                            <span class="badge bg-{{ 'danger' if user.role == 'admin' else 'primary' if user.role == 'coach' else 'info' if user.role == 'parent' else 'secondary' }}">
+                                {{ user.role.title() }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ _('Status') }}:</strong></td>
+                        <td>
+                            {% if user.is_active %}
+                                <span class="badge bg-success">{{ _('Active') }}</span>
+                            {% else %}
+                                <span class="badge bg-danger">{{ _('Inactive') }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Information -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('System Information') }}</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td><strong>{{ _('Created on') }}:</strong></td>
+                        <td>{{ user.created_at.strftime('%d/%m/%Y at %H:%M') if user.created_at else '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>{{ _('Last Login') }}:</strong></td>
+                        <td>{{ user.last_login.strftime('%d/%m/%Y at %H:%M') if user.last_login else _('Never') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Actions -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h6 class="mb-0">{{ _('Administrator Actions') }}</h6>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">
+                    <small>{{ _('Warning: these actions affect user access to the system.') }}</small>
+                </p>
+                <form method="POST" action="{{ url_for('admin.user_toggle_active', id=user.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    {% if user.is_active %}
+                        <button type="submit" class="btn btn-warning btn-sm"
+                                onclick="return confirm('{{ _('Are you sure you want to deactivate %(name)s? They will no longer be able to log in.', name=user.get_full_name()) }}')">
+                            <i class="bi bi-person-x"></i> {{ _('Deactivate User') }}
+                        </button>
+                    {% else %}
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="bi bi-person-check"></i> {{ _('Activate User') }}
+                        </button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

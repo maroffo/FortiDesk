@@ -1,0 +1,12 @@
+{% extends "email/base.html" %}
+{% block content %}
+<h2>{{ announcement.subject }}</h2>
+{% if announcement.team %}
+<p><strong>{{ _('Team') }}:</strong> {{ announcement.team.name }}</p>
+{% endif %}
+<p><strong>{{ _('Type') }}:</strong> {{ announcement.get_announcement_type_display() }}</p>
+<hr>
+<div>
+    {{ announcement.body }}
+</div>
+{% endblock %}

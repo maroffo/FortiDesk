@@ -23,7 +23,11 @@ RUN chmod +x docker-entrypoint.sh
 
 # Create non-root user
 RUN adduser --disabled-password --gecos '' appuser && \
-    chown -R appuser:appuser /app
+    chown -R appuser:appuser /app && \
+    chmod +x /app/docker-entrypoint.sh
+
+RUN mkdir -p /app/uploads && chown -R appuser:appuser /app/uploads
+
 USER appuser
 
 # Expose port
@@ -33,5 +37,5 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import requests; requests.get('http://localhost:5000', timeout=5)"
 
-# Run the application with Gunicorn in production
-ENTRYPOINT ["./docker-entrypoint.sh"]
+# Use entrypoint script
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

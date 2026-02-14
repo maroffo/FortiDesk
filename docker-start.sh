@@ -4,10 +4,10 @@
 
 echo "🏉 Starting FortiDesk Application..."
 
-# Check if .env file exists, if not copy from .env.docker
+# Check if .env file exists, if not copy from .env.docker.example
 if [ ! -f .env ]; then
-    echo "Creating .env file from .env.docker template..."
-    cp .env.docker .env
+    echo "Creating .env file from .env.docker.example template..."
+    cp .env.docker.example .env
     echo "⚠️  Please review and update .env file with your production settings!"
 fi
 

@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{% block title %}FortiDesk{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token() }}"}'>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
@@ -18,9 +19,20 @@
             <div class="navbar-nav me-auto">
                 <a class="nav-link" href="{{ url_for('main.dashboard') }}">{{ _('Dashboard') }}</a>
                 <a class="nav-link" href="{{ url_for('athletes.index') }}">{{ _('Athletes') }}</a>
+                <a class="nav-link" href="{{ url_for('teams.index') }}">{{ _('Teams') }}</a>
                 <a class="nav-link" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a>
                 <a class="nav-link" href="{{ url_for('attendance.index') }}">{{ _('Attendance') }}</a>
                 <a class="nav-link" href="{{ url_for('equipment.index') }}">{{ _('Equipment') }}</a>
+                <a class="nav-link" href="{{ url_for('seasons.index') }}">{{ _('Seasons') }}</a>
+                <a class="nav-link" href="{{ url_for('training.index') }}">{{ _('Training') }}</a>
+                <a class="nav-link" href="{{ url_for('matches.index') }}">{{ _('Matches') }}</a>
+                <a class="nav-link" href="{{ url_for('calendar.index') }}">{{ _('Calendar') }}</a>
+                <a class="nav-link" href="{{ url_for('documents.index') }}">{{ _('Documents') }}</a>
+                <a class="nav-link" href="{{ url_for('communications.index') }}">{{ _('Communications') }}</a>
+                <a class="nav-link" href="{{ url_for('reports.index') }}">{{ _('Reports') }}</a>
+                {% if current_user.is_admin() %}
+                <a class="nav-link" href="{{ url_for('admin.users') }}">{{ _('Admin') }}</a>
+                {% endif %}
             </div>
             <div class="navbar-nav ms-auto">
                 <div class="nav-item dropdown">
@@ -39,9 +51,17 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">{{ _('Dashboard') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('athletes.index') }}">{{ _('Athletes') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('teams.index') }}">{{ _('Teams') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('attendance.index') }}">{{ _('Attendance') }}</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('equipment.index') }}">{{ _('Equipment') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('seasons.index') }}">{{ _('Seasons') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('training.index') }}">{{ _('Training') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('matches.index') }}">{{ _('Matches') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('calendar.index') }}">{{ _('Calendar') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('documents.index') }}">{{ _('Documents') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('communications.index') }}">{{ _('Communications') }}</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('reports.index') }}">{{ _('Reports') }}</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                     </ul>
@@ -66,6 +86,7 @@
         {% block content %}{% endblock %}
     </main>
 
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>

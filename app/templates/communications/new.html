@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('New Announcement') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<h1>{{ _('New Announcement') }}</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+                {{ form.subject.label(class="form-label") }}
+                {{ form.subject(class="form-control") }}
+                {% for error in form.subject.errors %}
+                <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.announcement_type.label(class="form-label") }}
+                    {{ form.announcement_type(class="form-select") }}
+                    {% for error in form.announcement_type.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.team_id.label(class="form-label") }}
+                    {{ form.team_id(class="form-select") }}
+                    {% for error in form.team_id.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                {{ form.body.label(class="form-label") }}
+                {{ form.body(class="form-control", rows=8) }}
+                {% for error in form.body.errors %}
+                <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="mb-3 form-check">
+                {{ form.send_email(class="form-check-input") }}
+                {{ form.send_email.label(class="form-check-label") }}
+                <div class="form-text">{{ _('If checked, email will be sent to relevant guardians and staff') }}</div>
+            </div>
+
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('communications.index') }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

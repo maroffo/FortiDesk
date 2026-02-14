@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Document Status') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1>{{ _('Document Status Report') }}</h1>
+    </div>
+</div>
+
+{% if documents %}
+<div class="mb-3">
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=csv" class="btn btn-sm btn-outline-success">{{ _('Export CSV') }}</a>
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=pdf" class="btn btn-sm btn-outline-danger">{{ _('Export PDF') }}</a>
+    <span class="text-muted ms-2">{{ documents|length }} {{ _('documents') }}</span>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ _('Title') }}</th>
+                <th>{{ _('Type') }}</th>
+                <th>{{ _('Entity') }}</th>
+                <th>{{ _('Entity Type') }}</th>
+                <th>{{ _('Expiry Date') }}</th>
+                <th>{{ _('Status') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in documents %}
+            <tr>
+                <td><a href="{{ url_for('documents.view', id=doc.id) }}">{{ doc.title }}</a></td>
+                <td>{{ doc.get_document_type_display() }}</td>
+                <td>{{ entity_names.get(doc.id, _('Unknown')) }}</td>
+                <td>{{ doc.entity_type|title }}</td>
+                <td>{{ doc.expiry_date.strftime('%d/%m/%Y') }}</td>
+                <td>
+                    {% if doc.expiry_date < today %}
+                        <span class="badge bg-danger">{{ _('Expired') }}</span>
+                    {% elif doc.expiry_date <= alert_date %}
+                        <span class="badge bg-warning text-dark">{{ _('Expiring') }}</span>
+                    {% else %}
+                        <span class="badge bg-success">{{ _('Valid') }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">{{ _('No documents with expiry dates found.') }}</div>
+{% endif %}
+{% endblock %}

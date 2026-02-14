@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Matches') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ _('Matches') }}</h1>
+    {% if current_user.is_admin() or current_user.is_coach() %}
+    <a href="{{ url_for('matches.new') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> {{ _('New Match') }}
+    </a>
+    {% endif %}
+</div>
+
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('matches.index') }}" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">{{ _('Team') }}</label>
+                <select name="team_id" class="form-select">
+                    <option value="">{{ _('All Teams') }}</option>
+                    {% for team in teams %}
+                    <option value="{{ team.id }}" {% if selected_team == team.id %}selected{% endif %}>{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">{{ _('Season') }}</label>
+                <select name="season_id" class="form-select">
+                    <option value="">{{ _('All Seasons') }}</option>
+                    {% for season in seasons %}
+                    <option value="{{ season.id }}" {% if selected_season == season.id %}selected{% endif %}>{{ season.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">{{ _('Status') }}</label>
+                <select name="status" class="form-select">
+                    <option value="">{{ _('All') }}</option>
+                    <option value="scheduled" {% if selected_status == 'scheduled' %}selected{% endif %}>{{ _('Scheduled') }}</option>
+                    <option value="completed" {% if selected_status == 'completed' %}selected{% endif %}>{{ _('Completed') }}</option>
+                    <option value="cancelled" {% if selected_status == 'cancelled' %}selected{% endif %}>{{ _('Cancelled') }}</option>
+                    <option value="postponed" {% if selected_status == 'postponed' %}selected{% endif %}>{{ _('Postponed') }}</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">{{ _('Match Type') }}</label>
+                <select name="match_type" class="form-select">
+                    <option value="">{{ _('All') }}</option>
+                    <option value="league" {% if selected_match_type == 'league' %}selected{% endif %}>{{ _('League') }}</option>
+                    <option value="friendly" {% if selected_match_type == 'friendly' %}selected{% endif %}>{{ _('Friendly') }}</option>
+                    <option value="tournament" {% if selected_match_type == 'tournament' %}selected{% endif %}>{{ _('Tournament') }}</option>
+                    <option value="cup" {% if selected_match_type == 'cup' %}selected{% endif %}>{{ _('Cup') }}</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-outline-primary w-100">{{ _('Filter') }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Matches table -->
+<div class="card">
+    <div class="card-body">
+        {% if matches %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ _('Date') }}</th>
+                        <th>{{ _('Opponent') }}</th>
+                        <th>{{ _('Home/Away') }}</th>
+                        <th>{{ _('Type') }}</th>
+                        <th>{{ _('Team') }}</th>
+                        <th>{{ _('Score') }}</th>
+                        <th>{{ _('Result') }}</th>
+                        <th>{{ _('Status') }}</th>
+                        <th>{{ _('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for match in matches %}
+                    <tr>
+                        <td>{{ match.date.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ match.opponent }}</td>
+                        <td>
+                            {% if match.is_home %}
+                            <span class="badge bg-primary">{{ _('Home') }}</span>
+                            {% else %}
+                            <span class="badge bg-secondary">{{ _('Away') }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ match.get_match_type_display() }}</td>
+                        <td>
+                            <a href="{{ url_for('teams.view', id=match.team_id) }}">{{ match.team.name }}</a>
+                        </td>
+                        <td>{{ match.get_score_display() }}</td>
+                        <td>
+                            {% if match.result == 'win' %}
+                            <span class="badge bg-success">{{ _('Win') }}</span>
+                            {% elif match.result == 'loss' %}
+                            <span class="badge bg-danger">{{ _('Loss') }}</span>
+                            {% elif match.result == 'draw' %}
+                            <span class="badge bg-secondary">{{ _('Draw') }}</span>
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if match.status == 'scheduled' %}
+                            <span class="badge bg-info">{{ _('Scheduled') }}</span>
+                            {% elif match.status == 'completed' %}
+                            <span class="badge bg-success">{{ _('Completed') }}</span>
+                            {% elif match.status == 'cancelled' %}
+                            <span class="badge bg-danger">{{ _('Cancelled') }}</span>
+                            {% elif match.status == 'postponed' %}
+                            <span class="badge bg-warning text-dark">{{ _('Postponed') }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('matches.view', id=match.id) }}" class="btn btn-sm btn-outline-primary">{{ _('View') }}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if pagination.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('matches.index', page=pagination.prev_num, team_id=selected_team, season_id=selected_season, status=selected_status, match_type=selected_match_type) }}">{{ _('Previous') }}</a>
+                </li>
+                {% for page_num in pagination.iter_pages() %}
+                    {% if page_num %}
+                        <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('matches.index', page=page_num, team_id=selected_team, season_id=selected_season, status=selected_status, match_type=selected_match_type) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('matches.index', page=pagination.next_num, team_id=selected_team, season_id=selected_season, status=selected_status, match_type=selected_match_type) }}">{{ _('Next') }}</a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <div class="text-center py-4">
+            <p class="text-muted">{{ _('No matches found.') }}</p>
+            {% if current_user.is_admin() or current_user.is_coach() %}
+            <a href="{{ url_for('matches.new') }}" class="btn btn-primary">{{ _('Schedule a Match') }}</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

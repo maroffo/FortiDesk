@@ -1,0 +1,29 @@
+{% extends "email/base.html" %}
+{% block content %}
+<h2>{{ _('Training Session Update') }}</h2>
+{% if session %}
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd;"><strong>{{ _('Title') }}</strong></td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ session.title }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd;"><strong>{{ _('Date') }}</strong></td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ session.date.strftime('%d/%m/%Y') }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd;"><strong>{{ _('Time') }}</strong></td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ session.start_time.strftime('%H:%M') }} - {{ session.end_time.strftime('%H:%M') }}</td>
+    </tr>
+    {% if session.location %}
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ddd;"><strong>{{ _('Location') }}</strong></td>
+        <td style="padding: 8px; border: 1px solid #ddd;">{{ session.location }}</td>
+    </tr>
+    {% endif %}
+</table>
+{% endif %}
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
+{% endblock %}

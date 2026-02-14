@@ -3,45 +3,320 @@
 {% block title %}{{ _('Dashboard') }} - FortiDesk{% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row mb-4">
     <div class="col-12">
         <h1>{{ _('Welcome, %(name)s!', name=user.get_full_name()) }}</h1>
         <p class="text-muted">{{ _('FortiDesk Dashboard - Fortitudo 1901 Rugby Management') }}</p>
+    </div>
+</div>
 
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ _('Your Profile') }}</h5>
-                        <p class="card-text">
-                            <strong>{{ _('Username') }}:</strong> {{ user.username }}<br>
-                            <strong>{{ _('Email') }}:</strong> {{ user.email }}<br>
-                            <strong>{{ _('Role') }}:</strong> {{ user.role.title() }}<br>
-                            <strong>{{ _('Last access') }}:</strong>
-                            {% if user.last_login %}
-                                {{ user.last_login.strftime('%d/%m/%Y %H:%M') }}
-                            {% else %}
-                                {{ _('First access') }}
-                            {% endif %}
-                        </p>
-                    </div>
-                </div>
+{# Row 1: Stat Cards #}
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="card-title text-primary">{{ athlete_count }}</h2>
+                <p class="card-text">{{ _('Athletes') }}</p>
+                <a href="{{ url_for('athletes.index') }}" class="btn btn-sm btn-outline-primary">{{ _('View All') }}</a>
             </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="card-title text-success">{{ staff_count }}</h2>
+                <p class="card-text">{{ _('Staff') }}</p>
+                <a href="{{ url_for('staff.index') }}" class="btn btn-sm btn-outline-success">{{ _('View All') }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="card-title text-info">{{ team_count }}</h2>
+                <p class="card-text">{{ _('Teams') }}</p>
+                <a href="{{ url_for('teams.index') }}" class="btn btn-sm btn-outline-info">{{ _('View All') }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="card-title text-warning">{{ equipment_count }}</h2>
+                <p class="card-text">{{ _('Equipment') }}</p>
+                <a href="{{ url_for('equipment.index') }}" class="btn btn-sm btn-outline-warning">{{ _('View All') }}</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ _('Upcoming Features') }}</h5>
-                        <p class="card-text">{{ _('The FortiDesk system is under development. Coming soon:') }}</p>
-                        <ul>
-                            <li>{{ _('Team and player management') }}</li>
-                            <li>{{ _('Training scheduling') }}</li>
-                            <li>{{ _('Parent communications') }}</li>
-                            <li>{{ _('Document management') }}</li>
-                            <li>{{ _('Event calendar') }}</li>
-                        </ul>
+{# Row 2: Alerts Panel #}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Expiry Alerts') }}</h5>
+            </div>
+            <div class="card-body">
+                {% set has_alerts = athlete_doc_alerts or athlete_cert_alerts or staff_doc_alerts or staff_cert_alerts or staff_bg_alerts or document_expiry_alerts or equipment_maintenance %}
+                {% if not has_alerts %}
+                    <div class="alert alert-success mb-0">
+                        {{ _('All clear! No expiring documents or pending maintenance.') }}
                     </div>
+                {% else %}
+                    {# Athlete Document Alerts #}
+                    {% if athlete_doc_alerts %}
+                    <h6>{{ _('Athlete Documents') }}</h6>
+                    <ul class="list-group mb-3">
+                        {% for athlete in athlete_doc_alerts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <a href="{{ url_for('athletes.detail', id=athlete.id) }}">{{ athlete.get_full_name() }}</a>
+                                - {{ _('ID Document') }}
+                            </span>
+                            <span>
+                                {% if athlete.document_expiry < today %}
+                                    <span class="badge bg-danger">{{ _('Expired') }} {{ athlete.document_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{{ _('Expires') }} {{ athlete.document_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {# Athlete Certificate Alerts #}
+                    {% if athlete_cert_alerts %}
+                    <h6>{{ _('Athlete Medical Certificates') }}</h6>
+                    <ul class="list-group mb-3">
+                        {% for athlete in athlete_cert_alerts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <a href="{{ url_for('athletes.detail', id=athlete.id) }}">{{ athlete.get_full_name() }}</a>
+                                - {{ _('Medical Certificate') }}
+                            </span>
+                            <span>
+                                {% if athlete.certificate_expiry < today %}
+                                    <span class="badge bg-danger">{{ _('Expired') }} {{ athlete.certificate_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{{ _('Expires') }} {{ athlete.certificate_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {# Staff Document Alerts #}
+                    {% if staff_doc_alerts %}
+                    <h6>{{ _('Staff Documents') }}</h6>
+                    <ul class="list-group mb-3">
+                        {% for member in staff_doc_alerts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <a href="{{ url_for('staff.detail', id=member.id) }}">{{ member.get_full_name() }}</a>
+                                - {{ _('ID Document') }}
+                            </span>
+                            <span>
+                                {% if member.document_expiry < today %}
+                                    <span class="badge bg-danger">{{ _('Expired') }} {{ member.document_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{{ _('Expires') }} {{ member.document_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {# Staff Certificate Alerts #}
+                    {% if staff_cert_alerts %}
+                    <h6>{{ _('Staff Medical Certificates') }}</h6>
+                    <ul class="list-group mb-3">
+                        {% for member in staff_cert_alerts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <a href="{{ url_for('staff.detail', id=member.id) }}">{{ member.get_full_name() }}</a>
+                                - {{ _('Medical Certificate') }}
+                            </span>
+                            <span>
+                                {% if member.certificate_expiry < today %}
+                                    <span class="badge bg-danger">{{ _('Expired') }} {{ member.certificate_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{{ _('Expires') }} {{ member.certificate_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {# Staff Background Check Alerts #}
+                    {% if staff_bg_alerts %}
+                    <h6>{{ _('Staff Background Checks') }}</h6>
+                    <ul class="list-group mb-3">
+                        {% for member in staff_bg_alerts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <a href="{{ url_for('staff.detail', id=member.id) }}">{{ member.get_full_name() }}</a>
+                                - {{ _('Background Check') }}
+                            </span>
+                            <span>
+                                {% if member.background_check_expiry < today %}
+                                    <span class="badge bg-danger">{{ _('Expired') }} {{ member.background_check_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{{ _('Expires') }} {{ member.background_check_expiry.strftime('%d/%m/%Y') }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {# Uploaded Document Expiry Alerts #}
+                    {% if document_expiry_alerts %}
+                    <h6>{{ _('Uploaded Documents') }}</h6>
+                    <ul class="list-group mb-3">
+                        {% for doc in document_expiry_alerts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <a href="{{ url_for('documents.view', id=doc.id) }}">{{ doc.title }}</a>
+                                - {{ doc.get_document_type_display() }}
+                                ({{ doc.entity_type|title }})
+                            </span>
+                            <span>
+                                {% if doc.expiry_date < today %}
+                                    <span class="badge bg-danger">{{ _('Expired') }} {{ doc.expiry_date.strftime('%d/%m/%Y') }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{{ _('Expires') }} {{ doc.expiry_date.strftime('%d/%m/%Y') }}</span>
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {# Equipment Maintenance Alerts #}
+                    {% if equipment_maintenance %}
+                    <h6>{{ _('Equipment Maintenance Due') }}</h6>
+                    <ul class="list-group mb-3">
+                        {% for item in equipment_maintenance %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <a href="{{ url_for('equipment.view', id=item.id) }}">{{ item.name }}</a>
+                                ({{ item.code }})
+                            </span>
+                            <span class="badge bg-danger">{{ _('Maintenance overdue') }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Row 3: Quick Actions #}
+{% if current_user.is_admin() or current_user.is_coach() %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Quick Actions') }}</h5>
+            </div>
+            <div class="card-body">
+                <a href="{{ url_for('athletes.new') }}" class="btn btn-primary me-2">{{ _('New Athlete') }}</a>
+                <a href="{{ url_for('staff.new') }}" class="btn btn-success me-2">{{ _('New Staff') }}</a>
+                <a href="{{ url_for('attendance.check_in') }}" class="btn btn-info me-2">{{ _('Check-in Attendance') }}</a>
+                <a href="{{ url_for('equipment.new') }}" class="btn btn-warning me-2">{{ _('New Equipment') }}</a>
+                <a href="{{ url_for('teams.new') }}" class="btn btn-secondary me-2">{{ _('New Team') }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{# Row 4: Recent Activity #}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Recent Athletes') }}</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_athletes %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Name') }}</th>
+                                <th>{{ _('Age') }}</th>
+                                <th>{{ _('Team') }}</th>
+                                <th>{{ _('Added') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for athlete in recent_athletes %}
+                            <tr>
+                                <td><a href="{{ url_for('athletes.detail', id=athlete.id) }}">{{ athlete.get_full_name() }}</a></td>
+                                <td>{{ athlete.get_age() }}</td>
+                                <td>{{ athlete.team.name if athlete.team else '-' }}</td>
+                                <td>{{ athlete.created_at.strftime('%d/%m/%Y') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
+                {% else %}
+                <p class="text-muted mb-0">{{ _('No athletes registered yet.') }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Recent Attendance') }}</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_attendance %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Athlete') }}</th>
+                                <th>{{ _('Date') }}</th>
+                                <th>{{ _('Type') }}</th>
+                                <th>{{ _('Status') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in recent_attendance %}
+                            <tr>
+                                <td>{{ record.athlete.get_full_name() }}</td>
+                                <td>{{ record.date.strftime('%d/%m/%Y') }}</td>
+                                <td>{{ record.get_session_type_display() }}</td>
+                                <td>
+                                    {% if record.status == 'present' %}
+                                        <span class="badge bg-success">{{ record.get_status_display() }}</span>
+                                    {% elif record.status == 'absent' %}
+                                        <span class="badge bg-danger">{{ record.get_status_display() }}</span>
+                                    {% elif record.status == 'excused' %}
+                                        <span class="badge bg-warning text-dark">{{ record.get_status_display() }}</span>
+                                    {% else %}
+                                        <span class="badge bg-info">{{ record.get_status_display() }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">{{ _('No attendance records yet.') }}</p>
+                {% endif %}
             </div>
         </div>
     </div>

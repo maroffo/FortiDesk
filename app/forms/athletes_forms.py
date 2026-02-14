@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, SelectField, BooleanField, SubmitField
+from wtforms import StringField, DateField, SelectField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, Regexp, Optional, ValidationError
 from flask_babel import lazy_gettext as _l
 from datetime import date
@@ -34,6 +34,14 @@ class AthleteForm(FlaskForm):
                                           Regexp(r'^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$',
                                                 message=_l('Enter a valid fiscal code'))])
 
+    fir_id = StringField(_l('FIR ID'),
+                         validators=[Optional(), Length(max=20)])
+
+    # Team
+    team_id = SelectField(_l('Team'),
+                         coerce=lambda x: int(x) if x and str(x).strip() else None,
+                         validators=[Optional()])
+
     # Address
     street_address = StringField(_l('Street Address'),
                                validators=[DataRequired(), Length(max=200)])
@@ -67,6 +75,16 @@ class AthleteForm(FlaskForm):
     certificate_expiry = DateField(_l('Certificate Expiry'),
                                     validators=[Optional()],
                                     format='%Y-%m-%d')
+
+    # Medical info
+    allergies = TextAreaField(_l('Allergies'), validators=[Optional(), Length(max=500)])
+    medical_conditions = TextAreaField(_l('Medical Conditions'), validators=[Optional(), Length(max=500)])
+    blood_type = SelectField(_l('Blood Type'),
+                             choices=[('', _l('-- Unknown --')), ('A+', 'A+'), ('A-', 'A-'),
+                                      ('B+', 'B+'), ('B-', 'B-'), ('AB+', 'AB+'), ('AB-', 'AB-'),
+                                      ('O+', 'O+'), ('O-', 'O-')],
+                             validators=[Optional()])
+    special_notes = TextAreaField(_l('Special Notes'), validators=[Optional(), Length(max=500)])
 
     # Guardians
     guardian1_first_name = StringField(_l('Guardian 1 First Name'),
@@ -129,3 +147,15 @@ class AthleteForm(FlaskForm):
         """Validate that two guardians have different types if they are father/mother"""
         if field.data in ['father', 'mother'] and self.guardian1_type.data == field.data:
             raise ValidationError(_l('Cannot have two guardians of the same type'))
+
+    def validate_fir_id(self, field):
+        """Validate FIR ID uniqueness (excluding current athlete on edit)."""
+        if not field.data:
+            return
+        from app.models import Athlete
+        existing = Athlete.query.filter(
+            Athlete.fir_id == field.data.strip(),
+            Athlete.is_active.is_(True)
+        ).first()
+        if existing and (not self._athlete_id or existing.id != self._athlete_id):
+            raise ValidationError(_l('An athlete with this FIR ID already exists'))

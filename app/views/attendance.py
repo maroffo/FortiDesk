@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from flask_babel import gettext as _
 from app import db
-from app.models import Attendance, Athlete
+from app.models import Attendance, Athlete, Team
 from app.forms.attendance_forms import AttendanceForm, BulkAttendanceForm, AttendanceReportForm
 from datetime import datetime
 
@@ -32,12 +32,22 @@ def index():
     if session_type:
         query = query.filter(Attendance.session_type == session_type)
 
+    # Filter by team
+    team_id = request.args.get('team_id', type=int)
+    if team_id:
+        query = query.join(Athlete).filter(Athlete.team_id == team_id)
+
     pagination = query.paginate(page=page, per_page=per_page, error_out=False)
     attendance_records = pagination.items
 
+    # Get teams for filter dropdown
+    teams = Team.query.filter_by(is_active=True).order_by(Team.name).all()
+
     return render_template('attendance/index.html',
                            attendance_records=attendance_records,
-                           pagination=pagination)
+                           pagination=pagination,
+                           teams=teams,
+                           selected_team=team_id)
 
 
 @attendance_bp.route('/check-in', methods=['GET', 'POST'])
@@ -49,7 +59,16 @@ def check_in():
         return redirect(url_for('attendance.index'))
 
     form = BulkAttendanceForm()
-    athletes = Athlete.query.filter_by(is_active=True).order_by(Athlete.last_name, Athlete.first_name).all()
+
+    # Filter athletes by team if selected
+    team_id = request.args.get('team_id', type=int)
+    query = Athlete.query.filter_by(is_active=True)
+    if team_id:
+        query = query.filter_by(team_id=team_id)
+    athletes = query.order_by(Athlete.last_name, Athlete.first_name).all()
+
+    # Get teams for filter dropdown
+    teams = Team.query.filter_by(is_active=True).order_by(Team.name).all()
 
     if form.validate_on_submit():
         # Get selected athletes from request (checkboxes)
@@ -111,7 +130,7 @@ def check_in():
         flash(_('Attendance recorded for %(count)d athletes.', count=count), 'success')
         return redirect(url_for('attendance.index'))
 
-    return render_template('attendance/check_in.html', form=form, athletes=athletes)
+    return render_template('attendance/check_in.html', form=form, athletes=athletes, teams=teams, selected_team=team_id)
 
 
 @attendance_bp.route('/<int:id>')
@@ -178,6 +197,10 @@ def report():
     athletes = Athlete.query.filter_by(is_active=True).order_by(Athlete.last_name, Athlete.first_name).all()
     form.athlete_id.choices = [('', _('All Athletes'))] + [(str(a.id), a.get_full_name()) for a in athletes]
 
+    # Populate team choices
+    teams = Team.query.filter_by(is_active=True).order_by(Team.name).all()
+    form.team_id.choices = [('', _('All Teams'))] + [(str(t.id), t.name) for t in teams]
+
     attendance_records = []
     stats = None
 
@@ -187,6 +210,9 @@ def report():
         # Apply filters
         if form.athlete_id.data:
             query = query.filter(Attendance.athlete_id == int(form.athlete_id.data))
+
+        if form.team_id.data:
+            query = query.join(Athlete).filter(Athlete.team_id == int(form.team_id.data))
 
         if form.start_date.data:
             query = query.filter(Attendance.date >= form.start_date.data)

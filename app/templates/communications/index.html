@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Communications') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col-md-6">
+        <h1>{{ _('Communications') }}</h1>
+    </div>
+    <div class="col-md-6 text-end">
+        {% if current_user.is_admin() or current_user.is_coach() %}
+        <a href="{{ url_for('communications.new') }}" class="btn btn-primary">{{ _('New Announcement') }}</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="GET" class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label for="announcement_type" class="form-label">{{ _('Type') }}</label>
+                <select name="announcement_type" id="announcement_type" class="form-select">
+                    <option value="">{{ _('All Types') }}</option>
+                    <option value="general" {% if selected_type == 'general' %}selected{% endif %}>{{ _('General') }}</option>
+                    <option value="training" {% if selected_type == 'training' %}selected{% endif %}>{{ _('Training') }}</option>
+                    <option value="match" {% if selected_type == 'match' %}selected{% endif %}>{{ _('Match') }}</option>
+                    <option value="administrative" {% if selected_type == 'administrative' %}selected{% endif %}>{{ _('Administrative') }}</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="team_id" class="form-label">{{ _('Team') }}</label>
+                <select name="team_id" id="team_id" class="form-select">
+                    <option value="">{{ _('All Teams') }}</option>
+                    {% for team in teams %}
+                    <option value="{{ team.id }}" {% if selected_team == team.id %}selected{% endif %}>{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-secondary">{{ _('Filter') }}</button>
+                <a href="{{ url_for('communications.index') }}" class="btn btn-outline-secondary">{{ _('Clear') }}</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if announcements %}
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>{{ _('Subject') }}</th>
+                        <th>{{ _('Type') }}</th>
+                        <th>{{ _('Team') }}</th>
+                        <th>{{ _('Sent') }}</th>
+                        <th>{{ _('Date') }}</th>
+                        <th>{{ _('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for announcement in announcements %}
+                    <tr>
+                        <td>{{ announcement.subject }}</td>
+                        <td>
+                            {% if announcement.announcement_type == 'general' %}
+                                <span class="badge bg-primary">{{ _('General') }}</span>
+                            {% elif announcement.announcement_type == 'training' %}
+                                <span class="badge bg-info">{{ _('Training') }}</span>
+                            {% elif announcement.announcement_type == 'match' %}
+                                <span class="badge bg-warning text-dark">{{ _('Match') }}</span>
+                            {% elif announcement.announcement_type == 'administrative' %}
+                                <span class="badge bg-secondary">{{ _('Administrative') }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ announcement.team.name if announcement.team else _('All Teams') }}</td>
+                        <td>
+                            {% if announcement.email_sent_at %}
+                                <span class="text-success">&#10003;</span>
+                            {% else %}
+                                <span class="text-muted">&#10007;</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ announcement.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td>
+                            <a href="{{ url_for('communications.view', id=announcement.id) }}" class="btn btn-sm btn-info">{{ _('View') }}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if pagination.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('communications.index', page=pagination.prev_num, announcement_type=selected_type, team_id=selected_team) }}">{{ _('Previous') }}</a>
+                </li>
+                {% for page_num in pagination.iter_pages() %}
+                    {% if page_num %}
+                        <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('communications.index', page=page_num, announcement_type=selected_type, team_id=selected_team) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('communications.index', page=pagination.next_num, announcement_type=selected_type, team_id=selected_team) }}">{{ _('Next') }}</a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <p class="text-muted">{{ _('No announcements found.') }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

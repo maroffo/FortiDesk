@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask_babel import gettext as _
 from app import db
 
 class Guardian(db.Model):
@@ -32,9 +33,9 @@ class Guardian(db.Model):
     def get_guardian_type_display(self):
         """Returns the formatted guardian type"""
         mapping = {
-            'father': 'Father',
-            'mother': 'Mother', 
-            'guardian': 'Guardian'
+            'father': _('Father'),
+            'mother': _('Mother'),
+            'guardian': _('Guardian')
         }
         return mapping.get(self.guardian_type, self.guardian_type.title())
     

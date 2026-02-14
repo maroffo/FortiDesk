@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Insurance Status') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1>{{ _('Insurance Status Report') }}</h1>
+    </div>
+</div>
+
+{% if insurances %}
+<div class="mb-3">
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=csv" class="btn btn-sm btn-outline-success">{{ _('Export CSV') }}</a>
+    <a href="{{ request.url + ('&' if '?' in request.url else '?') }}format=pdf" class="btn btn-sm btn-outline-danger">{{ _('Export PDF') }}</a>
+    <span class="text-muted ms-2">{{ insurances|length }} {{ _('policies') }}</span>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ _('Athlete') }}</th>
+                <th>{{ _('Type') }}</th>
+                <th>{{ _('Provider') }}</th>
+                <th>{{ _('Policy #') }}</th>
+                <th>{{ _('Period') }}</th>
+                <th>{{ _('Coverage') }}</th>
+                <th>{{ _('Status') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ins in insurances %}
+            <tr>
+                <td>
+                    {% if ins.athlete %}
+                        <a href="{{ url_for('athletes.detail', id=ins.athlete.id) }}">{{ ins.athlete.get_full_name() }}</a>
+                    {% else %}
+                        {{ _('Unknown') }}
+                    {% endif %}
+                </td>
+                <td>{{ ins.get_insurance_type_display() }}</td>
+                <td>{{ ins.provider }}</td>
+                <td>{{ ins.policy_number }}</td>
+                <td>{{ ins.start_date.strftime('%d/%m/%Y') }} - {{ ins.end_date.strftime('%d/%m/%Y') }}</td>
+                <td>{{ '%.2f'|format(ins.coverage_amount) if ins.coverage_amount else '-' }}</td>
+                <td>
+                    {% if ins.end_date < today %}
+                        <span class="badge bg-danger">{{ _('Expired') }}</span>
+                    {% elif ins.end_date <= alert_date %}
+                        <span class="badge bg-warning text-dark">{{ _('Expiring') }}</span>
+                    {% else %}
+                        <span class="badge bg-success">{{ _('Active') }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">{{ _('No insurance policies found.') }}</div>
+{% endif %}
+{% endblock %}

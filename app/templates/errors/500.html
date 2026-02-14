@@ -1,0 +1,14 @@
+{# ABOUTME: Custom 500 error page with link back to dashboard #}
+{# ABOUTME: Extends base.html for consistent navigation and styling #}
+{% extends "base.html" %}
+{% block title %}{{ _('Server Error') }} - FortiDesk{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 text-center">
+        <h1 class="display-1 text-muted">500</h1>
+        <h2>{{ _('Server Error') }}</h2>
+        <p class="text-muted">{{ _('An unexpected error occurred. Please try again later.') }}</p>
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">{{ _('Back to Dashboard') }}</a>
+    </div>
+</div>
+{% endblock %}

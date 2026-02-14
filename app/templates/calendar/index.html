@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Calendar') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ _('Calendar') }}</h1>
+    <div>
+        <!-- Team filter -->
+        <select class="form-select d-inline-block w-auto" id="calendarTeamFilter"
+                onchange="updateCalendar()">
+            <option value="">{{ _('All Teams') }}</option>
+            {% for team in teams %}
+            <option value="{{ team.id }}" {{ 'selected' if selected_team == team.id }}>{{ team.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div id="calendar-container">
+    {% include "calendar/_grid.html" %}
+</div>
+
+<div class="mt-3">
+    <span class="badge bg-primary me-2">{{ _('Training') }}</span>
+    <span class="badge bg-danger me-2">{{ _('Match') }}</span>
+    <span class="text-muted text-decoration-line-through">{{ _('Cancelled') }}</span>
+</div>
+
+<script>
+function updateCalendar() {
+    var teamId = document.getElementById('calendarTeamFilter').value;
+    var container = document.getElementById('calendar-container');
+    var year = container.dataset.year;
+    var month = container.dataset.month;
+    var url = '/calendar/?year=' + year + '&month=' + month;
+    if (teamId) url += '&team_id=' + teamId;
+    htmx.ajax('GET', url, {target: '#calendar-container', swap: 'innerHTML'});
+}
+</script>
+{% endblock %}

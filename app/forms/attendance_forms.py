@@ -36,6 +36,9 @@ class AttendanceForm(FlaskForm):
 class BulkAttendanceForm(FlaskForm):
     """Form for recording attendance for multiple athletes at once"""
 
+    training_session_id = SelectField(_l('Training Session'),
+                                      coerce=lambda x: int(x) if x and str(x).strip() else None,
+                                      validators=[Optional()])
     date = DateField(_l('Date'), validators=[DataRequired()], default=date.today)
     session_type = SelectField(
         _l('Session Type'),
@@ -53,6 +56,9 @@ class BulkAttendanceForm(FlaskForm):
 class AttendanceReportForm(FlaskForm):
     """Form for filtering attendance reports"""
 
+    team_id = SelectField(_l('Team'),
+                          coerce=lambda x: int(x) if x and str(x).strip() else None,
+                          validators=[Optional()])
     athlete_id = SelectField(_l('Athlete'), coerce=int, validators=[Optional()])
     start_date = DateField(_l('From Date'), validators=[Optional()])
     end_date = DateField(_l('To Date'), validators=[Optional()])
