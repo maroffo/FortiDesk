@@ -1,0 +1,57 @@
+<div id="calendar-container" data-year="{{ year }}" data-month="{{ month }}">
+    <!-- Navigation -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <button class="btn btn-outline-secondary"
+                hx-get="{{ url_for('calendar.index', year=prev_year, month=prev_month, team_id=selected_team or '') }}"
+                hx-target="#calendar-container"
+                hx-swap="innerHTML">
+            &laquo; {{ _('Previous') }}
+        </button>
+        <h3 class="mb-0">{{ month_name }} {{ year }}</h3>
+        <button class="btn btn-outline-secondary"
+                hx-get="{{ url_for('calendar.index', year=next_year, month=next_month, team_id=selected_team or '') }}"
+                hx-target="#calendar-container"
+                hx-swap="innerHTML">
+            {{ _('Next') }} &raquo;
+        </button>
+    </div>
+
+    <!-- Calendar Grid -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                {% for day_name in day_names %}
+                <th class="text-center" style="width: 14.28%">{{ day_name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for week in cal_weeks %}
+            <tr>
+                {% for day in week %}
+                <td style="min-height: 100px; vertical-align: top;{{ ' background-color: #f8f9fa;' if day == 0 }}">
+                    {% if day != 0 %}
+                    <div class="fw-bold mb-1 {{ 'text-primary' if day == today.day and month == today.month and year == today.year }}">
+                        {{ day }}
+                    </div>
+                    {% if events.get(day) %}
+                    {% for event in events[day] %}
+                    <a href="{{ event.url }}" class="d-block small mb-1 text-decoration-none {{ 'text-decoration-line-through text-muted' if event.cancelled }}">
+                        {% if event.type == 'training' %}
+                        <span class="badge bg-primary">T</span>
+                        {% else %}
+                        <span class="badge bg-danger">M</span>
+                        {% endif %}
+                        {% if event.time %}{{ event.time }}{% endif %}
+                        {{ event.title|truncate(20) }}
+                    </a>
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

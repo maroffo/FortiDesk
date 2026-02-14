@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Manage Lineup') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>{{ _('Manage Lineup') }}</h1>
+
+        <!-- Match context -->
+        <div class="alert alert-light mb-4">
+            <strong>{{ match.team.name }}</strong> vs <strong>{{ match.opponent }}</strong>
+            <br>
+            <small class="text-muted">
+                {{ match.date.strftime('%d/%m/%Y') }}
+                {% if match.kick_off_time %} - {{ match.kick_off_time.strftime('%H:%M') }}{% endif %}
+                {% if match.location %} | {{ match.location }}{% endif %}
+            </small>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                {% if athletes %}
+                <form method="POST" action="{{ url_for('matches.lineup', id=match.id) }}">
+                    {{ form.hidden_tag() }}
+
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="selectAll">
+                                        </div>
+                                    </th>
+                                    <th>{{ _('Name') }}</th>
+                                    <th>{{ _('Position') }}</th>
+                                    <th>{{ _('Jersey #') }}</th>
+                                    <th>{{ _('Starter') }}</th>
+                                    <th>{{ _('Captain') }}</th>
+                                    <th>{{ _('Notes') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for athlete in athletes %}
+                                {% set entry = existing.get(athlete.id) %}
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input athlete-checkbox" type="checkbox"
+                                                   name="athlete_ids" value="{{ athlete.id }}"
+                                                   {% if entry %}checked{% endif %}>
+                                        </div>
+                                    </td>
+                                    <td>{{ athlete.get_full_name() }}</td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                               name="position_{{ athlete.id }}"
+                                               value="{{ entry.position if entry and entry.position else '' }}"
+                                               placeholder="{{ _('e.g., Prop, Fly-half') }}">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm"
+                                               name="jersey_{{ athlete.id }}"
+                                               value="{{ entry.jersey_number if entry and entry.jersey_number is not none else '' }}"
+                                               min="1" max="99" style="width: 80px;">
+                                    </td>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   name="starter_{{ athlete.id }}"
+                                                   {% if entry and entry.is_starter %}checked{% endif %}>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   name="captain_{{ athlete.id }}"
+                                                   {% if entry and entry.is_captain %}checked{% endif %}>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                               name="notes_{{ athlete.id }}"
+                                               value="{{ entry.notes if entry and entry.notes else '' }}">
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('matches.view', id=match.id) }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+                {% else %}
+                <div class="text-center py-4">
+                    <p class="text-muted">{{ _('No athletes assigned to this team.') }}</p>
+                    <a href="{{ url_for('teams.view', id=match.team_id) }}" class="btn btn-outline-primary">{{ _('Go to Team') }}</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var selectAll = document.getElementById('selectAll');
+    if (selectAll) {
+        selectAll.addEventListener('change', function() {
+            var checkboxes = document.querySelectorAll('.athlete-checkbox');
+            checkboxes.forEach(function(cb) {
+                cb.checked = selectAll.checked;
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

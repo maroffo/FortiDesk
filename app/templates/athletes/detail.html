@@ -233,6 +233,68 @@
     </div>
 </div>
 
+<!-- Match History -->
+{% if match_lineups %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ _('Match History') }} ({{ match_lineups|length }})</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Date') }}</th>
+                                <th>{{ _('Opponent') }}</th>
+                                <th>{{ _('Type') }}</th>
+                                <th>{{ _('Position') }}</th>
+                                <th>{{ _('Jersey') }}</th>
+                                <th>{{ _('Role') }}</th>
+                                <th>{{ _('Result') }}</th>
+                                <th>{{ _('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lineup in match_lineups %}
+                            <tr>
+                                <td>{{ lineup.match.date.strftime('%d/%m/%Y') }}</td>
+                                <td>
+                                    {{ lineup.match.opponent }}
+                                    {% if lineup.match.is_home %}
+                                    <span class="badge bg-info">{{ _('Home') }}</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ _('Away') }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ lineup.match.get_match_type_display() }}</td>
+                                <td>{{ lineup.position or '-' }}</td>
+                                <td>{{ lineup.jersey_number or '-' }}</td>
+                                <td>
+                                    {% if lineup.is_captain %}
+                                    <span class="badge bg-warning text-dark">{{ _('Captain') }}</span>
+                                    {% elif lineup.is_starter %}
+                                    <span class="badge bg-success">{{ _('Starter') }}</span>
+                                    {% else %}
+                                    <span class="badge bg-outline-secondary">{{ _('Substitute') }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ lineup.match.get_score_display() }}</td>
+                                <td>
+                                    <a href="{{ url_for('matches.view', id=lineup.match.id) }}" class="btn btn-sm btn-outline-primary">{{ _('View') }}</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <!-- System Information -->
 <div class="row">
     <div class="col-12 mb-4">

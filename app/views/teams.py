@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from flask_babel import gettext as _
 from sqlalchemy.orm import joinedload
 from app import db
-from app.models import Team, TeamStaffAssignment, Staff, Athlete, Season, TrainingSession
+from app.models import Team, TeamStaffAssignment, Staff, Athlete, Season, TrainingSession, Match
 from app.forms.team_forms import TeamForm, TeamStaffAssignmentForm
 from datetime import datetime, date, timedelta
 
@@ -74,10 +74,20 @@ def view(id):
         TrainingSession.date <= date.today() + timedelta(days=30)
     ).order_by(TrainingSession.date, TrainingSession.start_time).limit(5).all()
 
+    # Get upcoming matches (next 60 days)
+    upcoming_matches = Match.query.filter(
+        Match.team_id == id,
+        Match.is_active == True,  # noqa: E712
+        Match.status.in_(['scheduled', 'postponed']),
+        Match.date >= date.today(),
+        Match.date <= date.today() + timedelta(days=60)
+    ).order_by(Match.date).limit(5).all()
+
     return render_template('teams/view.html', team=team, athletes=athletes,
                            assistant_assignments=assistant_assignments,
                            escort_assignments=escort_assignments,
-                           upcoming_sessions=upcoming_sessions)
+                           upcoming_sessions=upcoming_sessions,
+                           upcoming_matches=upcoming_matches)
 
 
 @teams_bp.route('/<int:id>/edit', methods=['GET', 'POST'])

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Edit Match') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>{{ _('Edit Match: vs %(opponent)s', opponent=match.opponent) }}</h1>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('matches.edit', id=match.id) }}">
+                    {{ form.hidden_tag() }}
+
+                    <!-- Date -->
+                    <div class="mb-3">
+                        {{ form.date.label(class="form-label") }}
+                        {{ form.date(class="form-control" + (" is-invalid" if form.date.errors else "")) }}
+                        {% if form.date.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.date.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Kick-off Time -->
+                    <div class="mb-3">
+                        {{ form.kick_off_time.label(class="form-label") }}
+                        {{ form.kick_off_time(class="form-control" + (" is-invalid" if form.kick_off_time.errors else "")) }}
+                        {% if form.kick_off_time.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.kick_off_time.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Opponent -->
+                    <div class="mb-3">
+                        {{ form.opponent.label(class="form-label") }}
+                        {{ form.opponent(class="form-control" + (" is-invalid" if form.opponent.errors else "")) }}
+                        {% if form.opponent.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.opponent.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Location -->
+                    <div class="mb-3">
+                        {{ form.location.label(class="form-label") }}
+                        {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else "")) }}
+                        {% if form.location.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.location.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Home Match -->
+                    <div class="mb-3 form-check">
+                        {{ form.is_home(class="form-check-input") }}
+                        {{ form.is_home.label(class="form-check-label") }}
+                    </div>
+
+                    <!-- Match Type -->
+                    <div class="mb-3">
+                        {{ form.match_type.label(class="form-label") }}
+                        {{ form.match_type(class="form-select" + (" is-invalid" if form.match_type.errors else "")) }}
+                        {% if form.match_type.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.match_type.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Team -->
+                    <div class="mb-3">
+                        {{ form.team_id.label(class="form-label") }}
+                        {{ form.team_id(class="form-select" + (" is-invalid" if form.team_id.errors else "")) }}
+                        {% if form.team_id.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.team_id.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Season -->
+                    <div class="mb-3">
+                        {{ form.season_id.label(class="form-label") }}
+                        {{ form.season_id(class="form-select") }}
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="mb-3">
+                        {{ form.notes.label(class="form-label") }}
+                        {{ form.notes(class="form-control", rows=3) }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('matches.view', id=match.id) }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

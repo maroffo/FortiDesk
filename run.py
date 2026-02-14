@@ -3,7 +3,7 @@ import time
 from app import create_app, db
 from app.models import (User, Athlete, Guardian, Staff, Team, TeamStaffAssignment,
                         Attendance, Equipment, EquipmentAssignment,
-                        Season, TrainingSession)
+                        Season, TrainingSession, Match, MatchLineup)
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -21,7 +21,9 @@ def make_shell_context():
         'Equipment': Equipment,
         'EquipmentAssignment': EquipmentAssignment,
         'Season': Season,
-        'TrainingSession': TrainingSession
+        'TrainingSession': TrainingSession,
+        'Match': Match,
+        'MatchLineup': MatchLineup
     }
 
 def init_db():

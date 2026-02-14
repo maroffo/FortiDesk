@@ -196,6 +196,55 @@
 </div>
 {% endif %}
 
+<!-- Upcoming Matches -->
+{% if upcoming_matches %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>{{ _('Upcoming Matches') }}</h5>
+                <a href="{{ url_for('matches.index', team_id=team.id) }}" class="btn btn-sm btn-outline-primary">{{ _('View All') }}</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Date') }}</th>
+                                <th>{{ _('Opponent') }}</th>
+                                <th>{{ _('Type') }}</th>
+                                <th>{{ _('Location') }}</th>
+                                <th>{{ _('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for match in upcoming_matches %}
+                            <tr>
+                                <td>{{ match.date.strftime('%d/%m/%Y') }}</td>
+                                <td>
+                                    {{ match.opponent }}
+                                    {% if match.is_home %}
+                                    <span class="badge bg-info">{{ _('Home') }}</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ _('Away') }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ match.get_match_type_display() }}</td>
+                                <td>{{ match.location or '-' }}</td>
+                                <td>
+                                    <a href="{{ url_for('matches.view', id=match.id) }}" class="btn btn-sm btn-outline-primary">{{ _('View') }}</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <!-- Athletes -->
 <div class="row">
     <div class="col-12 mb-4">

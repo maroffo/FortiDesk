@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Enter Result') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>{{ _('Enter Result') }}</h1>
+
+        <!-- Match context -->
+        <div class="alert alert-light mb-4">
+            <strong>{{ match.team.name }}</strong> vs <strong>{{ match.opponent }}</strong>
+            <br>
+            <small class="text-muted">
+                {{ match.date.strftime('%d/%m/%Y') }}
+                {% if match.kick_off_time %} - {{ match.kick_off_time.strftime('%H:%M') }}{% endif %}
+                {% if match.location %} | {{ match.location }}{% endif %}
+            </small>
+        </div>
+
+        <div class="card mt-2">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('matches.result', id=match.id) }}">
+                    {{ form.hidden_tag() }}
+
+                    <div class="row">
+                        <!-- Home Score -->
+                        <div class="col-md-6 mb-3">
+                            {{ form.score_home.label(class="form-label") }}
+                            {{ form.score_home(class="form-control" + (" is-invalid" if form.score_home.errors else ""), min=0) }}
+                            <div class="form-text">{{ match.team.name if match.is_home else match.opponent }}</div>
+                            {% if form.score_home.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.score_home.errors %}{{ error }}{% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Away Score -->
+                        <div class="col-md-6 mb-3">
+                            {{ form.score_away.label(class="form-label") }}
+                            {{ form.score_away(class="form-control" + (" is-invalid" if form.score_away.errors else ""), min=0) }}
+                            <div class="form-text">{{ match.opponent if match.is_home else match.team.name }}</div>
+                            {% if form.score_away.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.score_away.errors %}{{ error }}{% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Result -->
+                    <div class="mb-3">
+                        {{ form.result.label(class="form-label") }}
+                        {{ form.result(class="form-select" + (" is-invalid" if form.result.errors else "")) }}
+                        <div class="form-text">{{ _('From the perspective of your team') }}</div>
+                        {% if form.result.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.result.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="mb-3">
+                        {{ form.notes.label(class="form-label") }}
+                        {{ form.notes(class="form-control", rows=3) }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('matches.view', id=match.id) }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+                        {{ form.submit(class="btn btn-success") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
