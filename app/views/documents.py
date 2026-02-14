@@ -1,6 +1,7 @@
 # ABOUTME: Document management views for uploading, viewing, and tracking document expiry
 # ABOUTME: Supports file upload/download for athlete and staff documents
 
+import os
 from datetime import date, timedelta
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request, send_file, jsonify
@@ -15,22 +16,38 @@ from app.utils.uploads import save_upload, delete_upload
 documents_bp = Blueprint('documents', __name__, url_prefix='/documents')
 
 
-def _resolve_entity(entity_type, entity_id):
-    """Look up the entity (Athlete or Staff) and return (entity, display_name)."""
-    if entity_type == 'athlete':
-        entity = Athlete.query.get(entity_id)
-    elif entity_type == 'staff':
-        entity = Staff.query.get(entity_id)
-    else:
-        entity = None
-    name = entity.get_full_name() if entity else _('Unknown')
-    return entity, name
+def _batch_resolve_entity_names(documents):
+    """Batch-resolve entity names to avoid N+1 queries."""
+    athlete_ids = {d.entity_id for d in documents if d.entity_type == 'athlete'}
+    staff_ids = {d.entity_id for d in documents if d.entity_type == 'staff'}
+
+    athlete_map = {}
+    if athlete_ids:
+        athletes = Athlete.query.filter(Athlete.id.in_(athlete_ids)).all()
+        athlete_map = {a.id: a.get_full_name() for a in athletes}
+
+    staff_map = {}
+    if staff_ids:
+        staff_members = Staff.query.filter(Staff.id.in_(staff_ids)).all()
+        staff_map = {s.id: s.get_full_name() for s in staff_members}
+
+    entity_names = {}
+    for doc in documents:
+        if doc.entity_type == 'athlete':
+            entity_names[doc.id] = athlete_map.get(doc.entity_id, _('Unknown'))
+        else:
+            entity_names[doc.id] = staff_map.get(doc.entity_id, _('Unknown'))
+    return entity_names
 
 
 @documents_bp.route('/')
 @login_required
 def index():
     """List documents with filtering."""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('main.dashboard'))
+
     page = request.args.get('page', 1, type=int)
     per_page = 20
 
@@ -65,12 +82,7 @@ def index():
         page=page, per_page=per_page, error_out=False
     )
     documents = pagination.items
-
-    # Pre-resolve entity names for display
-    entity_names = {}
-    for doc in documents:
-        _, name = _resolve_entity(doc.entity_type, doc.entity_id)
-        entity_names[doc.id] = name
+    entity_names = _batch_resolve_entity_names(documents)
 
     return render_template('documents/index.html',
                            documents=documents,
@@ -135,6 +147,9 @@ def upload():
 @login_required
 def api_entities(entity_type):
     """Return JSON list of entities for dynamic form population."""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        return jsonify([]), 403
+
     if entity_type == 'athlete':
         entities = Athlete.query.filter_by(is_active=True).order_by(Athlete.last_name).all()
         return jsonify([{'id': e.id, 'name': e.get_full_name()} for e in entities])
@@ -148,12 +163,23 @@ def api_entities(entity_type):
 @login_required
 def view(id):
     """View document details."""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('main.dashboard'))
+
     document = Document.query.get_or_404(id)
     if not document.is_active:
         flash(_('Document not found.'), 'error')
         return redirect(url_for('documents.index'))
 
-    entity, entity_name = _resolve_entity(document.entity_type, document.entity_id)
+    # Resolve entity
+    if document.entity_type == 'athlete':
+        entity = Athlete.query.get(document.entity_id)
+    elif document.entity_type == 'staff':
+        entity = Staff.query.get(document.entity_id)
+    else:
+        entity = None
+    entity_name = entity.get_full_name() if entity else _('Unknown')
 
     return render_template('documents/view.html',
                            document=document,
@@ -165,12 +191,15 @@ def view(id):
 @login_required
 def download(id):
     """Download the document file."""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('main.dashboard'))
+
     document = Document.query.get_or_404(id)
     if not document.is_active:
         flash(_('Document not found.'), 'error')
         return redirect(url_for('documents.index'))
 
-    import os
     if not os.path.exists(document.file_path):
         flash(_('File not found on server.'), 'error')
         return redirect(url_for('documents.view', id=document.id))
@@ -199,6 +228,10 @@ def delete(id):
 @login_required
 def expiring():
     """List documents expiring within N days."""
+    if not (current_user.is_admin() or current_user.is_coach()):
+        flash(_('Permission denied.'), 'error')
+        return redirect(url_for('main.dashboard'))
+
     days = request.args.get('days', 30, type=int)
     entity_type = request.args.get('entity_type', '')
 
@@ -213,12 +246,7 @@ def expiring():
         query = query.filter(Document.entity_type == entity_type)
 
     documents = query.order_by(Document.expiry_date.asc()).all()
-
-    # Pre-resolve entity names
-    entity_names = {}
-    for doc in documents:
-        _, name = _resolve_entity(doc.entity_type, doc.entity_id)
-        entity_names[doc.id] = name
+    entity_names = _batch_resolve_entity_names(documents)
 
     return render_template('documents/expiring.html',
                            documents=documents,
