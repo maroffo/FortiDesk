@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Assign Staff') }} - FortiDesk{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>{{ _('Assign Staff to Team: %(name)s', name=team.name) }}</h1>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('teams.assign_staff', id=team.id) }}">
+                    {{ form.hidden_tag() }}
+
+                    <!-- Staff Member -->
+                    <div class="mb-3">
+                        {{ form.staff_id.label(class="form-label") }}
+                        {{ form.staff_id(class="form-control" + (" is-invalid" if form.staff_id.errors else "")) }}
+                        {% if form.staff_id.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.staff_id.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Role -->
+                    <div class="mb-3">
+                        {{ form.role.label(class="form-label") }}
+                        {{ form.role(class="form-control" + (" is-invalid" if form.role.errors else "")) }}
+                        {% if form.role.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.role.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="form-text">{{ _('Select the role for this staff member in the team') }}</div>
+                    </div>
+
+                    <!-- Assigned Date -->
+                    <div class="mb-3">
+                        {{ form.assigned_date.label(class="form-label") }}
+                        {{ form.assigned_date(class="form-control" + (" is-invalid" if form.assigned_date.errors else "")) }}
+                        {% if form.assigned_date.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.assigned_date.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="mb-3">
+                        {{ form.notes.label(class="form-label") }}
+                        {{ form.notes(class="form-control", rows=3) }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('teams.view', id=team.id) }}" class="btn btn-secondary">{{ _('Cancel') }}</a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

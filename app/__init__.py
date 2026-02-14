@@ -35,6 +35,7 @@ def create_app(config_name='default'):
     from app.views.staff import staff_bp
     from app.views.attendance import attendance_bp
     from app.views.equipment import equipment_bp
+    from app.views.teams import teams_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
@@ -42,5 +43,6 @@ def create_app(config_name='default'):
     app.register_blueprint(staff_bp)
     app.register_blueprint(attendance_bp)
     app.register_blueprint(equipment_bp)
+    app.register_blueprint(teams_bp)
 
     return app

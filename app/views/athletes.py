@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import login_required, current_user
 from flask_babel import gettext as _
 from app import db
-from app.models import Athlete, Guardian
+from app.models import Athlete, Guardian, Team
 from app.forms.athletes_forms import AthleteForm
 
 athletes_bp = Blueprint('athletes', __name__, url_prefix='/athletes')
@@ -40,7 +40,11 @@ def new():
         return redirect(url_for('athletes.index'))
 
     form = AthleteForm()
-    
+
+    # Populate team choices
+    teams = Team.query.filter_by(is_active=True).order_by(Team.name).all()
+    form.team_id.choices = [('', _('-- No Team --'))] + [(t.id, t.name) for t in teams]
+
     if form.validate_on_submit():
         try:
             # Check if fiscal code already exists
@@ -59,6 +63,7 @@ def new():
                 birth_date=form.birth_date.data,
                 birth_place=form.birth_place.data.strip().title(),
                 fiscal_code=form.fiscal_code.data.upper(),
+                team_id=form.team_id.data if form.team_id.data else None,
                 street_address=form.street_address.data.strip(),
                 street_number=form.street_number.data.strip(),
                 postal_code=form.postal_code.data.strip(),
@@ -134,6 +139,10 @@ def edit(id):
 
     form = AthleteForm(obj=athlete)
 
+    # Populate team choices
+    teams = Team.query.filter_by(is_active=True).order_by(Team.name).all()
+    form.team_id.choices = [('', _('-- No Team --'))] + [(t.id, t.name) for t in teams]
+
     # Populate guardian data in form
     guardians = athlete.guardians
     if len(guardians) >= 1:
@@ -168,6 +177,7 @@ def edit(id):
             athlete.birth_date = form.birth_date.data
             athlete.birth_place = form.birth_place.data.strip().title()
             athlete.fiscal_code = form.fiscal_code.data.upper()
+            athlete.team_id = form.team_id.data if form.team_id.data else None
             athlete.street_address = form.street_address.data.strip()
             athlete.street_number = form.street_number.data.strip()
             athlete.postal_code = form.postal_code.data.strip()

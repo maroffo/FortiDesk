@@ -53,6 +53,7 @@ class BulkAttendanceForm(FlaskForm):
 class AttendanceReportForm(FlaskForm):
     """Form for filtering attendance reports"""
 
+    team_id = SelectField(_l('Team'), coerce=int, validators=[Optional()])
     athlete_id = SelectField(_l('Athlete'), coerce=int, validators=[Optional()])
     start_date = DateField(_l('From Date'), validators=[Optional()])
     end_date = DateField(_l('To Date'), validators=[Optional()])

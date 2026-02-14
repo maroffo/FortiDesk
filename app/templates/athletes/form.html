@@ -84,6 +84,19 @@
                             </div>
                         {% endif %}
                     </div>
+
+                    <div class="mb-3">
+                        {{ form.team_id.label(class="form-label") }}
+                        {{ form.team_id(class="form-control") }}
+                        {% if form.team_id.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.team_id.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">{{ _('Optional - assign athlete to a team') }}</div>
+                    </div>
                 </div>
             </div>
 

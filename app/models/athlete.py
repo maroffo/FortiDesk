@@ -30,15 +30,19 @@ class Athlete(db.Model):
     certificate_type = db.Column(db.String(50), nullable=True)  # 'medical' or 'sports_booklet'
     certificate_expiry = db.Column(db.Date, nullable=True)
     
+    # Team assignment
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable=True, index=True)
+
     # Metadata
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     is_active = db.Column(db.Boolean, default=True, nullable=False)
-    
+
     # Relationships
     guardians = db.relationship('Guardian', backref='athlete', lazy=True, cascade='all, delete-orphan')
     created_by_user = db.relationship('User', backref='athletes_created')
+    # team relationship defined in Team model
     
     def get_full_name(self):
         """Returns the full name"""

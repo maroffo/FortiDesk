@@ -1,7 +1,8 @@
 import os
 import time
 from app import create_app, db
-from app.models import User, Athlete, Guardian, Staff, Attendance, Equipment, EquipmentAssignment
+from app.models import (User, Athlete, Guardian, Staff, Team, TeamStaffAssignment,
+                        Attendance, Equipment, EquipmentAssignment)
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -13,6 +14,8 @@ def make_shell_context():
         'Athlete': Athlete,
         'Guardian': Guardian,
         'Staff': Staff,
+        'Team': Team,
+        'TeamStaffAssignment': TeamStaffAssignment,
         'Attendance': Attendance,
         'Equipment': Equipment,
         'EquipmentAssignment': EquipmentAssignment

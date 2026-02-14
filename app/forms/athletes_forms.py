@@ -34,6 +34,11 @@ class AthleteForm(FlaskForm):
                                           Regexp(r'^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$',
                                                 message=_l('Enter a valid fiscal code'))])
 
+    # Team
+    team_id = SelectField(_l('Team'),
+                         coerce=int,
+                         validators=[Optional()])
+
     # Address
     street_address = StringField(_l('Street Address'),
                                validators=[DataRequired(), Length(max=200)])
