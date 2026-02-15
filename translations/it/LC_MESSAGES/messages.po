@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-20 22:53+0200\n"
+"POT-Creation-Date: 2026-02-15 09:01+0100\n"
 "PO-Revision-Date: 2025-10-20 22:39+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: it\n"
@@ -16,17 +16,93 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 
-#: app/forms/athletes_forms.py:8 app/forms/athletes_forms.py:23
-#: app/forms/staff_forms.py:10 app/views/auth.py:30
+#: app/__init__.py:56
+msgid "You must be logged in to access this page."
+msgstr "È necessario effettuare l'accesso per visualizzare questa pagina."
+
+#: app/forms/admin_forms.py:12 app/templates/admin/user_detail.html:28
+#: app/templates/admin/users.html:55 app/views/auth.py:26
+msgid "Username"
+msgstr "Nome Utente"
+
+#: app/forms/admin_forms.py:14 app/forms/athletes_forms.py:15
+#: app/forms/emergency_contact_forms.py:20 app/forms/staff_forms.py:28
+#: app/templates/admin/user_detail.html:32 app/templates/admin/users.html:57
+#: app/templates/athletes/detail.html:226
+#: app/templates/athletes/detail.html:325 app/templates/staff/detail.html:120
+#: app/templates/staff/index.html:59 app/templates/teams/view.html:72
+#: app/views/auth.py:28
+msgid "Email"
+msgstr "Email"
+
+#: app/forms/admin_forms.py:16 app/forms/athletes_forms.py:8
+#: app/forms/athletes_forms.py:23 app/forms/staff_forms.py:10
+#: app/views/auth.py:30
 msgid "First Name"
 msgstr "Nome"
 
-#: app/forms/athletes_forms.py:10 app/forms/athletes_forms.py:25
-#: app/forms/staff_forms.py:12 app/views/auth.py:32
+#: app/forms/admin_forms.py:18 app/forms/athletes_forms.py:10
+#: app/forms/athletes_forms.py:25 app/forms/staff_forms.py:12
+#: app/views/auth.py:32
 msgid "Last Name"
 msgstr "Cognome"
+
+#: app/forms/admin_forms.py:20 app/forms/staff_forms.py:55
+#: app/forms/team_forms.py:28 app/templates/admin/user_detail.html:40
+#: app/templates/admin/users.html:33 app/templates/admin/users.html:58
+#: app/templates/athletes/detail.html:366 app/templates/matches/view.html:131
+#: app/templates/staff/detail.html:186 app/templates/staff/index.html:29
+#: app/templates/staff/index.html:58
+msgid "Role"
+msgstr "Ruolo"
+
+#: app/forms/admin_forms.py:22 app/templates/admin/users.html:36
+#: app/templates/base.html:66
+msgid "Admin"
+msgstr "Amministratore"
+
+#: app/forms/admin_forms.py:23 app/forms/staff_forms.py:57
+#: app/forms/training_forms.py:38 app/forms/training_forms.py:90
+#: app/models/staff.py:77 app/templates/admin/users.html:37
+#: app/templates/staff/index.html:32 app/templates/training/index.html:75
+#: app/templates/training/view.html:87 app/templates/training/view.html:91
+msgid "Coach"
+msgstr "Allenatore"
+
+#: app/forms/admin_forms.py:24 app/templates/admin/users.html:38
+msgid "Parent"
+msgstr "Genitore"
+
+#: app/forms/admin_forms.py:25 app/templates/admin/users.html:39
+msgid "Player"
+msgstr "Giocatore"
+
+#: app/forms/admin_forms.py:28 app/templates/admin/user_form.html:95
+#: app/views/auth.py:20 app/views/auth.py:34
+msgid "Password"
+msgstr "Password"
+
+#: app/forms/admin_forms.py:30 app/views/auth.py:36
+msgid "Confirm Password"
+msgstr "Conferma Password"
+
+#: app/forms/admin_forms.py:32 app/views/auth.py:37
+msgid "Passwords must match"
+msgstr "Le password devono corrispondere"
+
+#: app/forms/admin_forms.py:33 app/forms/insurance_forms.py:52
+msgid "Save"
+msgstr "Salva"
+
+#: app/forms/admin_forms.py:44
+msgid "Username already in use."
+msgstr "Username già in uso."
+
+#: app/forms/admin_forms.py:50
+msgid "Email already in use."
+msgstr "Email già in uso."
 
 #: app/forms/athletes_forms.py:12 app/forms/staff_forms.py:25
 msgid "Phone Number"
@@ -36,30 +112,38 @@ msgstr "Numero di Telefono"
 msgid "Enter a valid phone number"
 msgstr "Inserire un numero di telefono valido"
 
-#: app/forms/athletes_forms.py:15 app/forms/staff_forms.py:28
-#: app/templates/athletes/detail.html:220 app/templates/dashboard.html:18
-#: app/templates/staff/detail.html:120 app/templates/staff/index.html:59
-#: app/views/auth.py:28
-msgid "Email"
-msgstr "Email"
-
-#: app/forms/athletes_forms.py:17 app/templates/athletes/detail.html:163
-#: app/templates/staff/detail.html:223
+#: app/forms/athletes_forms.py:17 app/forms/communication_forms.py:22
+#: app/templates/athletes/detail.html:169
+#: app/templates/athletes/detail.html:363
+#: app/templates/athletes/detail.html:427
+#: app/templates/communications/index.html:21
+#: app/templates/communications/index.html:55
+#: app/templates/communications/view.html:14 app/templates/dashboard.html:291
+#: app/templates/documents/expiring.html:51
+#: app/templates/documents/index.html:50
+#: app/templates/email/expiry_reminder.html:11
+#: app/templates/email/team_announcement.html:7
+#: app/templates/matches/index.html:75
+#: app/templates/reports/document_status.html:24
+#: app/templates/reports/insurance_status.html:24
+#: app/templates/staff/detail.html:223 app/templates/teams/view.html:215
+#: app/templates/training/index.html:76 app/templates/training/view.html:60
+#: app/views/reports.py:255 app/views/reports.py:304
 msgid "Type"
 msgstr "Tipo"
 
-#: app/forms/athletes_forms.py:18 app/forms/athletes_forms.py:81
-#: app/forms/athletes_forms.py:93
+#: app/forms/athletes_forms.py:18 app/forms/athletes_forms.py:99
+#: app/forms/athletes_forms.py:111 app/models/guardian.py:36
 msgid "Father"
 msgstr "Padre"
 
-#: app/forms/athletes_forms.py:18 app/forms/athletes_forms.py:81
-#: app/forms/athletes_forms.py:93
+#: app/forms/athletes_forms.py:18 app/forms/athletes_forms.py:99
+#: app/forms/athletes_forms.py:111 app/models/guardian.py:37
 msgid "Mother"
 msgstr "Madre"
 
-#: app/forms/athletes_forms.py:18 app/forms/athletes_forms.py:81
-#: app/forms/athletes_forms.py:93
+#: app/forms/athletes_forms.py:18 app/forms/athletes_forms.py:99
+#: app/forms/athletes_forms.py:111 app/models/guardian.py:38
 msgid "Guardian"
 msgstr "Tutore"
 
@@ -75,6 +159,7 @@ msgstr "Luogo di Nascita"
 
 #: app/forms/athletes_forms.py:32 app/forms/staff_forms.py:19
 #: app/templates/athletes/detail.html:82 app/templates/staff/detail.html:103
+#: app/views/reports.py:62
 msgid "Fiscal Code"
 msgstr "Codice Fiscale"
 
@@ -82,179 +167,904 @@ msgstr "Codice Fiscale"
 msgid "Enter a valid fiscal code"
 msgstr "Inserire un codice fiscale valido"
 
-#: app/forms/athletes_forms.py:38 app/forms/staff_forms.py:32
+#: app/forms/athletes_forms.py:37 app/templates/athletes/detail.html:87
+#: app/templates/reports/team_roster.html:39 app/views/reports.py:61
+msgid "FIR ID"
+msgstr "Tessera FIR"
+
+#: app/forms/athletes_forms.py:41 app/forms/attendance_forms.py:59
+#: app/forms/communication_forms.py:32 app/forms/match_forms.py:25
+#: app/forms/report_forms.py:14 app/forms/training_forms.py:31
+#: app/forms/training_forms.py:83 app/templates/communications/index.html:31
+#: app/templates/communications/index.html:56
+#: app/templates/communications/view.html:28 app/templates/dashboard.html:256
+#: app/templates/email/team_announcement.html:5
+#: app/templates/matches/index.html:20 app/templates/matches/index.html:76
+#: app/templates/matches/view.html:54 app/templates/reports/team_roster.html:40
+#: app/templates/training/index.html:25 app/templates/training/index.html:74
+#: app/templates/training/view.html:82 app/views/reports.py:61
+msgid "Team"
+msgstr "Squadra"
+
+#: app/forms/athletes_forms.py:46 app/forms/staff_forms.py:32
 msgid "Street Address"
 msgstr "Indirizzo"
 
-#: app/forms/athletes_forms.py:40 app/forms/staff_forms.py:34
+#: app/forms/athletes_forms.py:48 app/forms/staff_forms.py:34
 msgid "Street Number"
 msgstr "Numero Civico"
 
-#: app/forms/athletes_forms.py:42 app/forms/staff_forms.py:36
+#: app/forms/athletes_forms.py:50 app/forms/staff_forms.py:36
 msgid "Postal Code"
 msgstr "CAP"
 
-#: app/forms/athletes_forms.py:44 app/forms/staff_forms.py:38
+#: app/forms/athletes_forms.py:52 app/forms/staff_forms.py:38
 msgid "Enter a valid postal code"
 msgstr "Inserire un CAP valido"
 
-#: app/forms/athletes_forms.py:45 app/forms/staff_forms.py:39
-#: app/templates/athletes/index.html:40
+#: app/forms/athletes_forms.py:53 app/forms/staff_forms.py:39
+#: app/templates/athletes/index.html:40 app/templates/teams/view.html:263
 msgid "City"
 msgstr "Città"
 
-#: app/forms/athletes_forms.py:47 app/forms/staff_forms.py:41
+#: app/forms/athletes_forms.py:55 app/forms/staff_forms.py:41
 msgid "Province"
 msgstr "Provincia"
 
-#: app/forms/athletes_forms.py:49 app/forms/staff_forms.py:43
+#: app/forms/athletes_forms.py:57 app/forms/staff_forms.py:43
 msgid "Enter a valid province code (e.g., BO)"
 msgstr "Inserire un codice provincia valido (es. BO)"
 
-#: app/forms/athletes_forms.py:52 app/forms/staff_forms.py:46
+#: app/forms/athletes_forms.py:60 app/forms/staff_forms.py:46
 msgid "Document Number"
 msgstr "Numero Documento"
 
-#: app/forms/athletes_forms.py:54 app/forms/staff_forms.py:48
-#: app/templates/athletes/detail.html:127 app/templates/staff/detail.html:160
+#: app/forms/athletes_forms.py:62 app/forms/staff_forms.py:48
+#: app/templates/athletes/detail.html:133 app/templates/staff/detail.html:160
 msgid "Issuing Authority"
 msgstr "Ente Rilascio"
 
-#: app/forms/athletes_forms.py:56 app/forms/staff_forms.py:50
+#: app/forms/athletes_forms.py:64 app/forms/staff_forms.py:50
 msgid "Document Expiry"
 msgstr "Scadenza Documento"
 
-#: app/forms/athletes_forms.py:61 app/forms/staff_forms.py:70
+#: app/forms/athletes_forms.py:69 app/forms/staff_forms.py:70
 msgid "Has Medical Certificate/Sports Booklet"
 msgstr "Ha Certificato Medico/Libretto dello Sportivo"
 
-#: app/forms/athletes_forms.py:62 app/forms/staff_forms.py:71
+#: app/forms/athletes_forms.py:70 app/forms/staff_forms.py:71
 msgid "Certificate Type"
 msgstr "Tipo Certificato"
 
-#: app/forms/athletes_forms.py:63 app/forms/staff_forms.py:72
+#: app/forms/athletes_forms.py:71 app/forms/staff_forms.py:72
 msgid "Select..."
 msgstr "Seleziona..."
 
-#: app/forms/athletes_forms.py:64 app/forms/staff_forms.py:73
-#: app/templates/athletes/detail.html:148
-#: app/templates/athletes/detail.html:166 app/templates/staff/detail.html:208
-#: app/templates/staff/detail.html:226
+#: app/forms/athletes_forms.py:72 app/forms/document_forms.py:18
+#: app/forms/document_forms.py:59 app/forms/staff_forms.py:73
+#: app/models/document.py:51 app/templates/athletes/detail.html:154
+#: app/templates/athletes/detail.html:172 app/templates/dashboard.html:97
+#: app/templates/dashboard.html:141 app/templates/staff/detail.html:208
+#: app/templates/staff/detail.html:226 app/views/reports.py:62
 msgid "Medical Certificate"
 msgstr "Certificato Medico"
 
-#: app/forms/athletes_forms.py:65 app/forms/staff_forms.py:74
-#: app/templates/athletes/detail.html:168 app/templates/staff/detail.html:228
+#: app/forms/athletes_forms.py:73 app/forms/staff_forms.py:74
+#: app/templates/athletes/detail.html:174 app/templates/staff/detail.html:228
 msgid "Sports Booklet"
 msgstr "Libretto dello Sportivo"
 
-#: app/forms/athletes_forms.py:67 app/forms/staff_forms.py:76
+#: app/forms/athletes_forms.py:75 app/forms/staff_forms.py:76
 msgid "Certificate Expiry"
 msgstr "Scadenza Certificato"
 
-#: app/forms/athletes_forms.py:72
+#: app/forms/athletes_forms.py:80 app/templates/athletes/detail.html:259
+msgid "Allergies"
+msgstr "Allergie"
+
+#: app/forms/athletes_forms.py:81 app/templates/athletes/detail.html:264
+msgid "Medical Conditions"
+msgstr "Condizioni Mediche"
+
+#: app/forms/athletes_forms.py:82 app/templates/athletes/detail.html:254
+msgid "Blood Type"
+msgstr "Gruppo Sanguigno"
+
+#: app/forms/athletes_forms.py:83
+msgid "-- Unknown --"
+msgstr "-- Sconosciuto --"
+
+#: app/forms/athletes_forms.py:87 app/templates/athletes/detail.html:269
+msgid "Special Notes"
+msgstr "Note Speciali"
+
+#: app/forms/athletes_forms.py:90
 msgid "Guardian 1 First Name"
 msgstr "Nome Genitore 1"
 
-#: app/forms/athletes_forms.py:74
+#: app/forms/athletes_forms.py:92
 msgid "Guardian 1 Last Name"
 msgstr "Cognome Genitore 1"
 
-#: app/forms/athletes_forms.py:76
+#: app/forms/athletes_forms.py:94
 msgid "Guardian 1 Phone"
 msgstr "Telefono Genitore 1"
 
-#: app/forms/athletes_forms.py:78
+#: app/forms/athletes_forms.py:96
 msgid "Guardian 1 Email"
 msgstr "Email Genitore 1"
 
-#: app/forms/athletes_forms.py:80
+#: app/forms/athletes_forms.py:98
 msgid "Guardian 1 Type"
 msgstr "Tipo Genitore 1"
 
-#: app/forms/athletes_forms.py:84
+#: app/forms/athletes_forms.py:102
 msgid "Guardian 2 First Name"
 msgstr "Nome Genitore 2"
 
-#: app/forms/athletes_forms.py:86
+#: app/forms/athletes_forms.py:104
 msgid "Guardian 2 Last Name"
 msgstr "Cognome Genitore 2"
 
-#: app/forms/athletes_forms.py:88
+#: app/forms/athletes_forms.py:106
 msgid "Guardian 2 Phone"
 msgstr "Telefono Genitore 2"
 
-#: app/forms/athletes_forms.py:90
+#: app/forms/athletes_forms.py:108
 msgid "Guardian 2 Email"
 msgstr "Email Genitore 2"
 
-#: app/forms/athletes_forms.py:92
+#: app/forms/athletes_forms.py:110
 msgid "Guardian 2 Type"
 msgstr "Tipo Genitore 2"
 
-#: app/forms/athletes_forms.py:96
+#: app/forms/athletes_forms.py:114
 msgid "Save Athlete"
 msgstr "Salva Atleta"
 
-#: app/forms/athletes_forms.py:103 app/forms/staff_forms.py:96
+#: app/forms/athletes_forms.py:121 app/forms/staff_forms.py:96
 msgid "Birth date cannot be in the future"
 msgstr "La data di nascita non può essere nel futuro"
 
-#: app/forms/athletes_forms.py:106
+#: app/forms/athletes_forms.py:124
 msgid "Athlete must be under 18 years old"
 msgstr "L'atleta deve avere meno di 18 anni"
 
-#: app/forms/athletes_forms.py:108
+#: app/forms/athletes_forms.py:126
 msgid "Athlete must be at least 3 years old"
 msgstr "L'atleta deve avere almeno 3 anni"
 
-#: app/forms/athletes_forms.py:113 app/forms/staff_forms.py:106
+#: app/forms/athletes_forms.py:131 app/forms/staff_forms.py:106
 msgid "Document is already expired"
 msgstr "Il documento è già scaduto"
 
-#: app/forms/athletes_forms.py:119 app/forms/staff_forms.py:112
+#: app/forms/athletes_forms.py:137 app/forms/staff_forms.py:112
 msgid "Specify certificate type"
 msgstr "Specificare il tipo di certificato"
 
-#: app/forms/athletes_forms.py:121 app/forms/staff_forms.py:114
+#: app/forms/athletes_forms.py:139 app/forms/staff_forms.py:114
 msgid "Specify certificate expiry date"
 msgstr "Specificare la data di scadenza del certificato"
 
-#: app/forms/athletes_forms.py:126 app/forms/athletes_forms.py:131
+#: app/forms/athletes_forms.py:144 app/forms/athletes_forms.py:149
 msgid "Cannot have two guardians of the same type"
 msgstr "Non è possibile avere due genitori dello stesso tipo"
 
-#: app/forms/staff_forms.py:55 app/templates/dashboard.html:19
-#: app/templates/staff/detail.html:186 app/templates/staff/index.html:29
-#: app/templates/staff/index.html:58
-msgid "Role"
-msgstr "Ruolo"
+#: app/forms/athletes_forms.py:161
+msgid "An athlete with this FIR ID already exists"
+msgstr "Esiste già un atleta con questo Tessera FIR"
 
-#: app/forms/staff_forms.py:57 app/templates/staff/index.html:32
-msgid "Coach"
-msgstr "Allenatore"
+#: app/forms/attendance_forms.py:11 app/forms/attendance_forms.py:62
+#: app/forms/document_forms.py:37 app/forms/document_forms.py:72
+#: app/forms/equipment_forms.py:61
+#: app/templates/athletes/emergency_contact_form.html:17
+#: app/templates/athletes/insurance_form.html:17
+#: app/templates/attendance/check_in.html:14
+#: app/templates/attendance/index.html:26
+#: app/templates/attendance/report.html:24 app/templates/attendance/view.html:6
+#: app/templates/dashboard.html:289 app/templates/documents/expiring.html:31
+#: app/templates/equipment/assignments.html:4
+#: app/templates/equipment/return.html:5
+#: app/templates/reports/attendance_summary.html:45
+#: app/templates/reports/insurance_status.html:23 app/views/reports.py:166
+#: app/views/reports.py:304
+msgid "Athlete"
+msgstr "Atleta"
 
-#: app/forms/staff_forms.py:58 app/templates/staff/index.html:33
+#: app/forms/attendance_forms.py:12 app/forms/attendance_forms.py:42
+#: app/forms/match_forms.py:14 app/forms/training_forms.py:17
+#: app/templates/athletes/detail.html:361
+#: app/templates/attendance/index.html:25
+#: app/templates/attendance/report.html:24 app/templates/attendance/view.html:7
+#: app/templates/communications/index.html:58 app/templates/dashboard.html:290
+#: app/templates/email/training_notification.html:11
+#: app/templates/matches/index.html:72 app/templates/matches/view.html:38
+#: app/templates/teams/view.html:171 app/templates/teams/view.html:213
+#: app/templates/training/index.html:71 app/templates/training/view.html:49
+msgid "Date"
+msgstr "Data"
+
+#: app/forms/attendance_forms.py:14 app/forms/attendance_forms.py:44
+#: app/forms/attendance_forms.py:68 app/forms/training_forms.py:22
+#: app/forms/training_forms.py:74 app/templates/attendance/index.html:27
+msgid "Session Type"
+msgstr "Tipo Sessione"
+
+#: app/forms/attendance_forms.py:16 app/forms/attendance_forms.py:46
+#: app/forms/attendance_forms.py:71 app/forms/communication_forms.py:25
+#: app/forms/training_forms.py:24 app/forms/training_forms.py:76
+#: app/models/announcement.py:41 app/models/attendance.py:60
+#: app/models/training_session.py:65 app/templates/base.html:44
+#: app/templates/calendar/index.html:25
+#: app/templates/communications/index.html:25
+#: app/templates/communications/index.html:70
+#: app/templates/communications/view.html:19
+msgid "Training"
+msgstr "Allenamento"
+
+#: app/forms/attendance_forms.py:17 app/forms/attendance_forms.py:47
+#: app/forms/attendance_forms.py:72 app/forms/communication_forms.py:26
+#: app/models/announcement.py:42 app/models/attendance.py:61
+#: app/templates/calendar/index.html:26
+#: app/templates/communications/index.html:26
+#: app/templates/communications/index.html:72
+#: app/templates/communications/view.html:21
+msgid "Match"
+msgstr "Partita"
+
+#: app/forms/attendance_forms.py:18 app/forms/attendance_forms.py:48
+#: app/forms/attendance_forms.py:73 app/forms/training_forms.py:27
+#: app/forms/training_forms.py:79 app/models/attendance.py:62
+#: app/models/training_session.py:68
+msgid "Event"
+msgstr "Evento"
+
+#: app/forms/attendance_forms.py:23 app/forms/attendance_forms.py:78
+#: app/forms/equipment_forms.py:36 app/forms/equipment_forms.py:114
+#: app/templates/admin/user_detail.html:48 app/templates/admin/users.html:59
+#: app/templates/athletes/detail.html:432
+#: app/templates/attendance/index.html:28
+#: app/templates/attendance/report.html:24 app/templates/attendance/view.html:9
+#: app/templates/dashboard.html:292 app/templates/documents/expiring.html:55
+#: app/templates/documents/index.html:53
+#: app/templates/equipment/assignments.html:4
+#: app/templates/equipment/index.html:9 app/templates/equipment/view.html:7
+#: app/templates/matches/index.html:38 app/templates/matches/index.html:79
+#: app/templates/matches/view.html:62
+#: app/templates/reports/document_status.html:28
+#: app/templates/reports/equipment_inventory.html:27
+#: app/templates/reports/insurance_status.html:29
+#: app/templates/seasons/index.html:24 app/templates/seasons/view.html:43
+#: app/templates/training/index.html:77 app/views/reports.py:202
+#: app/views/reports.py:256 app/views/reports.py:305
+msgid "Status"
+msgstr "Stato"
+
+#: app/forms/attendance_forms.py:25 app/forms/attendance_forms.py:81
+#: app/models/attendance.py:50 app/templates/attendance/check_in.html:14
+#: app/templates/attendance/index.html:43
+#: app/templates/attendance/report.html:16
+#: app/templates/reports/attendance_summary.html:47 app/views/reports.py:166
+msgid "Present"
+msgstr "Presente"
+
+#: app/forms/attendance_forms.py:26 app/forms/attendance_forms.py:82
+#: app/models/attendance.py:51 app/templates/attendance/check_in.html:14
+#: app/templates/attendance/index.html:45
+#: app/templates/attendance/report.html:17
+#: app/templates/reports/attendance_summary.html:48 app/views/reports.py:166
+msgid "Absent"
+msgstr "Assente"
+
+#: app/forms/attendance_forms.py:27 app/forms/attendance_forms.py:83
+#: app/models/attendance.py:52 app/templates/attendance/check_in.html:14
+#: app/templates/attendance/index.html:47
+#: app/templates/attendance/report.html:18
+#: app/templates/reports/attendance_summary.html:49 app/views/reports.py:167
+msgid "Excused"
+msgstr "Giustificato"
+
+#: app/forms/attendance_forms.py:28 app/forms/attendance_forms.py:84
+#: app/models/attendance.py:53 app/templates/attendance/check_in.html:14
+#: app/templates/attendance/index.html:49
+#: app/templates/attendance/report.html:19
+#: app/templates/reports/attendance_summary.html:50 app/views/reports.py:167
+msgid "Late"
+msgstr "In Ritardo"
+
+#: app/forms/attendance_forms.py:32 app/forms/document_forms.py:48
+#: app/forms/insurance_forms.py:49 app/forms/match_forms.py:29
+#: app/forms/match_forms.py:43 app/forms/team_forms.py:36
+#: app/forms/training_forms.py:42 app/forms/training_forms.py:94
+#: app/templates/athletes/detail.html:331
+#: app/templates/attendance/index.html:29 app/templates/attendance/view.html:10
+#: app/templates/documents/view.html:62 app/templates/matches/lineup.html:41
+#: app/templates/matches/view.html:74 app/templates/matches/view.html:132
+#: app/templates/staff/detail.html:192 app/templates/training/view.html:107
+msgid "Notes"
+msgstr "Note"
+
+#: app/forms/attendance_forms.py:33 app/forms/attendance_forms.py:53
+msgid "Save Attendance"
+msgstr "Salva Presenze"
+
+#: app/forms/attendance_forms.py:39
+msgid "Training Session"
+msgstr "Sessione di Allenamento"
+
+#: app/forms/attendance_forms.py:52
+msgid "Session Notes"
+msgstr "Note Sessione"
+
+#: app/forms/attendance_forms.py:65
+msgid "From Date"
+msgstr "Data Inizio"
+
+#: app/forms/attendance_forms.py:66
+msgid "To Date"
+msgstr "Data Fine"
+
+#: app/forms/attendance_forms.py:70 app/forms/attendance_forms.py:80
+#: app/forms/document_forms.py:58 app/forms/document_forms.py:71
+#: app/forms/equipment_forms.py:104 app/forms/equipment_forms.py:116
+#: app/forms/equipment_forms.py:127 app/templates/documents/expiring.html:30
+#: app/templates/matches/index.html:40 app/templates/matches/index.html:50
+#: app/views/reports.py:47
+msgid "All"
+msgstr "Tutti"
+
+#: app/forms/attendance_forms.py:88 app/forms/report_forms.py:31
+msgid "Generate Report"
+msgstr "Genera Report"
+
+#: app/forms/communication_forms.py:14
+#: app/templates/communications/index.html:54
+msgid "Subject"
+msgstr "Oggetto"
+
+#: app/forms/communication_forms.py:18
+msgid "Body"
+msgstr "Testo"
+
+#: app/forms/communication_forms.py:24 app/models/announcement.py:40
+#: app/templates/communications/index.html:24
+#: app/templates/communications/index.html:68
+#: app/templates/communications/view.html:17
+msgid "General"
+msgstr "Generale"
+
+#: app/forms/communication_forms.py:27 app/models/announcement.py:43
+#: app/templates/communications/index.html:27
+#: app/templates/communications/index.html:74
+#: app/templates/communications/view.html:23
+msgid "Administrative"
+msgstr "Amministrativo"
+
+#: app/forms/communication_forms.py:37
+msgid "Send email notification"
+msgstr "Invia notifica email"
+
+#: app/forms/communication_forms.py:40
+msgid "Create Announcement"
+msgstr "Crea Comunicazione"
+
+#: app/forms/document_forms.py:14 app/forms/training_forms.py:16
+#: app/forms/training_forms.py:69 app/templates/documents/expiring.html:50
+#: app/templates/documents/index.html:49
+#: app/templates/email/training_notification.html:7
+#: app/templates/reports/document_status.html:23
+#: app/templates/teams/view.html:172 app/templates/training/index.html:72
+#: app/views/reports.py:255
+msgid "Title"
+msgstr "Titolo"
+
+#: app/forms/document_forms.py:16 app/forms/document_forms.py:56
+#: app/templates/documents/view.html:12
+msgid "Document Type"
+msgstr "Tipo Documento"
+
+#: app/forms/document_forms.py:19 app/forms/document_forms.py:60
+#: app/models/document.py:52 app/templates/dashboard.html:75
+#: app/templates/dashboard.html:119 app/templates/reports/team_roster.html:41
+#: app/views/reports.py:62
+msgid "ID Document"
+msgstr "Documento d'Identità"
+
+#: app/forms/document_forms.py:20 app/forms/document_forms.py:61
+#: app/models/document.py:53 app/templates/dashboard.html:163
+#: app/templates/staff/detail.html:265 app/templates/staff/form.html:327
+msgid "Background Check"
+msgstr "Certificato Penale"
+
+#: app/forms/document_forms.py:21 app/forms/document_forms.py:62
+#: app/models/document.py:54
+msgid "Insurance"
+msgstr "Assicurazione"
+
+#: app/forms/document_forms.py:22 app/forms/document_forms.py:63
+#: app/models/document.py:55
+msgid "Consent Form"
+msgstr "Modulo di Consenso"
+
+#: app/forms/document_forms.py:23 app/forms/document_forms.py:64
+#: app/forms/emergency_contact_forms.py:16 app/forms/equipment_forms.py:18
+#: app/forms/equipment_forms.py:109 app/models/document.py:56
+#: app/models/emergency_contact.py:39 app/models/equipment.py:58
+msgid "Other"
+msgstr "Altro"
+
+#: app/forms/document_forms.py:28
+msgid "File"
+msgstr "File"
+
+#: app/forms/document_forms.py:30
+msgid "Please select a file."
+msgstr "Selezionare un file."
+
+#: app/forms/document_forms.py:31
+msgid "Only PDF and image files (PNG, JPG) are allowed."
+msgstr "Sono ammessi solo file PDF e immagini (PNG, JPG)."
+
+#: app/forms/document_forms.py:35 app/forms/document_forms.py:69
+#: app/templates/documents/expiring.html:28
+#: app/templates/documents/view.html:13
+#: app/templates/reports/document_status.html:26 app/views/reports.py:255
+msgid "Entity Type"
+msgstr "Tipo Soggetto"
+
+#: app/forms/document_forms.py:38 app/forms/document_forms.py:73
+#: app/templates/base.html:36 app/templates/dashboard.html:28
+#: app/templates/documents/expiring.html:32 app/templates/staff/index.html:3
+#: app/templates/staff/index.html:7
+msgid "Staff"
+msgstr "Staff"
+
+#: app/forms/document_forms.py:43 app/templates/documents/expiring.html:52
+#: app/templates/documents/index.html:51 app/templates/documents/view.html:16
+#: app/templates/reports/document_status.html:25 app/views/reports.py:255
+msgid "Entity"
+msgstr "Soggetto"
+
+#: app/forms/document_forms.py:47 app/templates/documents/expiring.html:53
+#: app/templates/documents/view.html:43
+#: app/templates/email/expiry_reminder.html:19
+#: app/templates/reports/document_status.html:27 app/views/reports.py:256
+msgid "Expiry Date"
+msgstr "Data di Scadenza"
+
+#: app/forms/document_forms.py:49 app/templates/documents/index.html:12
+#: app/templates/documents/upload.html:3 app/templates/documents/upload.html:6
+msgid "Upload Document"
+msgstr "Carica Documento"
+
+#: app/forms/document_forms.py:78 app/templates/documents/expiring.html:20
+msgid "Expiring Within"
+msgstr "In Scadenza Entro"
+
+#: app/forms/document_forms.py:80
+msgid "Any"
+msgstr "Qualsiasi"
+
+#: app/forms/document_forms.py:81 app/templates/documents/expiring.html:22
+msgid "30 days"
+msgstr "30 giorni"
+
+#: app/forms/document_forms.py:82 app/templates/documents/expiring.html:23
+msgid "60 days"
+msgstr "60 giorni"
+
+#: app/forms/document_forms.py:83 app/templates/documents/expiring.html:24
+msgid "90 days"
+msgstr "90 giorni"
+
+#: app/forms/document_forms.py:87 app/forms/equipment_forms.py:136
+#: app/templates/communications/index.html:40
+#: app/templates/documents/expiring.html:36
+#: app/templates/documents/index.html:35 app/templates/matches/index.html:58
+#: app/templates/training/index.html:57
+msgid "Filter"
+msgstr "Filtra"
+
+#: app/forms/emergency_contact_forms.py:11
+msgid "Contact Name"
+msgstr "Nome Contatto"
+
+#: app/forms/emergency_contact_forms.py:13
+#: app/templates/athletes/detail.html:316
+msgid "Relationship"
+msgstr "Parentela"
+
+#: app/forms/emergency_contact_forms.py:14 app/models/emergency_contact.py:37
+msgid "Doctor"
+msgstr "Medico"
+
+#: app/forms/emergency_contact_forms.py:15 app/models/emergency_contact.py:38
+msgid "Relative"
+msgstr "Parente"
+
+#: app/forms/emergency_contact_forms.py:18
+#: app/templates/athletes/detail.html:222
+#: app/templates/athletes/detail.html:320 app/templates/staff/detail.html:124
+#: app/templates/staff/index.html:60 app/templates/teams/view.html:69
+msgid "Phone"
+msgstr "Telefono"
+
+#: app/forms/emergency_contact_forms.py:22
+#: app/templates/athletes/detail.html:301
+msgid "Primary Doctor"
+msgstr "Medico Curante"
+
+#: app/forms/emergency_contact_forms.py:23
+msgid "Medical Notes"
+msgstr "Note Mediche"
+
+#: app/forms/emergency_contact_forms.py:25
+msgid "Save Contact"
+msgstr "Salva Contatto"
+
+#: app/forms/equipment_forms.py:10
+msgid "Equipment Name"
+msgstr "Nome Attrezzatura"
+
+#: app/forms/equipment_forms.py:12 app/forms/equipment_forms.py:102
+#: app/templates/equipment/index.html:9 app/templates/equipment/view.html:6
+#: app/templates/reports/equipment_inventory.html:25 app/views/reports.py:201
+msgid "Category"
+msgstr "Categoria"
+
+#: app/forms/equipment_forms.py:14 app/forms/equipment_forms.py:105
+#: app/models/equipment.py:54
+msgid "Ball"
+msgstr "Pallone"
+
+#: app/forms/equipment_forms.py:15 app/forms/equipment_forms.py:106
+#: app/models/equipment.py:55 app/templates/athletes/detail.html:365
+msgid "Jersey"
+msgstr "Maglia"
+
+#: app/forms/equipment_forms.py:16 app/forms/equipment_forms.py:107
+#: app/models/equipment.py:56
+msgid "Protective Gear"
+msgstr "Protezioni"
+
+#: app/forms/equipment_forms.py:17 app/forms/equipment_forms.py:108
+#: app/models/equipment.py:57
+msgid "Training Aid"
+msgstr "Ausilio Allenamento"
+
+#: app/forms/equipment_forms.py:22
+msgid "Size"
+msgstr "Taglia"
+
+#: app/forms/equipment_forms.py:23
+msgid "Inventory Code"
+msgstr "Codice Inventario"
+
+#: app/forms/equipment_forms.py:25 app/forms/equipment_forms.py:125
+#: app/templates/equipment/index.html:9 app/templates/equipment/view.html:8
+#: app/templates/reports/equipment_inventory.html:26 app/views/reports.py:201
+msgid "Condition"
+msgstr "Condizione"
+
+#: app/forms/equipment_forms.py:27 app/forms/equipment_forms.py:67
+#: app/forms/equipment_forms.py:86 app/forms/equipment_forms.py:128
+#: app/models/equipment.py:65
+msgid "New"
+msgstr "Nuovo"
+
+#: app/forms/equipment_forms.py:28 app/forms/equipment_forms.py:68
+#: app/forms/equipment_forms.py:87 app/forms/equipment_forms.py:129
+#: app/models/equipment.py:66
+msgid "Good"
+msgstr "Buono"
+
+#: app/forms/equipment_forms.py:29 app/forms/equipment_forms.py:69
+#: app/forms/equipment_forms.py:88 app/forms/equipment_forms.py:130
+#: app/models/equipment.py:67
+msgid "Fair"
+msgstr "Discreto"
+
+#: app/forms/equipment_forms.py:30 app/forms/equipment_forms.py:70
+#: app/forms/equipment_forms.py:89 app/forms/equipment_forms.py:131
+#: app/models/equipment.py:68
+msgid "Poor"
+msgstr "Scarso"
+
+#: app/forms/equipment_forms.py:31 app/forms/equipment_forms.py:71
+#: app/forms/equipment_forms.py:90 app/forms/equipment_forms.py:132
+#: app/models/equipment.py:69
+msgid "Damaged"
+msgstr "Danneggiato"
+
+#: app/forms/equipment_forms.py:38 app/forms/equipment_forms.py:117
+#: app/models/equipment.py:76
+msgid "Available"
+msgstr "Disponibile"
+
+#: app/forms/equipment_forms.py:39 app/forms/equipment_forms.py:118
+#: app/models/equipment.py:77 app/templates/equipment/assignments.html:4
+msgid "Assigned"
+msgstr "Assegnato"
+
+#: app/forms/equipment_forms.py:40 app/forms/equipment_forms.py:119
+#: app/models/equipment.py:78
+msgid "In Maintenance"
+msgstr "In Manutenzione"
+
+#: app/forms/equipment_forms.py:41 app/forms/equipment_forms.py:120
+#: app/models/equipment.py:79
+msgid "Retired"
+msgstr "Dismesso"
+
+#: app/forms/equipment_forms.py:45
+msgid "Purchase Date"
+msgstr "Data di Acquisto"
+
+#: app/forms/equipment_forms.py:46
+msgid "Purchase Price"
+msgstr "Prezzo di Acquisto"
+
+#: app/forms/equipment_forms.py:47
+msgid "Supplier"
+msgstr "Fornitore"
+
+#: app/forms/equipment_forms.py:48
+msgid "Storage Location"
+msgstr "Luogo di Deposito"
+
+#: app/forms/equipment_forms.py:49
+#: app/templates/reports/equipment_inventory.html:29 app/views/reports.py:202
+msgid "Quantity"
+msgstr "Quantità"
+
+#: app/forms/equipment_forms.py:50 app/forms/season_forms.py:16
+#: app/forms/team_forms.py:11 app/templates/seasons/view.html:54
+#: app/templates/teams/view.html:36
+msgid "Description"
+msgstr "Descrizione"
+
+#: app/forms/equipment_forms.py:51
+msgid "Maintenance Notes"
+msgstr "Note Manutenzione"
+
+#: app/forms/equipment_forms.py:52
+msgid "Last Maintenance"
+msgstr "Ultima Manutenzione"
+
+#: app/forms/equipment_forms.py:53
+msgid "Next Maintenance"
+msgstr "Prossima Manutenzione"
+
+#: app/forms/equipment_forms.py:54
+msgid "Save Equipment"
+msgstr "Salva Attrezzatura"
+
+#: app/forms/equipment_forms.py:60 app/templates/base.html:53
+#: app/templates/dashboard.html:46 app/templates/equipment/assignments.html:4
+#: app/templates/equipment/return.html:4
+msgid "Equipment"
+msgstr "Attrezzature"
+
+#: app/forms/equipment_forms.py:62 app/forms/team_forms.py:35
+msgid "Assignment Date"
+msgstr "Data Assegnazione"
+
+#: app/forms/equipment_forms.py:63
+msgid "Expected Return Date"
+msgstr "Data Prevista Restituzione"
+
+#: app/forms/equipment_forms.py:65
+msgid "Condition at Assignment"
+msgstr "Condizione all'Assegnazione"
+
+#: app/forms/equipment_forms.py:75
+msgid "Assignment Notes"
+msgstr "Note Assegnazione"
+
+#: app/forms/equipment_forms.py:76 app/templates/equipment/assign.html:3
+msgid "Assign Equipment"
+msgstr "Assegna Attrezzatura"
+
+#: app/forms/equipment_forms.py:82
+msgid "Return Date"
+msgstr "Data di Restituzione"
+
+#: app/forms/equipment_forms.py:84
+msgid "Condition at Return"
+msgstr "Condizione alla Restituzione"
+
+#: app/forms/equipment_forms.py:94
+msgid "Return Notes"
+msgstr "Note Restituzione"
+
+#: app/forms/equipment_forms.py:95
+msgid "Process Return"
+msgstr "Elabora Restituzione"
+
+#: app/forms/insurance_forms.py:14 app/templates/athletes/detail.html:429
+msgid "Policy Number"
+msgstr "Numero Polizza"
+
+#: app/forms/insurance_forms.py:18 app/templates/athletes/detail.html:428
+#: app/templates/reports/insurance_status.html:25 app/views/reports.py:304
+msgid "Provider"
+msgstr "Compagnia"
+
+#: app/forms/insurance_forms.py:22
+msgid "Insurance Type"
+msgstr "Tipo Assicurazione"
+
+#: app/forms/insurance_forms.py:24 app/models/insurance.py:39
+msgid "Sports"
+msgstr "Sportiva"
+
+#: app/forms/insurance_forms.py:25 app/models/insurance.py:40
+msgid "Accident"
+msgstr "Infortuni"
+
+#: app/forms/insurance_forms.py:26 app/models/insurance.py:41
+msgid "Civil Liability"
+msgstr "Responsabilità Civile"
+
+#: app/forms/insurance_forms.py:31 app/forms/report_forms.py:24
+#: app/forms/season_forms.py:14 app/forms/training_forms.py:67
+#: app/templates/seasons/index.html:22 app/templates/seasons/view.html:40
+msgid "Start Date"
+msgstr "Data Inizio"
+
+#: app/forms/insurance_forms.py:35 app/forms/report_forms.py:28
+#: app/forms/season_forms.py:15 app/forms/training_forms.py:68
+#: app/templates/seasons/index.html:23 app/templates/seasons/view.html:41
+msgid "End Date"
+msgstr "Data Fine"
+
+#: app/forms/insurance_forms.py:39
+msgid "Coverage Amount"
+msgstr "Importo Copertura"
+
+#: app/forms/insurance_forms.py:44
+msgid "Premium Amount"
+msgstr "Importo Premio"
+
+#: app/forms/match_forms.py:15 app/templates/matches/view.html:40
+msgid "Kick-off Time"
+msgstr "Ora di Inizio"
+
+#: app/forms/match_forms.py:16 app/templates/athletes/detail.html:362
+#: app/templates/matches/index.html:73 app/templates/matches/view.html:42
+#: app/templates/teams/view.html:214
+msgid "Opponent"
+msgstr "Avversario"
+
+#: app/forms/match_forms.py:17 app/forms/training_forms.py:20
+#: app/forms/training_forms.py:72
+#: app/templates/email/training_notification.html:20
+#: app/templates/equipment/view.html:9 app/templates/matches/view.html:44
+#: app/templates/reports/equipment_inventory.html:28
+#: app/templates/teams/view.html:174 app/templates/teams/view.html:216
+#: app/templates/training/view.html:64 app/views/reports.py:202
+msgid "Location"
+msgstr "Luogo"
+
+#: app/forms/match_forms.py:18
+msgid "Home Match"
+msgstr "Partita in Casa"
+
+#: app/forms/match_forms.py:19 app/templates/matches/index.html:48
+#: app/templates/matches/view.html:53
+msgid "Match Type"
+msgstr "Tipo Partita"
+
+#: app/forms/match_forms.py:20 app/models/match.py:65
+#: app/templates/matches/index.html:51
+msgid "League"
+msgstr "Campionato"
+
+#: app/forms/match_forms.py:21 app/models/match.py:66
+#: app/templates/matches/index.html:52
+msgid "Friendly"
+msgstr "Amichevole"
+
+#: app/forms/match_forms.py:22 app/forms/training_forms.py:26
+#: app/forms/training_forms.py:78 app/models/match.py:67
+#: app/models/training_session.py:67 app/templates/matches/index.html:53
+msgid "Tournament"
+msgstr "Torneo"
+
+#: app/forms/match_forms.py:23 app/models/match.py:68
+#: app/templates/matches/index.html:54
+msgid "Cup"
+msgstr "Coppa"
+
+#: app/forms/match_forms.py:26 app/forms/report_forms.py:19
+#: app/forms/team_forms.py:13 app/forms/training_forms.py:33
+#: app/forms/training_forms.py:85 app/templates/matches/index.html:29
+#: app/templates/matches/view.html:58 app/templates/teams/index.html:29
+#: app/templates/teams/view.html:42 app/templates/training/index.html:42
+#: app/templates/training/view.html:94
+msgid "Season"
+msgstr "Stagione"
+
+#: app/forms/match_forms.py:30
+msgid "Save Match"
+msgstr "Salva Partita"
+
+#: app/forms/match_forms.py:36
+msgid "Home Score"
+msgstr "Punteggio Casa"
+
+#: app/forms/match_forms.py:37
+msgid "Away Score"
+msgstr "Punteggio Ospiti"
+
+#: app/forms/match_forms.py:38 app/templates/athletes/detail.html:367
+#: app/templates/matches/index.html:78
+msgid "Result"
+msgstr "Risultato"
+
+#: app/forms/match_forms.py:39 app/models/match.py:87
+#: app/templates/matches/index.html:102 app/templates/matches/view.html:92
+msgid "Win"
+msgstr "Vittoria"
+
+#: app/forms/match_forms.py:40 app/models/match.py:88
+#: app/templates/matches/index.html:104 app/templates/matches/view.html:94
+msgid "Loss"
+msgstr "Sconfitta"
+
+#: app/forms/match_forms.py:41 app/models/match.py:89
+#: app/templates/matches/index.html:106 app/templates/matches/view.html:96
+msgid "Draw"
+msgstr "Pareggio"
+
+#: app/forms/match_forms.py:44
+msgid "Save Result"
+msgstr "Salva Risultato"
+
+#: app/forms/match_forms.py:51
+msgid "Save Lineup"
+msgstr "Salva Formazione"
+
+#: app/forms/season_forms.py:13
+msgid "Season Name"
+msgstr "Nome Stagione"
+
+#: app/forms/season_forms.py:17
+msgid "Save Season"
+msgstr "Salva Stagione"
+
+#: app/forms/season_forms.py:21
+msgid "End date must be after start date."
+msgstr "La data di fine deve essere successiva alla data di inizio."
+
+#: app/forms/staff_forms.py:58 app/forms/team_forms.py:30
+#: app/models/staff.py:78 app/models/team.py:112
+#: app/templates/staff/index.html:33
 msgid "Assistant Coach"
 msgstr "Allenatore Assistente"
 
-#: app/forms/staff_forms.py:59 app/templates/staff/index.html:34
+#: app/forms/staff_forms.py:59 app/models/staff.py:79
+#: app/templates/staff/index.html:34
 msgid "Escort"
 msgstr "Accompagnatore"
 
-#: app/forms/staff_forms.py:60 app/templates/staff/index.html:35
+#: app/forms/staff_forms.py:60 app/models/staff.py:80
+#: app/templates/staff/index.html:35
 msgid "Manager"
 msgstr "Dirigente"
 
-#: app/forms/staff_forms.py:61 app/templates/staff/index.html:36
+#: app/forms/staff_forms.py:61 app/models/staff.py:81
+#: app/templates/staff/index.html:36
 msgid "President"
 msgstr "Presidente"
 
-#: app/forms/staff_forms.py:62 app/templates/staff/index.html:37
+#: app/forms/staff_forms.py:62 app/models/staff.py:82
+#: app/templates/staff/index.html:37
 msgid "Vice President"
 msgstr "Vice Presidente"
 
-#: app/forms/staff_forms.py:63 app/templates/staff/index.html:38
+#: app/forms/staff_forms.py:63 app/models/staff.py:83
+#: app/templates/staff/index.html:38
 msgid "Secretary"
 msgstr "Segretario"
 
@@ -298,32 +1108,194 @@ msgstr "Specificare la data di scadenza del certificato penale"
 msgid "Background check date cannot be in the future"
 msgstr "La data del certificato penale non può essere nel futuro"
 
-#: app/templates/base.html:19 app/templates/base.html:38
-#: app/templates/dashboard.html:3
+#: app/forms/team_forms.py:10
+msgid "Team Name"
+msgstr "Nome Squadra"
+
+#: app/forms/team_forms.py:12 app/templates/teams/index.html:26
+#: app/templates/teams/view.html:39
+msgid "Age Group"
+msgstr "Categoria d'Età"
+
+#: app/forms/team_forms.py:14 app/templates/teams/view.html:45
+msgid "Linked Season"
+msgstr "Stagione Collegata"
+
+#: app/forms/team_forms.py:17 app/templates/teams/index.html:32
+#: app/templates/teams/view.html:62
+msgid "Head Coach"
+msgstr "Allenatore Capo"
+
+#: app/forms/team_forms.py:20
+msgid "Save Team"
+msgstr "Salva Squadra"
+
+#: app/forms/team_forms.py:26
+msgid "Staff Member"
+msgstr "Membro Staff"
+
+#: app/forms/team_forms.py:31 app/models/team.py:113
+msgid "Escort/Accompanier"
+msgstr "Accompagnatore"
+
+#: app/forms/team_forms.py:37 app/templates/teams/assign_staff.html:3
+#: app/templates/teams/view.html:11
+msgid "Assign Staff"
+msgstr "Assegna Staff"
+
+#: app/forms/training_forms.py:18 app/forms/training_forms.py:70
+msgid "Start Time"
+msgstr "Ora Inizio"
+
+#: app/forms/training_forms.py:19 app/forms/training_forms.py:71
+msgid "End Time"
+msgstr "Ora Fine"
+
+#: app/forms/training_forms.py:25 app/forms/training_forms.py:77
+#: app/models/training_session.py:66
+msgid "Friendly Match"
+msgstr "Partita Amichevole"
+
+#: app/forms/training_forms.py:43
+msgid "Save Session"
+msgstr "Salva Sessione"
+
+#: app/forms/training_forms.py:47 app/forms/training_forms.py:103
+msgid "End time must be after start time."
+msgstr "L'ora di fine deve essere successiva all'ora di inizio."
+
+#: app/forms/training_forms.py:54
+msgid "Day of Week"
+msgstr "Giorno della Settimana"
+
+#: app/forms/training_forms.py:57
+msgid "Monday"
+msgstr "Lunedì"
+
+#: app/forms/training_forms.py:58
+msgid "Tuesday"
+msgstr "Martedì"
+
+#: app/forms/training_forms.py:59
+msgid "Wednesday"
+msgstr "Mercoledì"
+
+#: app/forms/training_forms.py:60
+msgid "Thursday"
+msgstr "Giovedì"
+
+#: app/forms/training_forms.py:61
+msgid "Friday"
+msgstr "Venerdì"
+
+#: app/forms/training_forms.py:62
+msgid "Saturday"
+msgstr "Sabato"
+
+#: app/forms/training_forms.py:63
+msgid "Sunday"
+msgstr "Domenica"
+
+#: app/forms/training_forms.py:95
+msgid "Generate Sessions"
+msgstr "Genera Sessioni"
+
+#: app/forms/training_forms.py:99
+msgid "End date must not be before start date."
+msgstr "La data di fine non può essere precedente alla data di inizio."
+
+#: app/forms/training_forms.py:109
+msgid "Cancellation Reason"
+msgstr "Motivo Annullamento"
+
+#: app/forms/training_forms.py:110 app/templates/training/view.html:123
+msgid "Cancel Session"
+msgstr "Annulla Sessione"
+
+#: app/models/match.py:75 app/templates/matches/index.html:41
+#: app/templates/matches/index.html:113 app/templates/matches/view.html:64
+msgid "Scheduled"
+msgstr "Programmato"
+
+#: app/models/match.py:76 app/templates/matches/index.html:42
+#: app/templates/matches/index.html:115 app/templates/matches/view.html:66
+msgid "Completed"
+msgstr "Completato"
+
+#: app/models/match.py:77 app/templates/calendar/index.html:27
+#: app/templates/matches/index.html:43 app/templates/matches/index.html:117
+#: app/templates/matches/view.html:68 app/templates/training/index.html:96
+#: app/templates/training/view.html:51
+msgid "Cancelled"
+msgstr "Annullato"
+
+#: app/models/match.py:78 app/templates/matches/index.html:44
+#: app/templates/matches/index.html:119 app/templates/matches/view.html:70
+msgid "Postponed"
+msgstr "Rinviato"
+
+#: app/templates/base.html:28 app/templates/dashboard.html:3
 msgid "Dashboard"
 msgstr "Dashboard"
-
-#: app/templates/athletes/index.html:3 app/templates/athletes/index.html:7
-#: app/templates/base.html:20 app/templates/base.html:39
-msgid "Athletes"
-msgstr "Atleti"
-
-#: app/templates/base.html:21 app/templates/base.html:40
-#: app/templates/staff/index.html:3 app/templates/staff/index.html:7
-msgid "Staff"
-msgstr "Staff"
 
 #: app/templates/base.html:32
 msgid "People"
 msgstr "Persone"
 
+#: app/templates/athletes/index.html:3 app/templates/athletes/index.html:7
+#: app/templates/base.html:34 app/templates/dashboard.html:19
+#: app/templates/teams/index.html:34 app/templates/teams/view.html:52
+#: app/templates/teams/view.html:253
+msgid "Athletes"
+msgstr "Atleti"
+
+#: app/templates/base.html:35 app/templates/dashboard.html:37
+#: app/templates/seasons/view.html:68 app/templates/teams/index.html:3
+#: app/templates/teams/index.html:7
+msgid "Teams"
+msgstr "Squadre"
+
 #: app/templates/base.html:41
 msgid "Activities"
 msgstr "Attività"
 
-#: app/templates/base.html:50
+#: app/templates/attendance/index.html:3 app/templates/base.html:43
+msgid "Attendance"
+msgstr "Presenze"
+
+#: app/templates/base.html:45 app/templates/matches/index.html:3
+#: app/templates/matches/index.html:7
+msgid "Matches"
+msgstr "Partite"
+
+#: app/templates/base.html:46 app/templates/calendar/index.html:3
+#: app/templates/calendar/index.html:7
+msgid "Calendar"
+msgstr "Calendario"
+
+#: app/templates/base.html:51
 msgid "Management"
 msgstr "Gestione"
+
+#: app/templates/base.html:54 app/templates/seasons/index.html:3
+#: app/templates/seasons/index.html:7
+msgid "Seasons"
+msgstr "Stagioni"
+
+#: app/templates/base.html:55 app/templates/documents/index.html:3
+#: app/templates/documents/index.html:8
+msgid "Documents"
+msgstr "Documenti"
+
+#: app/templates/base.html:56 app/templates/communications/index.html:3
+#: app/templates/communications/index.html:8
+msgid "Communications"
+msgstr "Comunicazioni"
+
+#: app/templates/attendance/index.html:13 app/templates/base.html:61
+#: app/templates/reports/index.html:3 app/templates/reports/index.html:8
+msgid "Reports"
+msgstr "Report"
 
 #: app/templates/base.html:80
 msgid "Logout"
@@ -338,58 +1310,338 @@ msgstr "Benvenuto, %(name)s!"
 msgid "FortiDesk Dashboard - Fortitudo 1901 Rugby Management"
 msgstr "Dashboard FortiDesk - Gestione Fortitudo 1901 Rugby"
 
-#: app/templates/dashboard.html:15
-msgid "Your Profile"
-msgstr "Il Tuo Profilo"
+#: app/templates/dashboard.html:20 app/templates/dashboard.html:29
+#: app/templates/dashboard.html:38 app/templates/dashboard.html:47
+#: app/templates/teams/view.html:164 app/templates/teams/view.html:206
+msgid "View All"
+msgstr "Visualizza Tutti"
 
-#: app/templates/dashboard.html:17 app/views/auth.py:26
-msgid "Username"
-msgstr "Nome Utente"
+#: app/templates/dashboard.html:58
+msgid "Expiry Alerts"
+msgstr "Avvisi Scadenza"
 
-#: app/templates/dashboard.html:20
-msgid "Last access"
-msgstr "Ultimo accesso"
+#: app/templates/dashboard.html:64
+msgid "All clear! No expiring documents or pending maintenance."
+msgstr "Tutto in ordine! Nessun documento in scadenza o manutenzione in sospeso."
 
-#: app/templates/dashboard.html:24
-msgid "First access"
-msgstr "Primo accesso"
+#: app/templates/dashboard.html:69
+msgid "Athlete Documents"
+msgstr "Documenti Atleti"
 
-#: app/templates/dashboard.html:34
-msgid "Upcoming Features"
-msgstr "Funzionalità Future"
+#: app/templates/athletes/detail.html:119
+#: app/templates/athletes/detail.html:158
+#: app/templates/athletes/detail.html:454 app/templates/dashboard.html:79
+#: app/templates/dashboard.html:101 app/templates/dashboard.html:123
+#: app/templates/dashboard.html:145 app/templates/dashboard.html:167
+#: app/templates/dashboard.html:190 app/templates/documents/expiring.html:79
+#: app/templates/documents/index.html:70 app/templates/documents/view.html:47
+#: app/templates/email/expiry_reminder.html:23
+#: app/templates/reports/document_status.html:41
+#: app/templates/reports/insurance_status.html:49
+#: app/templates/reports/team_roster.html:55
+#: app/templates/reports/team_roster.html:69
+#: app/templates/staff/detail.html:146 app/templates/staff/detail.html:212
+#: app/templates/staff/detail.html:269 app/views/reports.py:67
+#: app/views/reports.py:72 app/views/reports.py:267 app/views/reports.py:310
+msgid "Expired"
+msgstr "Scaduto"
 
-#: app/templates/dashboard.html:35
-msgid "The FortiDesk system is under development. Coming soon:"
-msgstr "Il sistema FortiDesk è in sviluppo. Prossimamente:"
+#: app/templates/dashboard.html:81 app/templates/dashboard.html:103
+#: app/templates/dashboard.html:125 app/templates/dashboard.html:147
+#: app/templates/dashboard.html:169 app/templates/dashboard.html:192
+msgid "Expires"
+msgstr "Scade"
 
-#: app/templates/dashboard.html:37
-msgid "Team and player management"
-msgstr "Gestione squadre e giocatori"
+#: app/templates/dashboard.html:91
+msgid "Athlete Medical Certificates"
+msgstr "Certificati Medici Atleti"
 
-#: app/templates/dashboard.html:38
-msgid "Training scheduling"
-msgstr "Pianificazione allenamenti"
+#: app/templates/dashboard.html:113
+msgid "Staff Documents"
+msgstr "Documenti Staff"
 
-#: app/templates/dashboard.html:39
-msgid "Parent communications"
-msgstr "Comunicazioni con i genitori"
+#: app/templates/dashboard.html:135
+msgid "Staff Medical Certificates"
+msgstr "Certificati Medici Staff"
 
-#: app/templates/dashboard.html:40
-msgid "Document management"
-msgstr "Gestione documenti"
+#: app/templates/dashboard.html:157
+msgid "Staff Background Checks"
+msgstr "Certificati Penali Staff"
 
-#: app/templates/dashboard.html:41
-msgid "Event calendar"
-msgstr "Calendario eventi"
+#: app/templates/dashboard.html:179
+msgid "Uploaded Documents"
+msgstr "Documenti Caricati"
+
+#: app/templates/dashboard.html:202
+msgid "Equipment Maintenance Due"
+msgstr "Manutenzione Attrezzature in Scadenza"
+
+#: app/templates/dashboard.html:210
+msgid "Maintenance overdue"
+msgstr "Manutenzione scaduta"
+
+#: app/templates/dashboard.html:227
+msgid "Quick Actions"
+msgstr "Azioni Rapide"
+
+#: app/templates/athletes/index.html:10 app/templates/dashboard.html:230
+#: app/views/athletes.py:61 app/views/athletes.py:125
+msgid "New Athlete"
+msgstr "Nuovo Atleta"
+
+#: app/templates/dashboard.html:231
+msgid "New Staff"
+msgstr "Nuovo Staff"
+
+#: app/templates/dashboard.html:232
+msgid "Check-in Attendance"
+msgstr "Registra Presenze"
+
+#: app/templates/dashboard.html:233
+msgid "New Equipment"
+msgstr "Nuova Attrezzatura"
+
+#: app/templates/dashboard.html:234 app/templates/teams/index.html:10
+#: app/templates/teams/new.html:3
+msgid "New Team"
+msgstr "Nuova Squadra"
+
+#: app/templates/dashboard.html:246
+msgid "Recent Athletes"
+msgstr "Atleti Recenti"
+
+#: app/templates/admin/user_detail.html:36 app/templates/admin/users.html:56
+#: app/templates/athletes/detail.html:218 app/templates/dashboard.html:254
+#: app/templates/equipment/index.html:9 app/templates/matches/lineup.html:36
+#: app/templates/matches/view.html:128
+#: app/templates/reports/equipment_inventory.html:23
+#: app/templates/reports/team_roster.html:37
+#: app/templates/seasons/index.html:21 app/templates/seasons/view.html:39
+#: app/templates/teams/view.html:261 app/views/reports.py:61
+#: app/views/reports.py:201
+msgid "Name"
+msgstr "Nome"
+
+#: app/templates/athletes/detail.html:74 app/templates/athletes/index.html:38
+#: app/templates/dashboard.html:255 app/templates/reports/team_roster.html:38
+#: app/templates/staff/detail.html:95 app/templates/teams/view.html:262
+#: app/views/reports.py:61
+msgid "Age"
+msgstr "Età"
+
+#: app/templates/dashboard.html:257
+msgid "Added"
+msgstr "Aggiunto"
+
+#: app/templates/dashboard.html:273
+msgid "No athletes registered yet."
+msgstr "Nessun atleta ancora registrato."
+
+#: app/templates/dashboard.html:281
+msgid "Recent Attendance"
+msgstr "Presenze Recenti"
+
+#: app/templates/dashboard.html:318
+msgid "No attendance records yet."
+msgstr "Nessun registro presenze ancora."
+
+#: app/templates/admin/user_detail.html:10
+#: app/templates/admin/user_form.html:11
+msgid "Back to Users"
+msgstr "Torna agli Utenti"
+
+#: app/templates/admin/user_detail.html:13
+#: app/templates/athletes/detail.html:14 app/templates/athletes/detail.html:306
+#: app/templates/athletes/detail.html:463
+#: app/templates/attendance/index.html:56 app/templates/equipment/view.html:12
+#: app/templates/matches/view.html:17 app/templates/seasons/index.html:45
+#: app/templates/seasons/view.html:11 app/templates/staff/detail.html:14
+#: app/templates/teams/view.html:14 app/templates/training/view.html:16
+msgid "Edit"
+msgstr "Modifica"
+
+#: app/templates/admin/user_detail.html:23
+msgid "User Information"
+msgstr "Informazioni Utente"
+
+#: app/templates/admin/user_detail.html:51 app/templates/admin/users.html:78
+#: app/templates/athletes/detail.html:458
+#: app/templates/equipment/assignments.html:7
+#: app/templates/reports/insurance_status.html:53 app/views/reports.py:311
+msgid "Active"
+msgstr "Attivo"
+
+#: app/templates/admin/user_detail.html:53 app/templates/admin/users.html:80
+msgid "Inactive"
+msgstr "Inattivo"
+
+#: app/templates/admin/user_detail.html:66
+#: app/templates/athletes/detail.html:490 app/templates/staff/detail.html:322
+msgid "System Information"
+msgstr "Informazioni di Sistema"
+
+#: app/templates/admin/user_detail.html:71
+#: app/templates/athletes/detail.html:496 app/templates/staff/detail.html:328
+msgid "Created on"
+msgstr "Creato il"
+
+#: app/templates/admin/user_detail.html:75 app/templates/admin/users.html:60
+msgid "Last Login"
+msgstr "Ultimo Accesso"
+
+#: app/templates/admin/user_detail.html:76
+msgid "Never"
+msgstr "Mai"
+
+#: app/templates/admin/user_detail.html:89
+#: app/templates/athletes/detail.html:517 app/templates/staff/detail.html:349
+msgid "Administrator Actions"
+msgstr "Azioni Amministratore"
+
+#: app/templates/admin/user_detail.html:93
+msgid "Warning: these actions affect user access to the system."
+msgstr "Attenzione: queste azioni influiscono sull'accesso dell'utente al sistema."
+
+#: app/templates/admin/user_detail.html:99
+#, python-format
+msgid ""
+"Are you sure you want to deactivate %(name)s? They will no longer be able"
+" to log in."
+msgstr ""
+"È sicuro di voler disattivare %(name)s? Non potrà più accedere al"
+" sistema."
+
+#: app/templates/admin/user_detail.html:100
+msgid "Deactivate User"
+msgstr "Disattiva Utente"
+
+#: app/templates/admin/user_detail.html:104
+msgid "Activate User"
+msgstr "Attiva Utente"
+
+#: app/templates/admin/user_form.html:21
+msgid "Account Information"
+msgstr "Informazioni Account"
+
+#: app/templates/admin/user_form.html:99
+msgid "Leave blank to keep current password."
+msgstr "Lasciare vuoto per mantenere la password attuale."
+
+#: app/templates/admin/user_form.html:132
+#: app/templates/athletes/emergency_contact_form.html:101
+#: app/templates/athletes/form.html:481
+#: app/templates/athletes/insurance_form.html:132
+#: app/templates/attendance/check_in.html:29
+#: app/templates/attendance/edit.html:11
+#: app/templates/communications/new.html:53
+#: app/templates/documents/upload.html:71
+#: app/templates/equipment/assign.html:11 app/templates/equipment/edit.html:10
+#: app/templates/equipment/new.html:17 app/templates/equipment/return.html:10
+#: app/templates/matches/edit.html:101 app/templates/matches/lineup.html:95
+#: app/templates/matches/new.html:102 app/templates/matches/result.html:72
+#: app/templates/seasons/edit.html:57 app/templates/seasons/new.html:57
+#: app/templates/staff/form.html:372 app/templates/teams/assign_staff.html:57
+#: app/templates/teams/edit.html:60 app/templates/teams/new.html:62
+#: app/templates/training/edit.html:105
+#: app/templates/training/generate_recurring.html:136
+#: app/templates/training/new.html:105
+msgid "Cancel"
+msgstr "Annulla"
+
+#: app/templates/admin/users.html:3 app/templates/admin/users.html:7
+msgid "User Management"
+msgstr "Gestione Utenti"
+
+#: app/templates/admin/users.html:9 app/views/admin.py:71 app/views/admin.py:96
+msgid "New User"
+msgstr "Nuovo Utente"
+
+#: app/templates/admin/users.html:17
+msgid "Search by name, username, or email..."
+msgstr "Cerca per nome, username o email..."
+
+#: app/templates/admin/users.html:21 app/templates/athletes/index.html:20
+#: app/templates/documents/index.html:31 app/templates/staff/index.html:20
+msgid "Search"
+msgstr "Cerca"
+
+#: app/templates/admin/users.html:23 app/templates/athletes/index.html:22
+#: app/templates/staff/index.html:22
+msgid "Reset"
+msgstr "Reimposta"
+
+#: app/templates/admin/users.html:35 app/templates/staff/index.html:31
+msgid "All Roles"
+msgstr "Tutti i Ruoli"
+
+#: app/templates/admin/users.html:42 app/templates/communications/index.html:41
+#: app/templates/staff/index.html:41
+msgid "Clear"
+msgstr "Cancella"
+
+#: app/templates/admin/users.html:61 app/templates/athletes/detail.html:368
+#: app/templates/athletes/detail.html:434
+#: app/templates/attendance/index.html:30
+#: app/templates/communications/index.html:59
+#: app/templates/communications/view.html:65
+#: app/templates/documents/expiring.html:56
+#: app/templates/documents/index.html:54
+#: app/templates/equipment/assignments.html:4
+#: app/templates/equipment/index.html:9 app/templates/matches/index.html:80
+#: app/templates/seasons/index.html:25 app/templates/teams/view.html:175
+#: app/templates/teams/view.html:217 app/templates/teams/view.html:264
+#: app/templates/training/index.html:78
+msgid "Actions"
+msgstr "Azioni"
+
+#: app/templates/admin/users.html:86 app/templates/athletes/index.html:64
+#: app/templates/staff/index.html:98 app/templates/teams/index.html:43
+msgid "View Details"
+msgstr "Visualizza Dettagli"
+
+#: app/templates/admin/users.html:95 app/templates/staff/index.html:109
+msgid "No results for the current search/filter"
+msgstr "Nessun risultato per la ricerca/filtro corrente"
+
+#: app/templates/admin/users.html:97
+msgid "No users found."
+msgstr "Nessun utente trovato."
+
+#: app/templates/admin/users.html:109 app/templates/athletes/index.html:89
+#: app/templates/staff/index.html:123
+msgid "Page navigation"
+msgstr "Navigazione pagina"
+
+#: app/templates/admin/users.html:113 app/templates/athletes/index.html:93
+#: app/templates/attendance/index.html:70 app/templates/calendar/_grid.html:8
+#: app/templates/communications/index.html:99
+#: app/templates/documents/index.html:94 app/templates/matches/index.html:136
+#: app/templates/staff/index.html:127 app/templates/training/index.html:117
+msgid "Previous"
+msgstr "Precedente"
+
+#: app/templates/admin/users.html:137 app/templates/athletes/index.html:117
+#: app/templates/attendance/index.html:82 app/templates/calendar/_grid.html:15
+#: app/templates/communications/index.html:111
+#: app/templates/documents/index.html:106 app/templates/matches/index.html:148
+#: app/templates/staff/index.html:151 app/templates/training/index.html:129
+msgid "Next"
+msgstr "Successivo"
+
+#: app/templates/admin/users.html:148
+msgid "Total users"
+msgstr "Totale utenti"
+
+#: app/templates/admin/users.html:148 app/templates/athletes/index.html:128
+#: app/templates/staff/index.html:162
+#, python-format
+msgid "%(total)s registered"
+msgstr "%(total)s registrati"
 
 #: app/templates/athletes/detail.html:10 app/templates/athletes/form.html:11
 #: app/templates/staff/detail.html:10 app/templates/staff/form.html:11
 msgid "Back to List"
 msgstr "Torna all'Elenco"
-
-#: app/templates/athletes/detail.html:14 app/templates/staff/detail.html:14
-msgid "Edit"
-msgstr "Modifica"
 
 #: app/templates/athletes/detail.html:25 app/templates/staff/detail.html:25
 msgid "Document Expired!"
@@ -450,120 +1702,219 @@ msgstr "Dati Anagrafici"
 msgid "Full Name"
 msgstr "Nome Completo"
 
-#: app/templates/athletes/detail.html:74 app/templates/athletes/index.html:38
-#: app/templates/staff/detail.html:95
-msgid "Age"
-msgstr "Età"
-
 #: app/templates/athletes/detail.html:75 app/templates/athletes/index.html:38
 #: app/templates/staff/detail.html:96
 #, python-format
 msgid "%(age)s years"
 msgstr "%(age)s anni"
 
-#: app/templates/athletes/detail.html:94 app/templates/athletes/form.html:93
+#: app/templates/athletes/detail.html:100 app/templates/athletes/form.html:119
 #: app/templates/staff/detail.html:129 app/templates/staff/form.html:127
 msgid "Residential Address"
 msgstr "Indirizzo di Residenza"
 
-#: app/templates/athletes/detail.html:111 app/templates/athletes/form.html:165
+#: app/templates/athletes/detail.html:117 app/templates/athletes/form.html:191
 #: app/templates/staff/detail.html:144 app/templates/staff/form.html:199
 msgid "Identity Document"
 msgstr "Documento d'Identità"
 
-#: app/templates/athletes/detail.html:113
-#: app/templates/athletes/detail.html:152 app/templates/staff/detail.html:146
-#: app/templates/staff/detail.html:212 app/templates/staff/detail.html:269
-msgid "Expired"
-msgstr "Scaduto"
-
-#: app/templates/athletes/detail.html:115
-#: app/templates/athletes/detail.html:154 app/templates/staff/detail.html:148
-#: app/templates/staff/detail.html:214 app/templates/staff/detail.html:271
+#: app/templates/athletes/detail.html:121
+#: app/templates/athletes/detail.html:160
+#: app/templates/documents/expiring.html:81
+#: app/templates/email/expiry_reminder.html:25
+#: app/templates/staff/detail.html:148 app/templates/staff/detail.html:214
+#: app/templates/staff/detail.html:271
 msgid "Expiring Soon"
 msgstr "In Scadenza"
 
-#: app/templates/athletes/detail.html:117
-#: app/templates/athletes/detail.html:156 app/templates/staff/detail.html:150
-#: app/templates/staff/detail.html:216 app/templates/staff/detail.html:273
+#: app/templates/athletes/detail.html:123
+#: app/templates/athletes/detail.html:162 app/templates/documents/index.html:74
+#: app/templates/documents/view.html:51
+#: app/templates/reports/document_status.html:45
+#: app/templates/reports/team_roster.html:59
+#: app/templates/reports/team_roster.html:73
+#: app/templates/staff/detail.html:150 app/templates/staff/detail.html:216
+#: app/templates/staff/detail.html:273 app/views/reports.py:68
+#: app/views/reports.py:73 app/views/reports.py:268
 msgid "Valid"
 msgstr "Valido"
 
-#: app/templates/athletes/detail.html:123 app/templates/staff/detail.html:156
+#: app/templates/athletes/detail.html:129 app/templates/staff/detail.html:156
 msgid "Number"
 msgstr "Numero"
 
-#: app/templates/athletes/detail.html:131
-#: app/templates/athletes/detail.html:175 app/templates/staff/detail.html:164
-#: app/templates/staff/detail.html:235 app/templates/staff/detail.html:290
+#: app/templates/athletes/detail.html:137
+#: app/templates/athletes/detail.html:181 app/templates/documents/index.html:52
+#: app/templates/staff/detail.html:164 app/templates/staff/detail.html:235
+#: app/templates/staff/detail.html:290
 msgid "Expiry"
 msgstr "Scadenza"
 
-#: app/templates/athletes/detail.html:135
-#: app/templates/athletes/detail.html:180 app/templates/staff/detail.html:168
+#: app/templates/athletes/detail.html:141
+#: app/templates/athletes/detail.html:186 app/templates/staff/detail.html:168
 #: app/templates/staff/detail.html:240 app/templates/staff/detail.html:295
 #, python-format
 msgid "(in %(days)s days)"
 msgstr "(tra %(days)s giorni)"
 
-#: app/templates/athletes/detail.html:150 app/templates/staff/detail.html:210
+#: app/templates/athletes/detail.html:156 app/templates/staff/detail.html:210
 #: app/templates/staff/detail.html:267
 msgid "Not Present"
 msgstr "Non Presente"
 
-#: app/templates/athletes/detail.html:183 app/templates/staff/detail.html:243
+#: app/templates/athletes/detail.html:189 app/templates/staff/detail.html:243
 #: app/templates/staff/detail.html:285 app/templates/staff/detail.html:298
 msgid "Not specified"
 msgstr "Non specificato"
 
-#: app/templates/athletes/detail.html:189
+#: app/templates/athletes/detail.html:195
 msgid "No medical certificate or sports booklet present."
 msgstr "Nessun certificato medico o libretto dello sportivo presente."
 
-#: app/templates/athletes/detail.html:201
+#: app/templates/athletes/detail.html:207
 msgid "Guardians"
 msgstr "Genitori"
 
-#: app/templates/athletes/detail.html:212
-msgid "Name"
-msgstr "Nome"
-
-#: app/templates/athletes/detail.html:216 app/templates/staff/detail.html:124
-#: app/templates/staff/index.html:60
-msgid "Phone"
-msgstr "Telefono"
-
-#: app/templates/athletes/detail.html:229
+#: app/templates/athletes/detail.html:235
 msgid "No guardians registered."
 msgstr "Nessun genitore registrato."
 
-#: app/templates/athletes/detail.html:241 app/templates/staff/detail.html:322
-msgid "System Information"
-msgstr "Informazioni di Sistema"
+#: app/templates/athletes/detail.html:247 app/templates/athletes/form.html:282
+msgid "Medical Information"
+msgstr "Informazioni Mediche"
 
-#: app/templates/athletes/detail.html:247 app/templates/staff/detail.html:328
-msgid "Created on"
-msgstr "Creato il"
+#: app/templates/athletes/detail.html:274
+msgid "No medical information recorded."
+msgstr "Nessuna informazione medica registrata."
 
-#: app/templates/athletes/detail.html:248 app/templates/staff/detail.html:329
+#: app/templates/athletes/detail.html:286
+msgid "Emergency Contacts"
+msgstr "Contatti di Emergenza"
+
+#: app/templates/athletes/detail.html:288 app/templates/teams/view.html:90
+#: app/templates/teams/view.html:126
+msgid "Add"
+msgstr "Aggiungi"
+
+#: app/templates/athletes/detail.html:307
+msgid "Remove this contact?"
+msgstr "Rimuovere questo contatto?"
+
+#: app/templates/athletes/detail.html:309 app/templates/teams/view.html:107
+#: app/templates/teams/view.html:143
+msgid "Remove"
+msgstr "Rimuovi"
+
+#: app/templates/athletes/detail.html:341
+msgid "No emergency contacts registered."
+msgstr "Nessun contatto di emergenza registrato."
+
+#: app/templates/athletes/detail.html:354
+msgid "Match History"
+msgstr "Storico Partite"
+
+#: app/templates/athletes/detail.html:364 app/templates/matches/lineup.html:37
+#: app/templates/matches/view.html:129
+msgid "Position"
+msgstr "Posizione"
+
+#: app/templates/athletes/detail.html:378 app/templates/matches/index.html:90
+#: app/templates/matches/view.html:48 app/templates/teams/view.html:227
+msgid "Home"
+msgstr "Casa"
+
+#: app/templates/athletes/detail.html:380 app/templates/matches/index.html:92
+#: app/templates/matches/view.html:50 app/templates/teams/view.html:229
+msgid "Away"
+msgstr "Trasferta"
+
+#: app/templates/athletes/detail.html:388 app/templates/matches/lineup.html:40
+msgid "Captain"
+msgstr "Capitano"
+
+#: app/templates/athletes/detail.html:390 app/templates/matches/lineup.html:39
+#: app/templates/matches/view.html:148
+msgid "Starter"
+msgstr "Titolare"
+
+#: app/templates/athletes/detail.html:392 app/templates/matches/view.html:150
+msgid "Substitute"
+msgstr "Riserva"
+
+#: app/templates/athletes/detail.html:397
+#: app/templates/attendance/index.html:54
+#: app/templates/communications/index.html:87
+#: app/templates/documents/expiring.html:87
+#: app/templates/documents/index.html:81 app/templates/equipment/index.html:12
+#: app/templates/matches/index.html:123 app/templates/seasons/index.html:43
+#: app/templates/teams/view.html:186 app/templates/teams/view.html:235
+#: app/templates/teams/view.html:274 app/templates/training/index.html:104
+msgid "View"
+msgstr "Visualizza"
+
+#: app/templates/athletes/detail.html:415
+msgid "Insurance Policies"
+msgstr "Polizze Assicurative"
+
+#: app/templates/athletes/detail.html:417
+#: app/templates/athletes/insurance_form.html:4
+msgid "Add Insurance"
+msgstr "Aggiungi Assicurazione"
+
+#: app/templates/athletes/detail.html:430
+#: app/templates/reports/insurance_status.html:27 app/views/reports.py:305
+msgid "Period"
+msgstr "Periodo"
+
+#: app/templates/athletes/detail.html:431
+#: app/templates/reports/insurance_status.html:28 app/views/reports.py:305
+msgid "Coverage"
+msgstr "Copertura"
+
+#: app/templates/athletes/detail.html:456
+#: app/templates/documents/expiring.html:83
+#: app/templates/documents/index.html:72
+#: app/templates/reports/document_status.html:43
+#: app/templates/reports/insurance_status.html:51
+#: app/templates/reports/team_roster.html:57
+#: app/templates/reports/team_roster.html:71 app/views/reports.py:68
+#: app/views/reports.py:73 app/views/reports.py:268 app/views/reports.py:311
+msgid "Expiring"
+msgstr "In Scadenza"
+
+#: app/templates/athletes/detail.html:465
+msgid "Are you sure you want to delete this insurance policy?"
+msgstr "È sicuro di voler eliminare questa polizza assicurativa?"
+
+#: app/templates/athletes/detail.html:467
+#: app/templates/communications/view.html:84
+#: app/templates/documents/view.html:73 app/templates/matches/view.html:23
+#: app/templates/seasons/index.html:49 app/templates/seasons/view.html:24
+#: app/templates/teams/view.html:20 app/templates/training/view.html:23
+msgid "Delete"
+msgstr "Elimina"
+
+#: app/templates/athletes/detail.html:478
+msgid "No insurance policies recorded."
+msgstr "Nessuna polizza assicurativa registrata."
+
+#: app/templates/athletes/detail.html:497
+#: app/templates/communications/view.html:32
+#: app/templates/staff/detail.html:329
 msgid "Created by"
 msgstr "Creato da"
 
-#: app/templates/athletes/detail.html:253 app/templates/staff/detail.html:334
+#: app/templates/athletes/detail.html:502 app/templates/staff/detail.html:334
 msgid "Last modified"
 msgstr "Ultima modifica"
 
-#: app/templates/athletes/detail.html:268 app/templates/staff/detail.html:349
-msgid "Administrator Actions"
-msgstr "Azioni Amministratore"
-
-#: app/templates/athletes/detail.html:272 app/templates/staff/detail.html:353
+#: app/templates/athletes/detail.html:521 app/templates/staff/detail.html:353
 msgid "Warning: these actions are irreversible and reserved for administrators."
 msgstr ""
 "Attenzione: queste azioni sono irreversibili e riservate agli "
 "amministratori."
 
-#: app/templates/athletes/detail.html:275 app/templates/staff/detail.html:356
+#: app/templates/athletes/detail.html:524 app/templates/staff/detail.html:356
 #, python-format
 msgid ""
 "Are you sure you want to delete the record for %(name)s? This action is "
@@ -572,46 +1923,53 @@ msgstr ""
 "È sicuro di voler eliminare il record di %(name)s? Questa azione è "
 "irreversibile."
 
-#: app/templates/athletes/detail.html:277 app/templates/staff/detail.html:358
+#: app/templates/athletes/detail.html:526 app/templates/staff/detail.html:358
 msgid "Delete Record"
 msgstr "Elimina Record"
 
-#: app/templates/athletes/form.html:213 app/templates/staff/form.html:281
+#: app/templates/athletes/emergency_contact_form.html:4
+#: app/templates/athletes/emergency_contact_form.html:11
+msgid "Edit Emergency Contact"
+msgstr "Modifica Contatto di Emergenza"
+
+#: app/templates/athletes/emergency_contact_form.html:4
+#: app/templates/athletes/emergency_contact_form.html:11
+msgid "Add Emergency Contact"
+msgstr "Aggiungi Contatto di Emergenza"
+
+#: app/templates/athletes/emergency_contact_form.html:13
+#: app/templates/athletes/insurance_form.html:13
+msgid "Back to Athlete"
+msgstr "Torna all'Atleta"
+
+#: app/templates/athletes/emergency_contact_form.html:24
+#: app/templates/staff/detail.html:115 app/templates/staff/form.html:93
+msgid "Contact Information"
+msgstr "Informazioni di Contatto"
+
+#: app/templates/athletes/form.html:111
+msgid "Optional - assign athlete to a team"
+msgstr "Opzionale: assegnare l'atleta a una squadra"
+
+#: app/templates/athletes/form.html:239 app/templates/staff/form.html:281
 msgid "Medical Certificate / Sports Booklet"
 msgstr "Certificato Medico / Libretto dello Sportivo"
 
-#: app/templates/athletes/form.html:256
+#: app/templates/athletes/form.html:340
 msgid "Guardian Data"
 msgstr "Dati Genitori"
 
-#: app/templates/athletes/form.html:260
+#: app/templates/athletes/form.html:344
 msgid "First Guardian"
 msgstr "Primo Genitore"
 
-#: app/templates/athletes/form.html:328
+#: app/templates/athletes/form.html:412
 msgid "Second Guardian"
 msgstr "Secondo Genitore"
-
-#: app/templates/athletes/form.html:397 app/templates/staff/form.html:372
-msgid "Cancel"
-msgstr "Annulla"
-
-#: app/templates/athletes/index.html:10 app/views/athletes.py:53
-#: app/views/athletes.py:111
-msgid "New Athlete"
-msgstr "Nuovo Atleta"
 
 #: app/templates/athletes/index.html:19
 msgid "Search by first name, last name, or fiscal code..."
 msgstr "Cerca per nome, cognome o codice fiscale..."
-
-#: app/templates/athletes/index.html:20 app/templates/staff/index.html:20
-msgid "Search"
-msgstr "Cerca"
-
-#: app/templates/athletes/index.html:22 app/templates/staff/index.html:22
-msgid "Reset"
-msgstr "Reimposta"
 
 #: app/templates/athletes/index.html:39
 msgid "FC"
@@ -633,10 +1991,6 @@ msgstr "Certificato OK"
 msgid "No Certificate"
 msgstr "Nessun Certificato"
 
-#: app/templates/athletes/index.html:64 app/templates/staff/index.html:98
-msgid "View Details"
-msgstr "Visualizza Dettagli"
-
 #: app/templates/athletes/index.html:73
 msgid "No athletes found"
 msgstr "Nessun atleta trovato"
@@ -654,26 +2008,716 @@ msgstr "Non ci sono atleti registrati."
 msgid "Add the first athlete"
 msgstr "Aggiungi il primo atleta"
 
-#: app/templates/athletes/index.html:89 app/templates/staff/index.html:123
-msgid "Page navigation"
-msgstr "Navigazione pagina"
-
-#: app/templates/athletes/index.html:93 app/templates/staff/index.html:127
-msgid "Previous"
-msgstr "Precedente"
-
-#: app/templates/athletes/index.html:117 app/templates/staff/index.html:151
-msgid "Next"
-msgstr "Successivo"
-
 #: app/templates/athletes/index.html:128
 msgid "Total athletes"
 msgstr "Totale atleti"
 
-#: app/templates/athletes/index.html:128 app/templates/staff/index.html:162
+#: app/templates/athletes/insurance_form.html:4
+msgid "Edit Insurance"
+msgstr "Modifica Assicurazione"
+
+#: app/templates/athletes/insurance_form.html:11
+msgid "Edit Insurance Policy"
+msgstr "Modifica Polizza Assicurativa"
+
+#: app/templates/athletes/insurance_form.html:11
+msgid "Add Insurance Policy"
+msgstr "Aggiungi Polizza Assicurativa"
+
+#: app/templates/athletes/insurance_form.html:24
+msgid "Policy Details"
+msgstr "Dettagli Polizza"
+
+#: app/templates/attendance/check_in.html:2 app/templates/training/view.html:11
+msgid "Check-In"
+msgstr "Registrazione"
+
+#: app/templates/attendance/check_in.html:4
+msgid "Attendance Check-In"
+msgstr "Registrazione Presenze"
+
+#: app/templates/attendance/edit.html:3
+msgid "Edit Attendance"
+msgstr "Modifica Presenze"
+
+#: app/templates/attendance/index.html:8
+msgid "Attendance Records"
+msgstr "Registri Presenze"
+
+#: app/templates/attendance/index.html:12
+msgid "Check-In Session"
+msgstr "Registra Sessione"
+
+#: app/templates/attendance/index.html:88
+msgid "No attendance records found."
+msgstr "Nessun registro presenze trovato."
+
+#: app/templates/attendance/report.html:3
+msgid "Attendance Report"
+msgstr "Report Presenze"
+
+#: app/templates/attendance/report.html:15
+#: app/templates/reports/attendance_summary.html:46 app/views/reports.py:166
+msgid "Total"
+msgstr "Totale"
+
+#: app/templates/attendance/report.html:20
+msgid "Rate"
+msgstr "Percentuale"
+
+#: app/templates/attendance/report.html:24 app/templates/attendance/view.html:8
+msgid "Session"
+msgstr "Sessione"
+
+#: app/templates/attendance/view.html:2
+msgid "Attendance Details"
+msgstr "Dettagli Presenze"
+
+#: app/templates/attendance/view.html:4
+msgid "Attendance Record"
+msgstr "Registro Presenze"
+
+#: app/templates/attendance/view.html:12 app/templates/documents/view.html:76
+#: app/templates/equipment/view.html:13
+msgid "Back"
+msgstr "Indietro"
+
+#: app/templates/auth/login.html:3
+msgid "Login"
+msgstr "Accedi"
+
+#: app/templates/auth/login.html:10
+msgid "FortiDesk Access"
+msgstr "Accesso FortiDesk"
+
+#: app/templates/auth/login.html:11
+msgid "Fortitudo 1901 Rugby Management"
+msgstr "Gestione Fortitudo 1901 Rugby"
+
+#: app/templates/auth/login.html:52
 #, python-format
-msgid "%(total)s registered"
-msgstr "%(total)s registrati"
+msgid "Don't have an account? <a href=\"%(register_url)s\">Register here</a>"
+msgstr "Non hai un account? <a href="%(register_url)s">Registrati qui</a>"
+
+#: app/templates/auth/register.html:3
+msgid "Registration"
+msgstr "Registrazione"
+
+#: app/templates/auth/register.html:10
+msgid "FortiDesk Registration"
+msgstr "Registrazione FortiDesk"
+
+#: app/templates/auth/register.html:11
+msgid "Create your account"
+msgstr "Crea il tuo account"
+
+#: app/templates/auth/register.html:99
+#, python-format
+msgid "Already have an account? <a href=\"%(login_url)s\">Login here</a>"
+msgstr "Hai già un account? <a href="%(login_url)s">Accedi qui</a>"
+
+#: app/templates/calendar/index.html:12
+#: app/templates/communications/index.html:33
+#: app/templates/communications/index.html:77
+#: app/templates/communications/view.html:29
+#: app/templates/matches/index.html:22 app/templates/training/index.html:27
+#: app/views/attendance.py:202 app/views/communications.py:70
+#: app/views/reports.py:43 app/views/reports.py:110
+msgid "All Teams"
+msgstr "Tutte le Squadre"
+
+#: app/templates/communications/index.html:12
+#: app/templates/communications/new.html:3
+#: app/templates/communications/new.html:6
+msgid "New Announcement"
+msgstr "Nuova Comunicazione"
+
+#: app/templates/communications/index.html:23
+msgid "All Types"
+msgstr "Tutti i Tipi"
+
+#: app/templates/communications/index.html:57
+msgid "Sent"
+msgstr "Inviato"
+
+#: app/templates/communications/index.html:117
+msgid "No announcements found."
+msgstr "Nessuna comunicazione trovata."
+
+#: app/templates/communications/new.html:49
+msgid "If checked, email will be sent to relevant guardians and staff"
+msgstr "Se selezionato, verrà inviata un'email ai genitori e allo staff interessati"
+
+#: app/templates/communications/view.html:11
+msgid "Details"
+msgstr "Dettagli"
+
+#: app/templates/communications/view.html:36
+msgid "Created at"
+msgstr "Creato il"
+
+#: app/templates/communications/view.html:43
+msgid "Content"
+msgstr "Contenuto"
+
+#: app/templates/communications/view.html:52
+msgid "Email Delivery"
+msgstr "Invio Email"
+
+#: app/templates/communications/view.html:55
+msgid "Email sent"
+msgstr "Email inviata"
+
+#: app/templates/communications/view.html:56
+msgid "Sent at"
+msgstr "Inviato il"
+
+#: app/templates/communications/view.html:57
+msgid "Recipients"
+msgstr "Destinatari"
+
+#: app/templates/communications/view.html:59
+msgid "Email not sent"
+msgstr "Email non inviata"
+
+#: app/templates/communications/view.html:70
+msgid "Send email to all relevant recipients?"
+msgstr "Inviare email a tutti i destinatari interessati?"
+
+#: app/templates/communications/view.html:72
+msgid "Resend Email"
+msgstr "Reinvia Email"
+
+#: app/templates/communications/view.html:74
+msgid "Send Email"
+msgstr "Invia Email"
+
+#: app/templates/communications/view.html:83
+msgid "Are you sure you want to delete this announcement?"
+msgstr "È sicuro di voler eliminare questa comunicazione?"
+
+#: app/templates/communications/view.html:93
+msgid "Back to Communications"
+msgstr "Torna alle Comunicazioni"
+
+#: app/templates/documents/expiring.html:3
+#: app/templates/documents/expiring.html:8
+#: app/templates/documents/index.html:14
+msgid "Expiring Documents"
+msgstr "Documenti in Scadenza"
+
+#: app/templates/documents/expiring.html:11
+msgid "All Documents"
+msgstr "Tutti i Documenti"
+
+#: app/templates/documents/expiring.html:54 app/templates/seasons/view.html:71
+msgid "Days Remaining"
+msgstr "Giorni Rimanenti"
+
+#: app/templates/documents/expiring.html:72
+#: app/templates/documents/expiring.html:74
+msgid "days"
+msgstr "giorni"
+
+#: app/templates/documents/expiring.html:88
+#: app/templates/documents/index.html:82 app/templates/documents/view.html:69
+msgid "Download"
+msgstr "Scarica"
+
+#: app/templates/documents/expiring.html:96
+msgid "No expiring documents found within the selected period."
+msgstr "Nessun documento in scadenza nel periodo selezionato."
+
+#: app/templates/documents/index.html:32
+msgid "Title or filename..."
+msgstr "Titolo o nome file..."
+
+#: app/templates/documents/index.html:77 app/templates/documents/view.html:54
+msgid "No Expiry"
+msgstr "Senza Scadenza"
+
+#: app/templates/documents/index.html:112
+msgid "No documents found."
+msgstr "Nessun documento trovato."
+
+#: app/templates/documents/upload.html:51
+msgid "Allowed: PDF, PNG, JPG. Max 16 MB."
+msgstr "Ammessi: PDF, PNG, JPG. Max 16 MB."
+
+#: app/templates/documents/view.html:27
+msgid "Uploaded By"
+msgstr "Caricato da"
+
+#: app/templates/documents/view.html:28
+msgid "Upload Date"
+msgstr "Data Caricamento"
+
+#: app/templates/documents/view.html:31
+msgid "File Name"
+msgstr "Nome File"
+
+#: app/templates/documents/view.html:32
+msgid "File Size"
+msgstr "Dimensione File"
+
+#: app/templates/documents/view.html:49
+#, python-format
+msgid "Expiring in %(days)d days"
+msgstr "In scadenza tra %(days)d giorni"
+
+#: app/templates/documents/view.html:51
+msgid "days remaining"
+msgstr "giorni rimanenti"
+
+#: app/templates/documents/view.html:71
+msgid "Are you sure you want to delete this document?"
+msgstr "È sicuro di voler eliminare questo documento?"
+
+#: app/templates/email/base.html:24
+msgid "This is an automated message from FortiDesk."
+msgstr "Questo è un messaggio automatico da FortiDesk."
+
+#: app/templates/email/expiry_reminder.html:3
+msgid "Document Expiry Reminder"
+msgstr "Promemoria Scadenza Documento"
+
+#: app/templates/email/expiry_reminder.html:4
+msgid "The following document is expiring soon:"
+msgstr "Il seguente documento è in scadenza:"
+
+#: app/templates/email/expiry_reminder.html:7
+msgid "Document"
+msgstr "Documento"
+
+#: app/templates/email/expiry_reminder.html:15
+msgid "For"
+msgstr "Per"
+
+#: app/templates/email/expiry_reminder.html:30
+msgid "Please ensure this document is renewed before the expiry date."
+msgstr "Assicurarsi che questo documento venga rinnovato prima della data di scadenza."
+
+#: app/templates/email/training_notification.html:3
+msgid "Training Session Update"
+msgstr "Aggiornamento Sessione di Allenamento"
+
+#: app/templates/email/training_notification.html:15
+#: app/templates/teams/view.html:173 app/templates/training/index.html:73
+#: app/templates/training/view.html:58
+msgid "Time"
+msgstr "Orario"
+
+#: app/templates/equipment/assignments.html:3
+msgid "Equipment Assignments"
+msgstr "Assegnazioni Attrezzature"
+
+#: app/templates/equipment/assignments.html:4
+msgid "Expected Return"
+msgstr "Restituzione Prevista"
+
+#: app/templates/equipment/assignments.html:7
+msgid "Returned"
+msgstr "Restituito"
+
+#: app/templates/equipment/assignments.html:8
+msgid "Return"
+msgstr "Restituisci"
+
+#: app/templates/equipment/assignments.html:9
+msgid "No assignments found."
+msgstr "Nessuna assegnazione trovata."
+
+#: app/templates/equipment/edit.html:3
+msgid "Edit Equipment"
+msgstr "Modifica Attrezzatura"
+
+#: app/templates/equipment/index.html:3
+#: app/templates/reports/equipment_inventory.html:3
+#: app/templates/reports/index.html:35
+msgid "Equipment Inventory"
+msgstr "Inventario Attrezzature"
+
+#: app/templates/equipment/index.html:5 app/templates/equipment/new.html:3
+msgid "Add Equipment"
+msgstr "Aggiungi Attrezzatura"
+
+#: app/templates/equipment/index.html:6
+msgid "Assign"
+msgstr "Assegna"
+
+#: app/templates/equipment/index.html:7
+msgid "Assignments"
+msgstr "Assegnazioni"
+
+#: app/templates/equipment/index.html:9 app/templates/equipment/view.html:5
+#: app/templates/reports/equipment_inventory.html:24 app/views/reports.py:201
+msgid "Code"
+msgstr "Codice"
+
+#: app/templates/equipment/index.html:13
+#: app/templates/reports/equipment_inventory.html:48
+msgid "No equipment found."
+msgstr "Nessuna attrezzatura trovata."
+
+#: app/templates/equipment/return.html:3
+msgid "Return Equipment"
+msgstr "Restituisci Attrezzatura"
+
+#: app/templates/errors/404.html:4 app/templates/errors/404.html:9
+msgid "Page Not Found"
+msgstr "Pagina Non Trovata"
+
+#: app/templates/errors/404.html:10
+msgid "The page you are looking for does not exist."
+msgstr "La pagina cercata non esiste."
+
+#: app/templates/errors/404.html:11 app/templates/errors/500.html:11
+msgid "Back to Dashboard"
+msgstr "Torna alla Dashboard"
+
+#: app/templates/errors/500.html:4 app/templates/errors/500.html:9
+msgid "Server Error"
+msgstr "Errore del Server"
+
+#: app/templates/errors/500.html:10
+msgid "An unexpected error occurred. Please try again later."
+msgstr "Si è verificato un errore imprevisto. Riprovare più tardi."
+
+#: app/templates/matches/edit.html:3
+msgid "Edit Match"
+msgstr "Modifica Partita"
+
+#: app/templates/matches/edit.html:8
+#, python-format
+msgid "Edit Match: vs %(opponent)s"
+msgstr "Modifica Partita: vs %(opponent)s"
+
+#: app/templates/matches/index.html:10 app/templates/matches/new.html:3
+msgid "New Match"
+msgstr "Nuova Partita"
+
+#: app/templates/matches/index.html:31 app/templates/training/index.html:44
+#: app/views/reports.py:116
+msgid "All Seasons"
+msgstr "Tutte le Stagioni"
+
+#: app/templates/matches/index.html:74 app/templates/matches/view.html:46
+msgid "Home/Away"
+msgstr "Casa/Trasferta"
+
+#: app/templates/matches/index.html:77
+msgid "Score"
+msgstr "Punteggio"
+
+#: app/templates/matches/index.html:155
+msgid "No matches found."
+msgstr "Nessuna partita trovata."
+
+#: app/templates/matches/index.html:157
+msgid "Schedule a Match"
+msgstr "Programma una Partita"
+
+#: app/templates/matches/lineup.html:3 app/templates/matches/lineup.html:8
+#: app/templates/matches/view.html:14 app/templates/matches/view.html:119
+msgid "Manage Lineup"
+msgstr "Gestisci Formazione"
+
+#: app/templates/matches/lineup.html:38 app/templates/matches/view.html:130
+msgid "Jersey #"
+msgstr "N. Maglia"
+
+#: app/templates/matches/lineup.html:60
+msgid "e.g., Prop, Fly-half"
+msgstr "es. Pilone, Mediano d'apertura"
+
+#: app/templates/matches/lineup.html:101
+msgid "No athletes assigned to this team."
+msgstr "Nessun atleta assegnato a questa squadra."
+
+#: app/templates/matches/lineup.html:102
+msgid "Go to Team"
+msgstr "Vai alla Squadra"
+
+#: app/templates/matches/new.html:8
+msgid "Schedule New Match"
+msgstr "Programma Nuova Partita"
+
+#: app/templates/matches/new.html:91 app/templates/teams/new.html:50
+msgid "Optional - link to a season for filtering"
+msgstr "Opzionale: collegare a una stagione per il filtro"
+
+#: app/templates/matches/result.html:3 app/templates/matches/result.html:8
+#: app/templates/matches/view.html:11 app/templates/matches/view.html:103
+msgid "Enter Result"
+msgstr "Inserisci Risultato"
+
+#: app/templates/matches/result.html:56
+msgid "From the perspective of your team"
+msgstr "Dal punto di vista della propria squadra"
+
+#: app/templates/matches/view.html:3
+#, python-format
+msgid "Match vs %(opponent)s"
+msgstr "Partita vs %(opponent)s"
+
+#: app/templates/matches/view.html:21
+msgid "Are you sure you want to delete this match?"
+msgstr "È sicuro di voler eliminare questa partita?"
+
+#: app/templates/matches/view.html:35
+msgid "Match Information"
+msgstr "Informazioni Partita"
+
+#: app/templates/matches/view.html:76 app/templates/seasons/view.html:56
+#: app/templates/teams/view.html:53 app/templates/training/view.html:69
+msgid "Created"
+msgstr "Creato"
+
+#: app/templates/matches/view.html:85
+msgid "Score & Result"
+msgstr "Punteggio e Risultato"
+
+#: app/templates/matches/view.html:101
+msgid "No result recorded yet."
+msgstr "Nessun risultato ancora registrato."
+
+#: app/templates/matches/view.html:117
+msgid "Lineup"
+msgstr "Formazione"
+
+#: app/templates/matches/view.html:160
+msgid "No lineup set for this match."
+msgstr "Nessuna formazione impostata per questa partita."
+
+#: app/templates/matches/view.html:162
+msgid "Set Lineup"
+msgstr "Imposta Formazione"
+
+#: app/templates/matches/view.html:171
+msgid "Back to Matches"
+msgstr "Torna alle Partite"
+
+#: app/templates/reports/attendance_summary.html:3
+#: app/templates/reports/index.html:26
+msgid "Attendance Summary"
+msgstr "Riepilogo Presenze"
+
+#: app/templates/reports/attendance_summary.html:8 app/views/reports.py:180
+msgid "Attendance Summary Report"
+msgstr "Report Riepilogo Presenze"
+
+#: app/templates/reports/attendance_summary.html:36
+#: app/templates/reports/document_status.html:14
+#: app/templates/reports/equipment_inventory.html:14
+#: app/templates/reports/insurance_status.html:14
+#: app/templates/reports/team_roster.html:28
+msgid "Export CSV"
+msgstr "Esporta CSV"
+
+#: app/templates/reports/attendance_summary.html:37
+#: app/templates/reports/document_status.html:15
+#: app/templates/reports/equipment_inventory.html:15
+#: app/templates/reports/insurance_status.html:15
+#: app/templates/reports/team_roster.html:29
+msgid "Export PDF"
+msgstr "Esporta PDF"
+
+#: app/templates/reports/attendance_summary.html:38
+msgid "records"
+msgstr "registrazioni"
+
+#: app/templates/reports/attendance_summary.html:38
+#: app/templates/reports/team_roster.html:30
+msgid "athletes"
+msgstr "atleti"
+
+#: app/templates/reports/attendance_summary.html:51 app/views/reports.py:167
+msgid "Presence %"
+msgstr "Presenza %"
+
+#: app/templates/reports/attendance_summary.html:78
+msgid "No attendance records found matching the selected filters."
+msgstr "Nessun registro presenze trovato per i filtri selezionati."
+
+#: app/templates/reports/document_status.html:3
+#: app/templates/reports/index.html:44
+msgid "Document Status"
+msgstr "Stato Documenti"
+
+#: app/templates/reports/document_status.html:8 app/views/reports.py:281
+msgid "Document Status Report"
+msgstr "Report Stato Documenti"
+
+#: app/templates/reports/document_status.html:16
+msgid "documents"
+msgstr "documenti"
+
+#: app/templates/reports/document_status.html:36
+#: app/templates/reports/insurance_status.html:39 app/views/documents.py:37
+#: app/views/documents.py:39 app/views/documents.py:182
+#: app/views/reports.py:155 app/views/reports.py:262 app/views/reports.py:264
+#: app/views/reports.py:309
+msgid "Unknown"
+msgstr "Sconosciuto"
+
+#: app/templates/reports/document_status.html:54
+msgid "No documents with expiry dates found."
+msgstr "Nessun documento con data di scadenza trovato."
+
+#: app/templates/reports/equipment_inventory.html:8 app/views/reports.py:218
+msgid "Equipment Inventory Report"
+msgstr "Report Inventario Attrezzature"
+
+#: app/templates/reports/equipment_inventory.html:16
+msgid "items"
+msgstr "elementi"
+
+#: app/templates/reports/index.html:9
+msgid "Generate and export reports for your organization."
+msgstr "Genera ed esporta report per la tua organizzazione."
+
+#: app/templates/reports/index.html:17
+msgid "Team Roster"
+msgstr "Rosa Squadra"
+
+#: app/templates/reports/index.html:18
+msgid "Complete team roster with document and certificate status."
+msgstr "Rosa completa della squadra con stato documenti e certificati."
+
+#: app/templates/reports/index.html:19 app/templates/reports/index.html:28
+#: app/templates/reports/index.html:37 app/templates/reports/index.html:46
+#: app/templates/reports/index.html:55
+msgid "Generate"
+msgstr "Genera"
+
+#: app/templates/reports/index.html:27
+msgid "Attendance statistics per athlete with filters."
+msgstr "Statistiche presenze per atleta con filtri."
+
+#: app/templates/reports/index.html:36
+msgid "Full equipment inventory with status and condition."
+msgstr "Inventario completo attrezzature con stato e condizione."
+
+#: app/templates/reports/index.html:45
+msgid "Document expiry status for all uploaded documents."
+msgstr "Stato scadenza per tutti i documenti caricati."
+
+#: app/templates/reports/index.html:53
+#: app/templates/reports/insurance_status.html:3
+msgid "Insurance Status"
+msgstr "Stato Assicurazioni"
+
+#: app/templates/reports/index.html:54
+msgid "Insurance policy status for all athletes."
+msgstr "Stato polizze assicurative per tutti gli atleti."
+
+#: app/templates/reports/insurance_status.html:8 app/views/reports.py:329
+msgid "Insurance Status Report"
+msgstr "Report Stato Assicurazioni"
+
+#: app/templates/reports/insurance_status.html:16
+msgid "policies"
+msgstr "polizze"
+
+#: app/templates/reports/insurance_status.html:26 app/views/reports.py:304
+msgid "Policy #"
+msgstr "N. Polizza"
+
+#: app/templates/reports/insurance_status.html:62
+msgid "No insurance policies found."
+msgstr "Nessuna polizza assicurativa trovata."
+
+#: app/templates/reports/team_roster.html:3
+#: app/templates/reports/team_roster.html:8 app/views/reports.py:93
+msgid "Team Roster Report"
+msgstr "Report Rosa Squadra"
+
+#: app/templates/reports/team_roster.html:42
+msgid "Medical Cert."
+msgstr "Cert. Medico"
+
+#: app/templates/reports/team_roster.html:77 app/views/reports.py:70
+msgid "N/A"
+msgstr "N/D"
+
+#: app/templates/reports/team_roster.html:86
+msgid "No athletes found matching the selected filters."
+msgstr "Nessun atleta trovato per i filtri selezionati."
+
+#: app/templates/seasons/edit.html:3
+msgid "Edit Season"
+msgstr "Modifica Stagione"
+
+#: app/templates/seasons/edit.html:8
+#, python-format
+msgid "Edit Season: %(name)s"
+msgstr "Modifica Stagione: %(name)s"
+
+#: app/templates/seasons/edit.html:19 app/templates/seasons/new.html:19
+msgid "e.g., 2025-2026"
+msgstr "es. 2025-2026"
+
+#: app/templates/seasons/index.html:10 app/templates/seasons/new.html:3
+msgid "New Season"
+msgstr "Nuova Stagione"
+
+#: app/templates/seasons/index.html:36 app/templates/seasons/view.html:45
+#: app/templates/teams/view.html:48
+msgid "Current"
+msgstr "Corrente"
+
+#: app/templates/seasons/index.html:39 app/templates/seasons/view.html:48
+msgid "Ongoing"
+msgstr "In Corso"
+
+#: app/templates/seasons/index.html:48 app/templates/seasons/view.html:22
+msgid "Are you sure you want to delete this season?"
+msgstr "È sicuro di voler eliminare questa stagione?"
+
+#: app/templates/seasons/index.html:60
+msgid "No seasons found"
+msgstr "Nessuna stagione trovata"
+
+#: app/templates/seasons/index.html:61
+msgid "There are no seasons registered."
+msgstr "Non ci sono stagioni registrate."
+
+#: app/templates/seasons/index.html:63
+msgid "Add the first season"
+msgstr "Aggiungi la prima stagione"
+
+#: app/templates/seasons/index.html:73
+msgid "Total seasons"
+msgstr "Totale stagioni"
+
+#: app/templates/seasons/new.html:8
+msgid "Create New Season"
+msgstr "Crea Nuova Stagione"
+
+#: app/templates/seasons/view.html:17
+msgid "Set as Current"
+msgstr "Imposta come Corrente"
+
+#: app/templates/seasons/view.html:36
+msgid "Season Information"
+msgstr "Informazioni Stagione"
+
+#: app/templates/seasons/view.html:50
+msgid "Not Active"
+msgstr "Non Attiva"
+
+#: app/templates/seasons/view.html:65
+msgid "Statistics"
+msgstr "Statistiche"
+
+#: app/templates/seasons/view.html:69 app/templates/training/index.html:3
+#: app/templates/training/index.html:7
+msgid "Training Sessions"
+msgstr "Sessioni di Allenamento"
+
+#: app/templates/seasons/view.html:79
+msgid "Back to Seasons"
+msgstr "Torna alle Stagioni"
 
 #: app/templates/staff/detail.html:49 app/templates/staff/form.html:290
 msgid "This role requires a medical certificate"
@@ -709,17 +2753,9 @@ msgstr "Certificato Penale Mancante"
 msgid "This role requires a background check"
 msgstr "Questo ruolo richiede un certificato penale"
 
-#: app/templates/staff/detail.html:115 app/templates/staff/form.html:93
-msgid "Contact Information"
-msgstr "Informazioni di Contatto"
-
 #: app/templates/staff/detail.html:181 app/templates/staff/form.html:247
 msgid "Role Information"
 msgstr "Informazioni Ruolo"
-
-#: app/templates/staff/detail.html:192
-msgid "Notes"
-msgstr "Note"
 
 #: app/templates/staff/detail.html:249 app/templates/staff/detail.html:254
 #: app/templates/staff/detail.html:304 app/templates/staff/detail.html:309
@@ -729,10 +2765,6 @@ msgstr "Richiesto per questo ruolo"
 #: app/templates/staff/detail.html:252
 msgid "No medical certificate present."
 msgstr "Nessun certificato medico presente."
-
-#: app/templates/staff/detail.html:265 app/templates/staff/form.html:327
-msgid "Background Check"
-msgstr "Certificato Penale"
 
 #: app/templates/staff/detail.html:280
 msgid "Check Date"
@@ -755,14 +2787,6 @@ msgstr "Nuovo Membro Staff"
 msgid "Search by name, fiscal code, or email..."
 msgstr "Cerca per nome, codice fiscale o email..."
 
-#: app/templates/staff/index.html:31
-msgid "All Roles"
-msgstr "Tutti i Ruoli"
-
-#: app/templates/staff/index.html:41
-msgid "Clear"
-msgstr "Cancella"
-
 #: app/templates/staff/index.html:86
 msgid "Background Check Expired"
 msgstr "Certificato Penale Scaduto"
@@ -779,11 +2803,6 @@ msgstr "Nessun Certificato Penale"
 msgid "No staff members found"
 msgstr "Nessun membro dello staff trovato"
 
-#: app/templates/staff/index.html:109
-#, python-format
-msgid "No results for the current search/filter"
-msgstr "Nessun risultato per la ricerca/filtro corrente"
-
 #: app/templates/staff/index.html:111
 msgid "There are no staff members registered."
 msgstr "Non ci sono membri dello staff registrati."
@@ -796,61 +2815,392 @@ msgstr "Aggiungi il primo membro dello staff"
 msgid "Total staff members"
 msgstr "Totale membri staff"
 
-#: app/views/athletes.py:39
-msgid "You do not have permission to create new athletes"
-msgstr "Non ha i permessi per creare nuovi atleti"
-
-#: app/views/athletes.py:52
-msgid "An athlete with this fiscal code already exists"
-msgstr "Esiste già un atleta con questo codice fiscale"
-
-#: app/views/athletes.py:103
+#: app/templates/teams/assign_staff.html:8
 #, python-format
-msgid "Athlete %(name)s created successfully!"
-msgstr "Atleta %(name)s creato con successo!"
+msgid "Assign Staff to Team: %(name)s"
+msgstr "Assegna Staff alla Squadra: %(name)s"
 
-#: app/views/athletes.py:108 app/views/athletes.py:232 app/views/staff.py:99
+#: app/templates/teams/assign_staff.html:35
+msgid "Select the role for this staff member in the team"
+msgstr "Selezionare il ruolo di questo membro dello staff nella squadra"
+
+#: app/templates/teams/edit.html:3
+msgid "Edit Team"
+msgstr "Modifica Squadra"
+
+#: app/templates/teams/edit.html:8
+#, python-format
+msgid "Edit Team: %(name)s"
+msgstr "Modifica Squadra: %(name)s"
+
+#: app/templates/teams/edit.html:36 app/templates/teams/new.html:36
+msgid "e.g., U6, U8, U10, U12, etc."
+msgstr "es. U6, U8, U10, U12, ecc."
+
+#: app/templates/teams/edit.html:43 app/templates/teams/new.html:43
+msgid "e.g., 2024-2025"
+msgstr "es. 2024-2025"
+
+#: app/templates/teams/index.html:52
+msgid "No teams found"
+msgstr "Nessuna squadra trovata"
+
+#: app/templates/teams/index.html:53
+msgid "There are no teams registered."
+msgstr "Non ci sono squadre registrate."
+
+#: app/templates/teams/index.html:55
+msgid "Add the first team"
+msgstr "Aggiungi la prima squadra"
+
+#: app/templates/teams/index.html:67
+msgid "Total teams"
+msgstr "Totale squadre"
+
+#: app/templates/teams/new.html:8
+msgid "Create New Team"
+msgstr "Crea Nuova Squadra"
+
+#: app/templates/teams/new.html:57
+msgid "Optional - can be set later"
+msgstr "Opzionale: può essere impostato in seguito"
+
+#: app/templates/teams/view.html:18
+msgid "Are you sure you want to delete this team?"
+msgstr "È sicuro di voler eliminare questa squadra?"
+
+#: app/templates/teams/view.html:32
+msgid "Team Information"
+msgstr "Informazioni Squadra"
+
+#: app/templates/teams/view.html:76
+msgid "No head coach assigned"
+msgstr "Nessun allenatore capo assegnato"
+
+#: app/templates/teams/view.html:88
+msgid "Assistant Coaches"
+msgstr "Allenatori Assistenti"
+
+#: app/templates/teams/view.html:106 app/templates/teams/view.html:142
+msgid "Remove this staff member from the team?"
+msgstr "Rimuovere questo membro dello staff dalla squadra?"
+
+#: app/templates/teams/view.html:114
+msgid "No assistant coaches assigned"
+msgstr "Nessun allenatore assistente assegnato"
+
+#: app/templates/teams/view.html:124
+msgid "Escorts/Accompaniers"
+msgstr "Accompagnatori"
+
+#: app/templates/teams/view.html:150
+msgid "No escorts/accompaniers assigned"
+msgstr "Nessun accompagnatore assegnato"
+
+#: app/templates/teams/view.html:163
+msgid "Upcoming Training Sessions"
+msgstr "Prossimi Allenamenti"
+
+#: app/templates/teams/view.html:205
+msgid "Upcoming Matches"
+msgstr "Prossime Partite"
+
+#: app/templates/teams/view.html:282
+msgid "No athletes assigned to this team"
+msgstr "Nessun atleta assegnato a questa squadra"
+
+#: app/templates/teams/view.html:290
+msgid "Back to Teams"
+msgstr "Torna alle Squadre"
+
+#: app/templates/training/edit.html:3
+msgid "Edit Training Session"
+msgstr "Modifica Sessione di Allenamento"
+
+#: app/templates/training/edit.html:8
+#, python-format
+msgid "Edit Session: %(title)s"
+msgstr "Modifica Sessione: %(title)s"
+
+#: app/templates/training/generate_recurring.html:3
+#: app/templates/training/generate_recurring.html:8
+msgid "Generate Recurring Sessions"
+msgstr "Genera Sessioni Ricorrenti"
+
+#: app/templates/training/generate_recurring.html:10
+msgid ""
+"This will create multiple training sessions on the selected day of the "
+"week, between the start and end dates. All generated sessions share the "
+"same time, location, and team settings."
+msgstr ""
+"Verranno create più sessioni di allenamento nel giorno della settimana "
+"selezionato, tra la data di inizio e la data di fine. Tutte le sessioni "
+"generate condividono orario, luogo e impostazioni della squadra."
+
+#: app/templates/training/generate_recurring.html:19
+msgid "Recurrence Settings"
+msgstr "Impostazioni Ricorrenza"
+
+#: app/templates/training/generate_recurring.html:53
+#: app/templates/training/view.html:45
+msgid "Session Details"
+msgstr "Dettagli Sessione"
+
+#: app/templates/training/index.html:11
+msgid "Generate Recurring"
+msgstr "Genera Ricorrenti"
+
+#: app/templates/training/index.html:14
+msgid "New Session"
+msgstr "Nuova Sessione"
+
+#: app/templates/training/index.html:34
+msgid "From"
+msgstr "Da"
+
+#: app/templates/training/index.html:38
+msgid "To"
+msgstr "A"
+
+#: app/templates/training/index.html:53
+msgid "Show Cancelled"
+msgstr "Mostra Annullati"
+
+#: app/templates/training/index.html:98 app/templates/training/view.html:53
+msgid "Past"
+msgstr "Passato"
+
+#: app/templates/training/index.html:100 app/templates/training/view.html:55
+msgid "Upcoming"
+msgstr "In Programma"
+
+#: app/templates/training/index.html:136
+msgid "No training sessions found."
+msgstr "Nessuna sessione di allenamento trovata."
+
+#: app/templates/training/index.html:138
+msgid "Create the first session"
+msgstr "Crea la prima sessione"
+
+#: app/templates/training/new.html:3
+msgid "New Training Session"
+msgstr "Nuova Sessione di Allenamento"
+
+#: app/templates/training/new.html:8
+msgid "Create New Training Session"
+msgstr "Crea Nuova Sessione di Allenamento"
+
+#: app/templates/training/view.html:20
+msgid "Are you sure you want to delete this session?"
+msgstr "È sicuro di voler eliminare questa sessione?"
+
+#: app/templates/training/view.html:33
+msgid "This session has been cancelled."
+msgstr "Questa sessione è stata annullata."
+
+#: app/templates/training/view.html:35
+msgid "Reason"
+msgstr "Motivo"
+
+#: app/templates/training/view.html:59
+msgid "Duration"
+msgstr "Durata"
+
+#: app/templates/training/view.html:59
+msgid "minutes"
+msgstr "minuti"
+
+#: app/templates/training/view.html:67
+msgid "Recurring"
+msgstr "Ricorrente"
+
+#: app/templates/training/view.html:67
+msgid "Yes"
+msgstr "Sì"
+
+#: app/templates/training/view.html:78
+msgid "Team & Coach"
+msgstr "Squadra e Allenatore"
+
+#: app/templates/training/view.html:91
+msgid "Not assigned"
+msgstr "Non assegnato"
+
+#: app/templates/training/view.html:126
+msgid "Are you sure you want to cancel this session?"
+msgstr "È sicuro di voler annullare questa sessione?"
+
+#: app/templates/training/view.html:141
+msgid "Back to Training Sessions"
+msgstr "Torna alle Sessioni di Allenamento"
+
+#: app/views/admin.py:20
+msgid "Access denied. Admin privileges required."
+msgstr "Accesso negato. Sono richiesti i privilegi di amministratore."
+
+#: app/views/admin.py:69
+msgid "Password is required for new users."
+msgstr "La password è obbligatoria per i nuovi utenti."
+
+#: app/views/admin.py:86
+#, python-format
+msgid "User %(name)s created successfully!"
+msgstr "Utente %(name)s creato con successo!"
+
+#: app/views/admin.py:92 app/views/admin.py:138 app/views/admin.py:169
+#: app/views/athletes.py:122 app/views/athletes.py:272 app/views/staff.py:99
 #: app/views/staff.py:173
 msgid "Error saving data. Please try again."
 msgstr "Errore nel salvataggio dei dati. Riprovare."
 
-#: app/views/athletes.py:128
+#: app/views/admin.py:132
+#, python-format
+msgid "User %(name)s updated successfully!"
+msgstr "Utente %(name)s aggiornato con successo!"
+
+#: app/views/admin.py:142
+msgid "Edit User"
+msgstr "Modifica Utente"
+
+#: app/views/admin.py:153
+msgid "You cannot deactivate your own account."
+msgstr "Non è possibile disattivare il proprio account."
+
+#: app/views/admin.py:161
+#, python-format
+msgid "User %(name)s activated successfully."
+msgstr "Utente %(name)s attivato con successo."
+
+#: app/views/admin.py:164
+#, python-format
+msgid "User %(name)s deactivated successfully."
+msgstr "Utente %(name)s disattivato con successo."
+
+#: app/views/athletes.py:42
+msgid "You do not have permission to create new athletes"
+msgstr "Non ha i permessi per creare nuovi atleti"
+
+#: app/views/athletes.py:50 app/views/athletes.py:169
+msgid "-- No Team --"
+msgstr "-- Nessuna Squadra --"
+
+#: app/views/athletes.py:60
+msgid "An athlete with this fiscal code already exists"
+msgstr "Esiste già un atleta con questo codice fiscale"
+
+#: app/views/athletes.py:117
+#, python-format
+msgid "Athlete %(name)s created successfully!"
+msgstr "Atleta %(name)s creato con successo!"
+
+#: app/views/athletes.py:157
 msgid "You do not have permission to edit athlete records"
 msgstr "Non ha i permessi per modificare i record degli atleti"
 
-#: app/views/athletes.py:162
+#: app/views/athletes.py:196
 msgid "Another athlete with this fiscal code already exists"
 msgstr "Esiste già un altro atleta con questo codice fiscale"
 
-#: app/views/athletes.py:163 app/views/athletes.py:235
+#: app/views/athletes.py:197 app/views/athletes.py:275
 msgid "Edit Athlete"
 msgstr "Modifica Atleta"
 
-#: app/views/athletes.py:227
+#: app/views/athletes.py:267
 #, python-format
 msgid "Athlete %(name)s updated successfully!"
 msgstr "Atleta %(name)s aggiornato con successo!"
 
-#: app/views/athletes.py:242
+#: app/views/athletes.py:282
 msgid "You do not have permission to delete athlete records"
 msgstr "Non ha i permessi per eliminare i record degli atleti"
 
-#: app/views/athletes.py:258
+#: app/views/athletes.py:298
 #, python-format
 msgid "Athlete %(name)s deleted successfully"
 msgstr "Atleta %(name)s eliminato con successo"
 
-#: app/views/athletes.py:263 app/views/staff.py:199
+#: app/views/athletes.py:303 app/views/staff.py:199
 msgid "Error during deletion. Please try again."
 msgstr "Errore durante l'eliminazione. Riprovare."
+
+#: app/views/athletes.py:313 app/views/athletes.py:345
+#: app/views/athletes.py:376 app/views/athletes.py:392
+#: app/views/athletes.py:427 app/views/athletes.py:457
+#: app/views/attendance.py:149 app/views/communications.py:21
+#: app/views/communications.py:63 app/views/communications.py:101
+#: app/views/communications.py:113 app/views/communications.py:129
+#: app/views/documents.py:48 app/views/documents.py:100
+#: app/views/documents.py:167 app/views/documents.py:195
+#: app/views/documents.py:215 app/views/documents.py:231
+#: app/views/equipment.py:58 app/views/equipment.py:118
+#: app/views/equipment.py:164 app/views/equipment.py:180
+#: app/views/equipment.py:247 app/views/matches.py:81 app/views/matches.py:133
+#: app/views/matches.py:163 app/views/matches.py:178 app/views/matches.py:205
+#: app/views/reports.py:27 app/views/reports.py:38 app/views/reports.py:105
+#: app/views/reports.py:193 app/views/reports.py:230 app/views/reports.py:294
+#: app/views/seasons.py:28 app/views/seasons.py:65 app/views/seasons.py:89
+#: app/views/seasons.py:104 app/views/teams.py:26 app/views/teams.py:98
+#: app/views/teams.py:128 app/views/teams.py:143 app/views/teams.py:197
+#: app/views/training.py:148 app/views/training.py:196
+msgid "Permission denied."
+msgstr "Permesso negato."
+
+#: app/views/athletes.py:333
+msgid "Emergency contact added."
+msgstr "Contatto di emergenza aggiunto."
+
+#: app/views/athletes.py:364
+msgid "Emergency contact updated."
+msgstr "Contatto di emergenza aggiornato."
+
+#: app/views/athletes.py:383
+msgid "Emergency contact removed."
+msgstr "Contatto di emergenza rimosso."
+
+#: app/views/athletes.py:416
+msgid "Insurance policy added successfully."
+msgstr "Polizza assicurativa aggiunta con successo."
+
+#: app/views/athletes.py:437 app/views/athletes.py:462
+msgid "Insurance policy not found."
+msgstr "Polizza assicurativa non trovata."
+
+#: app/views/athletes.py:446
+msgid "Insurance policy updated successfully."
+msgstr "Polizza assicurativa aggiornata con successo."
+
+#: app/views/athletes.py:468
+msgid "Insurance policy deleted."
+msgstr "Polizza assicurativa eliminata."
+
+#: app/views/attendance.py:58
+msgid "Permission denied. Only admins and coaches can record attendance."
+msgstr "Permesso negato. Solo amministratori e allenatori possono registrare le presenze."
+
+#: app/views/attendance.py:130
+#, python-format
+msgid "Attendance recorded for %(count)d athletes."
+msgstr "Presenze registrate per %(count)d atleti."
+
+#: app/views/attendance.py:168
+msgid "Attendance record updated successfully."
+msgstr "Registro presenze aggiornato con successo."
+
+#: app/views/attendance.py:179
+msgid "Permission denied. Only admins can delete attendance records."
+msgstr "Permesso negato. Solo gli amministratori possono eliminare i registri presenze."
+
+#: app/views/attendance.py:186
+msgid "Attendance record deleted."
+msgstr "Registro presenze eliminato."
+
+#: app/views/attendance.py:198
+msgid "All Athletes"
+msgstr "Tutti gli Atleti"
 
 #: app/views/auth.py:18
 msgid "Username o Email"
 msgstr "Username o Email"
-
-#: app/views/auth.py:20 app/views/auth.py:34
-msgid "Password"
-msgstr "Password"
 
 #: app/views/auth.py:22
 msgid "Ricordami"
@@ -859,14 +3209,6 @@ msgstr "Ricordami"
 #: app/views/auth.py:23
 msgid "Accedi"
 msgstr "Accedi"
-
-#: app/views/auth.py:36
-msgid "Confirm Password"
-msgstr "Conferma Password"
-
-#: app/views/auth.py:37
-msgid "Passwords must match"
-msgstr "Le password devono corrispondere"
 
 #: app/views/auth.py:38
 msgid "Register"
@@ -887,6 +3229,193 @@ msgstr "Registrazione completata con successo!"
 #: app/views/auth.py:101
 msgid "Disconnessione effettuata"
 msgstr "Disconnessione effettuata"
+
+#: app/views/calendar.py:76
+#, python-format
+msgid "vs %(opponent)s"
+msgstr "vs %(opponent)s"
+
+#: app/views/calendar.py:88
+msgid "January"
+msgstr "Gennaio"
+
+#: app/views/calendar.py:88
+msgid "February"
+msgstr "Febbraio"
+
+#: app/views/calendar.py:88
+msgid "March"
+msgstr "Marzo"
+
+#: app/views/calendar.py:88
+msgid "April"
+msgstr "Aprile"
+
+#: app/views/calendar.py:89
+msgid "May"
+msgstr "Maggio"
+
+#: app/views/calendar.py:89
+msgid "June"
+msgstr "Giugno"
+
+#: app/views/calendar.py:89
+msgid "July"
+msgstr "Luglio"
+
+#: app/views/calendar.py:89
+msgid "August"
+msgstr "Agosto"
+
+#: app/views/calendar.py:90
+msgid "September"
+msgstr "Settembre"
+
+#: app/views/calendar.py:90
+msgid "October"
+msgstr "Ottobre"
+
+#: app/views/calendar.py:90
+msgid "November"
+msgstr "Novembre"
+
+#: app/views/calendar.py:90
+msgid "December"
+msgstr "Dicembre"
+
+#: app/views/calendar.py:94
+msgid "Mon"
+msgstr "Lun"
+
+#: app/views/calendar.py:94
+msgid "Tue"
+msgstr "Mar"
+
+#: app/views/calendar.py:94
+msgid "Wed"
+msgstr "Mer"
+
+#: app/views/calendar.py:94
+msgid "Thu"
+msgstr "Gio"
+
+#: app/views/calendar.py:95
+msgid "Fri"
+msgstr "Ven"
+
+#: app/views/calendar.py:95
+msgid "Sat"
+msgstr "Sab"
+
+#: app/views/calendar.py:95
+msgid "Sun"
+msgstr "Dom"
+
+#: app/views/communications.py:87
+msgid "Announcement created. Emails are being sent in the background."
+msgstr "Comunicazione creata. Le email vengono inviate in background."
+
+#: app/views/communications.py:89
+msgid "Announcement created successfully."
+msgstr "Comunicazione creata con successo."
+
+#: app/views/communications.py:120
+msgid "Announcement deleted."
+msgstr "Comunicazione eliminata."
+
+#: app/views/communications.py:137
+msgid "Emails are being sent in the background."
+msgstr "Le email vengono inviate in background."
+
+#: app/views/documents.py:118
+msgid "File upload failed. Please check the file type and try again."
+msgstr "Caricamento file fallito. Verificare il tipo di file e riprovare."
+
+#: app/views/documents.py:140
+msgid "Document uploaded successfully."
+msgstr "Documento caricato con successo."
+
+#: app/views/documents.py:172 app/views/documents.py:200
+msgid "Document not found."
+msgstr "Documento non trovato."
+
+#: app/views/documents.py:204
+msgid "File not found on server."
+msgstr "File non trovato sul server."
+
+#: app/views/documents.py:222
+msgid "Document deleted."
+msgstr "Documento eliminato."
+
+#: app/views/equipment.py:67 app/views/equipment.py:132
+msgid "Equipment code already exists."
+msgstr "Il codice attrezzatura esiste già."
+
+#: app/views/equipment.py:92
+msgid "Equipment added successfully."
+msgstr "Attrezzatura aggiunta con successo."
+
+#: app/views/equipment.py:153
+msgid "Equipment updated successfully."
+msgstr "Attrezzatura aggiornata con successo."
+
+#: app/views/equipment.py:171
+msgid "Equipment deleted."
+msgstr "Attrezzatura eliminata."
+
+#: app/views/equipment.py:211
+msgid "Equipment assigned successfully."
+msgstr "Attrezzatura assegnata con successo."
+
+#: app/views/equipment.py:253
+msgid "This equipment has already been returned."
+msgstr "Questa attrezzatura è già stata restituita."
+
+#: app/views/equipment.py:273
+msgid "Equipment return processed successfully."
+msgstr "Restituzione attrezzatura elaborata con successo."
+
+#: app/views/matches.py:21 app/views/teams.py:33 app/views/teams.py:106
+#: app/views/training.py:24
+msgid "-- No Season --"
+msgstr "-- Nessuna Stagione --"
+
+#: app/views/matches.py:102
+msgid "Match created successfully."
+msgstr "Partita creata con successo."
+
+#: app/views/matches.py:152
+msgid "Match updated successfully."
+msgstr "Partita aggiornata con successo."
+
+#: app/views/matches.py:169
+msgid "Match deleted."
+msgstr "Partita eliminata."
+
+#: app/views/matches.py:194
+msgid "Match result saved."
+msgstr "Risultato partita salvato."
+
+#: app/views/matches.py:253
+msgid "Lineup saved."
+msgstr "Formazione salvata."
+
+#: app/views/seasons.py:43
+msgid "Season created successfully."
+msgstr "Stagione creata con successo."
+
+#: app/views/seasons.py:78
+msgid "Season updated successfully."
+msgstr "Stagione aggiornata con successo."
+
+#: app/views/seasons.py:95
+msgid "Season deleted."
+msgstr "Stagione eliminata."
+
+#: app/views/seasons.py:112
+#, python-format
+msgid "Season \"%(name)s\" set as current."
+msgstr "Stagione "%(name)s" impostata come corrente."
 
 #: app/views/staff.py:47
 msgid "You do not have permission to create new staff members"
@@ -926,4 +3455,93 @@ msgstr "Non ha i permessi per eliminare i record dello staff"
 #, python-format
 msgid "Staff member %(name)s deleted successfully"
 msgstr "Membro dello staff %(name)s eliminato con successo"
+
+#: app/views/teams.py:31
+msgid "-- Select Head Coach --"
+msgstr "-- Seleziona Allenatore Capo --"
+
+#: app/views/teams.py:47
+msgid "Team created successfully."
+msgstr "Squadra creata con successo."
+
+#: app/views/teams.py:104
+msgid "-- No Head Coach --"
+msgstr "-- Nessun Allenatore Capo --"
+
+#: app/views/teams.py:117
+msgid "Team updated successfully."
+msgstr "Squadra aggiornata con successo."
+
+#: app/views/teams.py:134
+msgid "Team deleted."
+msgstr "Squadra eliminata."
+
+#: app/views/teams.py:161
+msgid "This staff member already has this role in this team."
+msgstr "Questo membro dello staff ha già questo ruolo in questa squadra."
+
+#: app/views/teams.py:183
+msgid "Staff assigned successfully."
+msgstr "Staff assegnato con successo."
+
+#: app/views/teams.py:204
+msgid "Staff member removed from team."
+msgstr "Membro dello staff rimosso dalla squadra."
+
+#: app/views/training.py:29
+msgid "-- No Coach --"
+msgstr "-- Nessun Allenatore --"
+
+#: app/views/training.py:106
+msgid "Permission denied. Only admins and coaches can create training sessions."
+msgstr "Permesso negato. Solo amministratori e allenatori possono creare sessioni di allenamento."
+
+#: app/views/training.py:128
+msgid "Training session created successfully."
+msgstr "Sessione di allenamento creata con successo."
+
+#: app/views/training.py:169
+msgid "Training session updated successfully."
+msgstr "Sessione di allenamento aggiornata con successo."
+
+#: app/views/training.py:180
+msgid "Permission denied. Only admins can delete training sessions."
+msgstr "Permesso negato. Solo gli amministratori possono eliminare sessioni di allenamento."
+
+#: app/views/training.py:187
+msgid "Training session deleted."
+msgstr "Sessione di allenamento eliminata."
+
+#: app/views/training.py:207
+msgid "Training session cancelled."
+msgstr "Sessione di allenamento annullata."
+
+#: app/views/training.py:209
+msgid "Error cancelling session."
+msgstr "Errore nell'annullamento della sessione."
+
+#: app/views/training.py:219
+msgid "Permission denied. Only admins and coaches can generate sessions."
+msgstr "Permesso negato. Solo amministratori e allenatori possono generare sessioni."
+
+#: app/views/training.py:229
+msgid "Start date and end date are required."
+msgstr "La data di inizio e la data di fine sono obbligatorie."
+
+#: app/views/training.py:260
+#, python-format
+msgid "%(count)d recurring sessions generated successfully."
+msgstr "%(count)d sessioni ricorrenti generate con successo."
+
+#~ msgid "Your Profile"
+#~ msgstr "Il Tuo Profilo"
+
+#~ msgid "Last access"
+#~ msgstr "Ultimo accesso"
+
+#~ msgid "The FortiDesk system is under development. Coming soon:"
+#~ msgstr "Il sistema FortiDesk è in sviluppo. Prossimamente:"
+
+#~ msgid "Team and player management"
+#~ msgstr "Gestione squadre e giocatori"
 
