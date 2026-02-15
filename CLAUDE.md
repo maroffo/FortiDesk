@@ -1038,4 +1038,55 @@ For development questions:
 
 ---
 
+## Vault Context
+
+Obsidian vault notes for this project:
+
+- **FortiDesk - Log**: Session log with goals, accomplishments, decisions per session
+- **FortiDesk - Code Review Follow-ups**: Backlog of review findings (INFO items from Gemini)
+- **Plans/2026-02-14 - FortiDesk Feature Roadmap**: 6-phase implementation plan (Phases 0-5)
+
+---
+
+## Automated Testing
+
+### Setup
+```bash
+# Create venv and install deps (includes pytest, pytest-flask)
+uv venv && uv pip install -r requirements.txt
+```
+
+### Running Tests
+```bash
+# Full suite (169 tests)
+.venv/bin/python -m pytest tests/ -v
+
+# Smoke tests only (fast, covers all routes)
+.venv/bin/python -m pytest tests/test_routes_smoke.py -v
+
+# Model unit tests
+.venv/bin/python -m pytest tests/test_models.py -v
+
+# Form validation tests
+.venv/bin/python -m pytest tests/test_forms.py -v
+
+# Permission/RBAC tests
+.venv/bin/python -m pytest tests/test_permissions.py -v
+```
+
+### Test Architecture
+- **Config**: `TestingConfig` in `config.py` (SQLite in-memory, CSRF disabled)
+- **Fixtures**: `tests/conftest.py` (12 fixtures: app, client, users, sample data, logged-in clients)
+- **Isolation**: `create_all`/`drop_all` per test via autouse `_setup_db` fixture
+
+### Test Coverage
+| File | Tests | What |
+|------|-------|------|
+| `test_routes_smoke.py` | 86 | All GET routes return 200/302, no 500s |
+| `test_models.py` | 40 | Model methods across 9 models |
+| `test_forms.py` | 15 | Age limits, fiscal code, guardian types, background checks |
+| `test_permissions.py` | 28 | Unauthenticated redirect, coach restrictions, admin-only, soft delete |
+
+---
+
 **FortiDesk** - Built with care for Fortitudo 1901 Rugby ASD Rugby Club
