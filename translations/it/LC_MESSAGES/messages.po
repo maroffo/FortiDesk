@@ -313,7 +313,19 @@ msgstr "Atleti"
 msgid "Staff"
 msgstr "Staff"
 
-#: app/templates/base.html:42
+#: app/templates/base.html:32
+msgid "People"
+msgstr "Persone"
+
+#: app/templates/base.html:41
+msgid "Activities"
+msgstr "Attività"
+
+#: app/templates/base.html:50
+msgid "Management"
+msgstr "Gestione"
+
+#: app/templates/base.html:80
 msgid "Logout"
 msgstr "Esci"
 
