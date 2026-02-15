@@ -27,7 +27,7 @@ class Config:
     # Babel i18n configuration
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_SUPPORTED_LOCALES = ['en', 'it']
-    BABEL_TRANSLATION_DIRECTORIES = 'translations'
+    BABEL_TRANSLATION_DIRECTORIES = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'translations')
 
     # Logging
     LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
