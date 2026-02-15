@@ -1040,11 +1040,13 @@ For development questions:
 
 ## Vault Context
 
-Obsidian vault notes for this project:
+Obsidian vault: `Projects/FortiDesk/`
 
+- **FortiDesk - Overview**: Project hub (stack, architecture, blueprints, decisions)
 - **FortiDesk - Log**: Session log with goals, accomplishments, decisions per session
+- **FortiDesk - Solutions**: Solved problems and reusable patterns
 - **FortiDesk - Code Review Follow-ups**: Backlog of review findings (INFO items from Gemini)
-- **Plans/2026-02-14 - FortiDesk Feature Roadmap**: 6-phase implementation plan (Phases 0-5)
+- **Plans/2026-02-14 - FortiDesk Feature Roadmap**: 6-phase implementation plan (Phases 0-5, complete)
 
 ---
 
