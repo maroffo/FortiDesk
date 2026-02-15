@@ -10,62 +10,77 @@
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token() }}"}'>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
                 <strong>FortiDesk</strong>
             </a>
-            
+
             {% if current_user.is_authenticated %}
-            <div class="navbar-nav me-auto">
-                <a class="nav-link" href="{{ url_for('main.dashboard') }}">{{ _('Dashboard') }}</a>
-                <a class="nav-link" href="{{ url_for('athletes.index') }}">{{ _('Athletes') }}</a>
-                <a class="nav-link" href="{{ url_for('teams.index') }}">{{ _('Teams') }}</a>
-                <a class="nav-link" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a>
-                <a class="nav-link" href="{{ url_for('attendance.index') }}">{{ _('Attendance') }}</a>
-                <a class="nav-link" href="{{ url_for('equipment.index') }}">{{ _('Equipment') }}</a>
-                <a class="nav-link" href="{{ url_for('seasons.index') }}">{{ _('Seasons') }}</a>
-                <a class="nav-link" href="{{ url_for('training.index') }}">{{ _('Training') }}</a>
-                <a class="nav-link" href="{{ url_for('matches.index') }}">{{ _('Matches') }}</a>
-                <a class="nav-link" href="{{ url_for('calendar.index') }}">{{ _('Calendar') }}</a>
-                <a class="nav-link" href="{{ url_for('documents.index') }}">{{ _('Documents') }}</a>
-                <a class="nav-link" href="{{ url_for('communications.index') }}">{{ _('Communications') }}</a>
-                <a class="nav-link" href="{{ url_for('reports.index') }}">{{ _('Reports') }}</a>
-                {% if current_user.is_admin() %}
-                <a class="nav-link" href="{{ url_for('admin.users') }}">{{ _('Admin') }}</a>
-                {% endif %}
-            </div>
-            <div class="navbar-nav ms-auto">
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-globe"></i> {{ session.get('language', 'en').upper() }}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ url_for('main.set_language', language='en') }}">🇬🇧 English</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('main.set_language', language='it') }}">🇮🇹 Italiano</a></li>
-                    </ul>
-                </div>
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        {{ current_user.get_full_name() }} ({{ current_user.role.title() }})
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">{{ _('Dashboard') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('athletes.index') }}">{{ _('Athletes') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('teams.index') }}">{{ _('Teams') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('attendance.index') }}">{{ _('Attendance') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('equipment.index') }}">{{ _('Equipment') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('seasons.index') }}">{{ _('Seasons') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('training.index') }}">{{ _('Training') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('matches.index') }}">{{ _('Matches') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('calendar.index') }}">{{ _('Calendar') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('documents.index') }}">{{ _('Documents') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('communications.index') }}">{{ _('Communications') }}</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('reports.index') }}">{{ _('Reports') }}</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
-                    </ul>
-                </div>
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#mainNav"
+                    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.dashboard') }}">{{ _('Dashboard') }}</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">{{ _('People') }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('athletes.index') }}">{{ _('Athletes') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('teams.index') }}">{{ _('Teams') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('staff.index') }}">{{ _('Staff') }}</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">{{ _('Activities') }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('attendance.index') }}">{{ _('Attendance') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('training.index') }}">{{ _('Training') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('matches.index') }}">{{ _('Matches') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('calendar.index') }}">{{ _('Calendar') }}</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">{{ _('Management') }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('equipment.index') }}">{{ _('Equipment') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('seasons.index') }}">{{ _('Seasons') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('documents.index') }}">{{ _('Documents') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('communications.index') }}">{{ _('Communications') }}</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('reports.index') }}">{{ _('Reports') }}</a>
+                    </li>
+
+                    {% if current_user.is_admin() %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.users') }}">{{ _('Admin') }}</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            {{ current_user.get_full_name() }} ({{ current_user.role.title() }})
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ url_for('main.set_language', language='en') }}">English</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('main.set_language', language='it') }}">Italiano</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
             {% endif %}
         </div>
